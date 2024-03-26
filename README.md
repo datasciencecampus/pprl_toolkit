@@ -33,11 +33,14 @@ pre-commit install
 ## Getting started
 
 Let us consider a small example where we want to link two excerpts of data on
-bands.
+bands. In this scenario, we are looking at some toy data on the members of the
+psychedelic-rock trio, [Khruangbin](https://en.wikipedia.org/wiki/Khruangbin).
 
 ### Loading the data
 
-First, we load our data into `pandas.DataFrame` objects.
+First, we load our data into `pandas.DataFrame` objects. Here, the first
+records align, but the other two records should be swapped to have an aligned
+matching. We will use the toolkit to identify these matches.
 
 ```python
 >>> import pandas as pd
@@ -113,17 +116,18 @@ our data with their column specifications.
 
 ```
 
-If we take a look at one of these embedded datasets, we can see that it has
-three new columns: `bf_indices`, `bf_norms` and `thresholds`.
+If we take a look at one of these embedded datasets, we can see that it has a
+whole bunch of new columns. There is a `_features` column for each of the
+original columns containing their pre-embedding string features. Then there are
+three additional columns: `bf_indices`, `bf_norms` and `thresholds`.
 
 ```python
->>> edf1
-  first_name last_name gender  ...                                         bf_indices  bf_norms thresholds
-0      Laura     Ochoa      f  ...  [385, 770, 135, 908, 653, 531, 151, 281, 668, ...  6.928203   0.065279
-1       Mark     Speer      m  ...  [768, 769, 128, 4, 260, 6, 907, 13, 639, 657, ...  6.633250   0.134840
-2         DJ   Johnson      m  ...  [256, 516, 5, 271, 530, 403, 21, 790, 535, 791...  6.708204   0.134840
-
-[3 rows x 14 columns]
+>>> edf1.columns
+Index(['first_name', 'last_name', 'gender', 'instrument', 'vocals_ever',
+       'first_name_features', 'last_name_features', 'gender_features',
+       'instrument_features', 'vocals_ever_features', 'all_features',
+       'bf_indices', 'bf_norms', 'thresholds'],
+      dtype='object')
 
 ```
 
@@ -154,23 +158,7 @@ at least `0.5`.
 >>> matching = similarities.match(abs_cutoff=0.5)
 >>> matching
 (array([0, 1, 2]), array([0, 2, 1]))
-```
-
-Here, all three of the records in each dataset were matched. We can add an
-index corresponding to this matching to our original datasets like so.
-
-```python
->>> from pprl.utils.server_utils import add_private_index
->>>
->>> matched_dfs = add_private_index(df1, df2, matching)
->>> matched_dfs
-(  first_name last_name gender instrument  vocals_ever  private_index
- 0      Laura     Ochoa      f       bass         True          25525
- 1       Mark     Speer      m     guitar         True          13963
- 2         DJ   Johnson      m      drums         True          23379,
-                       name     sex  main_instrument     vocals  private_index
- 0  Laura 'Leezy' Lee Ochoa  female      bass guitar        yes          25525
- 1         Donald J Johnson    male       percussion  sometimes          23379
- 2               Marc Spear    male  electric guitar  sometimes          13963)
 
 ```
+
+So, all three of the records in each dataset were matched correctly. Excellent!
