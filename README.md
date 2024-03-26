@@ -163,3 +163,107 @@ at least `0.5`.
 ```
 
 So, all three of the records in each dataset were matched correctly. Excellent!
+
+
+## Working in the cloud
+
+The toolkit is configured to work on Google Cloud Platform (GCP) provided you
+have a team of users with Google Cloud accounts and the appropriate
+permissions. In particular, `pprl_toolkit`'s cloud functionality is built on
+top of a GCP Confidential Space. This setting means that nobody ever has direct
+access to each other's data, and the datasets to be linked are only ever
+brought together in a secure environment.
+
+Have a read through [this tutorial](https://cloud.google.com/confidential-computing/confidential-space/docs/create-your-first-confidential-space-environment)
+if you would like to get to grips with how it all works on the inside.
+
+### Setting up
+
+#### Determining roles
+
+There are four roles to fill in a data linkage project: two data-owning
+parties, a workload author, and a workload operator. A workload is how we refer
+to the linkage operation itself. These roles can be summarised as follows:
+
+- A data-owning **party** is responsible for embedding and uploading their data
+  to the cloud. They also download their results.
+- The workload **author** creates and uploads a Docker image to a GCP Artifact
+  Registry.
+- The workload **operator** runs the uploaded Docker image on a Confidential
+  Space virtual machine.
+
+> [!NOTE]
+> We have set up `pprl_toolkit` to allow any configuration of these roles among
+> users. You could do it all yourself, split the workload roles between two
+> data owning-parties, or use a third-party administrator to maintain the
+> workload.
+
+#### Creating your projects
+
+Once you have decided who will be filling which role(s), every member of your
+linkage project will need to set up a GCP project. The names of these projects
+will be used in file names and GCP storage buckets. As such, they need to be
+descriptive and [unique](https://cloud.google.com/storage/docs/buckets#naming).
+
+> [!TIP]
+> It may be worth appending a hash of some sort to every project name to help
+> ensure their uniqueness.
+
+Each user will also need to have their Google Cloud administrator grant them
+certain IAM roles on their project depending on which role(s) they are playing
+in the linkage:
+
+- **Data-owning party**:
+  - Cloud KMS Admin (`roles/cloudkms.admin`)
+  - IAM Workload Identity Pool Admin (`roles/iam.workloadIdentityPoolAdmin`)
+  - Service Usage Admin (`roles/serviceusage.serviceUsageAdmin`)
+  - Service Account Admin (`roles/iam.serviceAccountAdmin`)
+  - Storage Admin (`roles/storage.admin`)
+- **Workload author**:
+  - Artifact Registry Administrator (`roles/artifactregistry.admin`)
+- **Workload operator**:
+  - Compute Admin (`roles/compute.admin`)
+  - Security Admin (`roles/securityAdmin`)
+  - Storage Admin (`roles/storage.admin`)
+
+#### Toolkit configuration
+
+Now you've got your roles sorted out and projects set up, you (and all other
+users) have to write down your project's configuration in an environment file
+for `pprl_toolkit`. Make sure that everyone has installed `pprl_toolkit` first.
+
+We have provided an example in `.env.example`. All you need to do is copy that
+file to `.env` and fill in your project's details. Everyone in your project
+should have identical environment files.
+
+#### Creating the other resources
+
+The last step in setting your linkage project up is to create and configure all
+the other resources on GCP. We have packaged up these steps into a series of
+`bash` scripts, located in the `scripts/` directory. They should be executed in
+order from the `scripts/` directory:
+
+1. The data-owning parties set up a key encryption key, a bucket in which to
+   store their encrypted data, data encryption key and results, a service
+   account for accessing said bucket and key, and a workload identity pool to
+   allow impersonations under stringent conditions:
+   ```bash
+   sh ./01-setup-party-resources.sh <name-of-party-project>
+   ```
+2. The workload operator sets up a bucket for the parties to put their
+   (non-sensitive) attestation credentials, and a service account for running
+   the workload:
+   ```bash
+   sh ./02-setup-workload-operator.sh
+   ```
+3. The workload author sets up an Artifact Registry on GCP, creates a Docker
+   image and uploads that image to their registry:
+   ```bash
+   sh ./03-setup-workload-author.sh
+   ```
+4. The data-owning parties authorise the workload operator's service account to
+   use the workload identity pool to impersonate their service account in a
+   Confidential Space:
+   ```bash
+   sh ./04-authorise-workload.sh <name-of-party-project>
+   ```
