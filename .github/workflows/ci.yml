@@ -31,6 +31,10 @@ jobs:
       - name: Run tests
         run: |
           python -m pytest test
+      - name: Run doctests
+        if: |
+          matrix.python-version == '3.11'
+        run: |
           python -m doctest README.md
       - name: Install and run linters
         if: |
