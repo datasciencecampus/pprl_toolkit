@@ -265,3 +265,49 @@ order from the `scripts/` directory:
    ```bash
    sh ./04-authorise-workload.sh <name-of-party-project>
    ```
+
+### Processing and uploading the datasets
+
+> [!IMPORTANT]
+> This section only applies to data-owning parties. The workload author is
+> finished now, and the workload operator should wait for this section to be
+> completed before moving on to the next section.
+
+Now that all the cloud infrastructure has been set up, we are ready to start
+the first step in doing the actual linkage. Much like the toy example above,
+that is to make a Bloom filter embedding of each dataset.
+
+For users who prefer a graphical user interface, we have included a Flask app
+to handle the processing and uploading of data behind the scenes. This app will
+also be used to download the results once the linkage has completed.
+
+To launch the app, run the following in your terminal:
+
+```bash
+python -m flask --app src/pprl/app run
+```
+
+You should now be able to find the app in your browser of choice at
+[127.0.0.1:5000](http://127.0.0.1:5000).
+
+Once you have worked through the selection, processing, and GCP upload portions
+of the app, you will be at a holding page. This page can be updated by clicking
+the button, and when your results are ready you will be taken to another page
+where you can download them.
+
+### Running the linkage
+
+> [!IMPORTANT]
+> This section only applies to the workload operator.
+
+Once the data-owning parties have uploaded their processed data, you are able
+to begin the linkage. To do so, run the `05-run-workload.sh` bash script from
+`scripts/`:
+
+```bash
+cd /path/to/pprl_toolkit/scripts
+sh ./05-run-workload.sh
+```
+
+You can follow the progress of the workload from the Logs Explorer on GCP. Once
+it is complete, the data-owning parties will be able to download their results.
