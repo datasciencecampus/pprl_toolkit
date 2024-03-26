@@ -5,7 +5,7 @@
 To install the package, clone this repository and install locally via pip:
 
 ```shell
-git clone https://github.com/datasciencecampus/pprl.git
+git clone https://github.com/datasciencecampus/pprl_toolkit.git
 cd pprl
 python -m pip install .
 ```
