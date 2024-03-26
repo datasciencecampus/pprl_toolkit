@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 from hypothesis import HealthCheck, given, settings
 
-import pprl.embedder.features as feat
-from pprl.embedder import embedder as em
+from pprl import EmbeddedDataFrame, Embedder
+from pprl.embedder import features as feat
 
 from .strategies import st_matrix_and_indices, st_posdef_matrices
 
@@ -36,7 +36,7 @@ def test_calculate_norm(matrix_and_indices):
     self_mock = mock.Mock()
     self_mock.embedder.scm_matrix = scm_matrix
 
-    result = em.EmbeddedDataFrame._calculate_norm(self_mock, bf_indices)
+    result = EmbeddedDataFrame._calculate_norm(self_mock, bf_indices)
 
     expected = alt_calculate_norm(scm_matrix, bf_indices)
 
@@ -57,10 +57,10 @@ def test_update_norms(posdef_matrix):
     df = pd.DataFrame(
         dict(idx=[x for x in range(nrows)], bf_indices=[list(range(i)) for i in range(nrows)])
     )
-    embedder_mock = mock.Mock(em.Embedder)
+    embedder_mock = mock.Mock(Embedder)
     embedder_mock.scm_matrix = posdef_matrix
     embedder_mock.checksum = "1234"
-    edf = em.EmbeddedDataFrame(df, embedder_mock, update_norms=False)
+    edf = EmbeddedDataFrame(df, embedder_mock, update_norms=False)
     columns0 = list(edf.columns)
     _ = edf.update_norms()
     columns1 = list(edf.columns)
@@ -69,7 +69,7 @@ def test_update_norms(posdef_matrix):
     columns2 = list(edf.columns)
     bf_norms2 = list(edf["bf_norms"])
 
-    assert isinstance(_, em.EmbeddedDataFrame)
+    assert isinstance(_, EmbeddedDataFrame)
     assert set(columns1).difference(columns0) == {"bf_norms"}
     assert columns1 == columns2
     assert bf_norms1 == bf_norms2
@@ -85,7 +85,7 @@ def test_embed_colspec():
         )
     )
 
-    embedder = em.Embedder(
+    embedder = Embedder(
         feature_factory={
             "name": feat.gen_name_features,
             "dob": feat.gen_dateofbirth_features,
@@ -123,7 +123,7 @@ def test_embed_name_sex_features():
 
     colspec = dict(column1="name", column2="sex")
 
-    embedder = em.Embedder(
+    embedder = Embedder(
         feature_factory={
             "name": feat.gen_name_features,
             "sex": feat.gen_sex_features,
@@ -151,7 +151,7 @@ def test_embed_dob_features():
 
     colspec = dict(column1="dob")
 
-    embedder = em.Embedder(
+    embedder = Embedder(
         feature_factory={
             "dob": feat.gen_dateofbirth_features,
         },
@@ -179,7 +179,7 @@ def test_embed_all_features():
 
     colspec = dict(column1="name", column2="sex")
 
-    embedder = em.Embedder(
+    embedder = Embedder(
         feature_factory={
             "name": feat.gen_name_features,
             "sex": feat.gen_sex_features,
@@ -200,7 +200,7 @@ def test_SimilarityArray_match():
     df2.index = df2.name
     colspec = dict(name="name")
 
-    embedder = em.Embedder(
+    embedder = Embedder(
         feature_factory=dict(name=feat.gen_name_features),
         ff_args=dict(name=dict(ngram_length=[2])),
         bf_size=1024,
