@@ -311,3 +311,31 @@ sh ./05-run-workload.sh
 
 You can follow the progress of the workload from the Logs Explorer on GCP. Once
 it is complete, the data-owning parties will be able to download their results.
+
+## Building the documentation
+
+This package is accompanied by documentation which includes tutorials and API
+reference materials. These are available on [GitHub Pages](https://datasciencecampus.github.io/pprl_toolkit).
+
+If you would like to build the documentation yourself, you will need to install
+[Quarto](https://quarto.org/docs/get-started/). After that, install the `docs`
+optional dependencies for the toolkit:
+
+```bash
+python -m pip install ".[docs]"
+```
+
+Now you can build, render, and view the documentation yourself. First, build
+the API reference material:
+
+```bash
+python -m quartodoc build
+```
+
+This will create a bunch of files under `docs/reference/`. You can render the
+documentation itself with the following command, opening a local version of the
+site in your browser:
+
+```bash
+quarto preview
+```
