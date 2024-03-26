@@ -177,9 +177,7 @@ brought together in a secure environment.
 Have a read through [this tutorial](https://cloud.google.com/confidential-computing/confidential-space/docs/create-your-first-confidential-space-environment)
 if you would like to get to grips with how it all works on the inside.
 
-### Setting up
-
-#### Determining roles
+### Determining roles
 
 There are four roles to fill in a data linkage project: two data-owning
 parties, a workload author, and a workload operator. A workload is how we refer
@@ -198,7 +196,7 @@ to the linkage operation itself. These roles can be summarised as follows:
 > data owning-parties, or use a third-party administrator to maintain the
 > workload.
 
-#### Creating your projects
+### Creating your projects
 
 Once you have decided who will be filling which role(s), every member of your
 linkage project will need to set up a GCP project. The names of these projects
@@ -226,7 +224,7 @@ in the linkage:
   - Security Admin (`roles/securityAdmin`)
   - Storage Admin (`roles/storage.admin`)
 
-#### Toolkit configuration
+### Toolkit configuration
 
 Now you've got your roles sorted out and projects set up, you (and all other
 users) have to write down your project's configuration in an environment file
@@ -236,7 +234,7 @@ We have provided an example in `.env.example`. All you need to do is copy that
 file to `.env` and fill in your project's details. Everyone in your project
 should have identical environment files.
 
-#### Creating the other resources
+### Creating the other resources
 
 The last step in setting your linkage project up is to create and configure all
 the other resources on GCP. We have packaged up these steps into a series of
