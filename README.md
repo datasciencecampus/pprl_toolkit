@@ -66,7 +66,8 @@ matching. We will use the toolkit to identify these matches.
 ```
 
 > [!NOTE]
-> These datasets don't have the same column names or follow the same encodings.
+> These datasets don't have the same column names or follow the same encodings,
+> and there are several spelling mistakes in the names of the band members.
 >
 > Thankfully, the `pprl_toolkit` is flexible enough to handle this!
 
