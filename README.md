@@ -57,7 +57,7 @@ matching. We will use the toolkit to identify these matches.
 >>> df2 = pd.DataFrame(
 ...     {
 ...         "name": ["Laura Datten", "Greta Knopf", "Casper Goreman"],
-...         "sex": ["female", "male", "male"],
+...         "sex": ["female", "female", "male"],
 ...         "main_instrument": ["bass guitar", "percussion", "electric guitar"],
 ...         "vocals": ["yes", "sometimes", "sometimes"],
 ...     }
@@ -143,9 +143,9 @@ Hungarian algorithm to match the records based on those similarities.
 ```python
 >>> similarities = embedder.compare(edf1, edf2)
 >>> similarities
-SimilarityArray([[0.86017213, 0.12121832, 0.12803688],
-                 [0.13216962, 0.17162329, 0.50067019],
-                 [0.12126782, 0.73484694, 0.09240265]])
+SimilarityArray([[0.86017213, 0.14285716, 0.12803688],
+                 [0.13216962, 0.13483999, 0.50067019],
+                 [0.12126782, 0.76292716, 0.09240265]])
 
 ```
 
