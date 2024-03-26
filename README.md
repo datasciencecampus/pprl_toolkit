@@ -29,3 +29,148 @@ repository:
 ```shell
 pre-commit install
 ```
+
+## Getting started
+
+Let us consider a small example where we want to link two excerpts of data on
+bands.
+
+### Loading the data
+
+First, we load our data into `pandas.DataFrame` objects.
+
+```python
+>>> import pandas as pd
+>>>
+>>> df1 = pd.DataFrame(
+...     {
+...         "first_name": ["Laura", "Mark", "DJ"],
+...         "last_name": ["Ochoa", "Speer", "Johnson"],
+...         "gender": ["f", "m", "m"],
+...         "instrument": ["bass", "guitar", "drums"],
+...         "vocals_ever": [True, True, True],
+...     }
+... )
+>>> df2 = pd.DataFrame(
+...     {
+...         "name": ["Laura 'Leezy' Lee Ochoa", "Donald J Johnson", "Marc Spear"],
+...         "sex": ["female", "male", "male"],
+...         "main_instrument": ["bass guitar", "percussion", "electric guitar"],
+...         "vocals": ["yes", "sometimes", "sometimes"],
+...     }
+... )
+
+```
+
+> [!NOTE]
+> These datasets don't have the same column names or follow the same encodings.
+>
+> Thankfully, the `pprl_toolkit` is flexible enough to handle this!
+
+### Creating and assigning a feature factory
+
+The next step is to decide how to process each of the columns in our datasets.
+
+To do this, we define a feature factory that maps column types to feature
+generation functions, and a column specification for each dataset mapping our
+columns to column types in the factory.
+
+```python
+>>> from pprl.embedder import features
+>>>
+>>> factory = dict(
+...     name=features.gen_name_features,
+...     sex=features.gen_sex_features,
+...     misc=features.gen_misc_features,
+... )
+>>> spec1 = dict(
+...     first_name="name",
+...     last_name="name",
+...     gender="sex",
+...     instrument="misc",
+...     vocals_ever="misc",
+... )
+>>> spec2 = dict(name="name", sex="sex", main_instrument="misc", vocals="misc")
+
+```
+
+### Embedding the data
+
+With our specifications sorted out, we can get to creating our Bloom filter
+embedding. Before doing so, we need to decide on two parameters: the size of
+the filter and the number of hashes. By default, these are `2**10` and `2`,
+respectively.
+
+Once we've decided, we can create our `Embedder` instance and use it to embed
+our data with their column specifications.
+
+```python
+>>> from pprl.embedder.embedder import Embedder
+>>>
+>>> embedder = Embedder(factory, bf_size=2**10, num_hashes=2)
+>>> edf1 = embedder.embed(df1, colspec=spec1, update_thresholds=True)
+>>> edf2 = embedder.embed(df2, colspec=spec2, update_thresholds=True)
+
+```
+
+If we take a look at one of these embedded datasets, we can see that it has
+three new columns: `bf_indices`, `bf_norms` and `thresholds`.
+
+```python
+>>> edf1
+  first_name last_name gender  ...                                         bf_indices  bf_norms thresholds
+0      Laura     Ochoa      f  ...  [385, 770, 135, 908, 653, 531, 151, 281, 668, ...  6.928203   0.065279
+1       Mark     Speer      m  ...  [768, 769, 128, 4, 260, 6, 907, 13, 639, 657, ...  6.633250   0.134840
+2         DJ   Johnson      m  ...  [256, 516, 5, 271, 530, 403, 21, 790, 535, 791...  6.708204   0.134840
+
+[3 rows x 14 columns]
+
+```
+
+<!-- TODO: What do these columns actually describe? -->
+
+### Performing the linkage
+
+We can now perform the linkage by comparing these Bloom filter embeddings. We
+use the Soft Cosine Measure to calculate record-wise similarity and an adapted
+Hungarian algorithm to match the records based on those similarities.
+
+```python
+>>> similarities = embedder.compare(edf1, edf2)
+>>> similarities
+SimilarityArray([[0.70133435, 0.01848053, 0.04622502],
+                 [0.06659271, 0.11581371, 0.55522526],
+                 [0.06584864, 0.66803136, 0.11935249]])
+
+```
+
+This `SimilarityArray` object is an augmented `numpy.ndarray` that can perform
+our matching. The matching itself has a number of parameters that allow you to
+control how similar two embedded records must be to be matched. In this case,
+let's say that two records can only be matched if their pairwise similarity is
+at least `0.5`.
+
+```python
+>>> matching = similarities.match(abs_cutoff=0.5)
+>>> matching
+(array([0, 1, 2]), array([0, 2, 1]))
+```
+
+Here, all three of the records in each dataset were matched. We can add an
+index corresponding to this matching to our original datasets like so.
+
+```python
+>>> from pprl.utils.server_utils import add_private_index
+>>>
+>>> matched_dfs = add_private_index(df1, df2, matching)
+>>> matched_dfs
+(  first_name last_name gender instrument  vocals_ever  private_index
+ 0      Laura     Ochoa      f       bass         True          25525
+ 1       Mark     Speer      m     guitar         True          13963
+ 2         DJ   Johnson      m      drums         True          23379,
+                       name     sex  main_instrument     vocals  private_index
+ 0  Laura 'Leezy' Lee Ochoa  female      bass guitar        yes          25525
+ 1         Donald J Johnson    male       percussion  sometimes          23379
+ 2               Marc Spear    male  electric guitar  sometimes          13963)
+
+```
