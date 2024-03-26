@@ -30,7 +30,8 @@ jobs:
           python -m pip install ".[test]"
       - name: Run tests
         run: |
-          python -m pytest #--cov=pplink_client --cov-fail-under=89 test
+          python -m pytest test
+          python -m doctest README.md
       - name: Install and run linters
         if: |
           matrix.python-version == '3.11' &&
