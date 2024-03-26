@@ -1,0 +1,219 @@
+---
+title: "Embedder API run-through"
+format: html
+jupyter:
+    kernelspec:
+        name: "pprl"
+        language: "python"
+        display_name: "pprl"
+---
+
+This article shows the main classes, methods and functionality of the Embedder
+API.
+
+First, we'll import a few modules, including:
+
+* the `features` module, that has functions for processing data into features
+  for embedding
+* the `config` module, which includes our package configuration (such as the
+  location of data directories)
+* some classes from the main `embedder` module
+
+```{python}
+import os
+
+import pandas as pd
+
+import pprl.embedder.features as feat
+from pprl import config
+from pprl.embedder.embedder import EmbeddedDataFrame, Embedder
+
+filestem = config.DIR_DATA_INTERIM
+```
+
+## Data set-up
+
+For this demo we'll create a really minimal pair of datasets. Notice that they
+don't have to have the same structure or field names.
+
+```{python}
+df1 = pd.DataFrame(
+    dict(
+        id=[1,2,3],
+        forename=["Henry", "Sally", "Ina"],
+        surname = ["Tull", "Brown", "Lawrey"],
+        dob=["1/1/2001", "2/1/2001", "4/10/1995"],
+        gender=["male", "Male", "Female"],
+    )
+)
+
+df2 = pd.DataFrame(
+    dict(
+        personid=[4,5,6],
+        full_name=["Harry Tull", "Sali Brown", "Ina Laurie"],
+        date_of_birth=["2/1/2001", "2/1/2001", "4/11/1995"],
+        sex=["M", "M", "F"],
+    )
+)
+```
+
+Features are extracted as different kinds of string objects from each field,
+ready to be hash embedded into the Bloom filters. We need to specify the
+feature extraction functions we'll need.
+
+In this case we'll need one extractor for names, one for dates of birth, and
+one for sex/gender records. We create a dict with the functions we need. We
+create another dict to store any keyword arguments we want to pass in to each
+function (in this case we use all the default arguments so the keyword argument
+dictionaries are empty):
+
+```{python}
+feature_factory = dict(
+    name=feat.gen_name_features,
+    dob=feat.gen_dateofbirth_features,
+    sex=feat.gen_sex_features,
+)
+
+ff_args = dict(name={}, sex={}, dob={})
+```
+
+## Embedding
+
+Now we can create an `Embedder` object. We want our Bloom filter vectors to
+have a length of 1024 elements (actually 1025 because of an offset), and we
+choose to hash each feature two times. These choices seem to work ok, but we
+haven't explored them systematically.
+
+```{python}
+embedder = Embedder(feature_factory,
+                    ff_args,
+                    bf_size = 2**10,
+                    num_hashes=2,
+                    )
+```
+
+Now we can hash embed the dataset into an EmbeddedDataFrame (EDF). For this we
+need to pass a column specification `colspec` that maps each column of the data
+into the `feature_factory` functions. Any columns not mapped will not
+contribute to the embedding.
+
+```{python}
+edf1 = embedder.embed(
+    df1, colspec=dict(forename="name", surname="name", dob="dob", gender="sex")
+)
+edf2 = embedder.embed(
+    df2, colspec=dict(full_name="name", date_of_birth="dob", sex="sex")
+)
+
+print(edf1)
+print(edf2)
+```
+
+
+## Training
+
+Discuss this at this stage
+
+## Computing the similarity scores and the matching
+
+Now we have two embedded datasets, we can compare them and compute all the
+pairwise Cosine similarity scores.
+
+First, we have to compute the vector norms of each Bloom vector (for scaling
+the Cosine similarity) and the thresholds (thresholds are explained here
+[link]). Computing the thresholds can be time-consuming for a larger dataset,
+because it essentially computes all pairwise comparisons of the data to itself.
+
+```{python}
+#| echo: False
+
+edf1.update_norms()
+edf2.update_norms()
+edf1.update_thresholds()
+edf2.update_thresholds()
+```
+
+NB: there's also a flag to compute these at the same time as the embedding, but
+it doesn't by default because, depending on the workflow, you may wish to
+compute the norms and thresholds at different times (e.g. on the server).
+
+Now you can compute the similarities:
+
+```{python}
+similarities = embedder.compare(edf1,edf2)
+
+print(similarities)
+```
+
+Finally, you can compute the matching:
+
+```{python}
+matching = similarities.match(abs_cutoff=0.5)
+
+print(matching)
+```
+
+
+## Serialisation and file I/O
+
+That's how to do the workflow in one session. However, this demo follows a
+multi-stage workflow, so we need to be able to pass objects around. There are a
+couple of methods that enable file I/O and serialisation.
+
+First, the `Embedder` object itself needs to be written to file and loaded. The
+idea is to train it, share it to the data owning parties, and also to the
+matching server. For this purpose, it's possible to pickle the entire
+`Embedder` object.
+
+```{python}
+embedder.to_pickle(os.path.join(filestem, "embedder.pkl"))
+
+embedder_copy = Embedder.from_pickle(os.path.join(filestem, "embedder.pkl"))
+```
+
+The copy has the same functionality as the original:
+
+```{python}
+similarities = embedder_copy.compare(edf1,edf2)
+
+print(similarities)
+```
+
+NB: This won't work if two datasets were embedded with different `Embedder`
+instances, even if they're identical. The `compare()` method checks for the
+same embedder object memory reference so it won't work if one was embedded with
+the original and the other with the copy. The way to fix this is to
+re-initialise the `EmbeddedDataFrame` with the new `Embedder` object.
+
+```{python}
+edf2_copy = EmbeddedDataFrame(edf2, embedder_copy)
+```
+
+In this case, be careful that the `Embedder` is compatible with the Bloom
+filter vectors in the EDF (i.e. uses the same parameters and feature
+factories), because while you can refresh the norms and thresholds, you can't
+refresh the 'bf_indices' without reembedding the data frame.
+
+## Serialising the data
+
+The EDF objects are just a thin wrapper around `pandas.DataFrame` instances, so
+you can serialise to JSON using the normal methods.
+
+```{python}
+edf1.to_json(os.path.join(filestem, "edf1.json"))
+
+edf1_copy = pd.read_json(os.path.join(filestem, "edf1.json"))
+
+print(isinstance(edf1_copy,EmbeddedDataFrame))
+print(isinstance(edf1_copy,pd.DataFrame))
+```
+
+The `bf_indices`, `bf_norms` and `thresholds` columns will be preserved.
+However, this demotes the data frames back to normal `pandas.DataFrame`
+instances and loses the link to an `Embedder` instance.
+
+To fix this, just re-initialise them:
+
+```{python}
+edf1_copy = EmbeddedDataFrame(edf1_copy, embedder_copy)
+```

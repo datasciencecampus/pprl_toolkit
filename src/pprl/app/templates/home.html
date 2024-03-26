@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h2>Welcome to the PPRL application</h2>
+
+<p>
+   This application is for data owners to process and upload their data to the
+   Google Cloud Platform Confidential Space set up by your linkage
+   administrator.
+</p>
+<br>
+<p>
+   To begin, please select which party you are.
+</p>
+<br>
+<form method="POST">
+   <select name="party">
+      {% for party in parties %}
+         <option value="{{ party }}">{{ party }}</option>
+      {% endfor %}
+   </select>
+   <br>
+   <input type="submit">
+</form>
+{% endblock %}

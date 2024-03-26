@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=62", "wheel", "cython"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pprl"
+version = "0.1.0"
+authors = [
+    {name = "Mat Weldon"},
+    {name = "Samuel Stock"},
+    {name = "Kevin Fasusi"},
+    {name = "Henry Wilde"},
+    {name = "Data Science Campus", email = "datacampus@ons.gov.uk"},
+]
+description = "Privacy-preserving record linkage via bloom filter embedding"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT License"}
+dependencies = [
+    "click",
+    "dill",
+    "flask",
+    "numpy",
+    "pandas==2.0.2",
+    "python-dotenv",
+    "requests==2.30.0",
+    "metaphone",
+    "cryptography",
+    "textdistance",
+    "gcsfs",
+    "google-cloud-storage",
+    "google-cloud-logging",
+    "google-cloud-kms",
+    "scipy",
+    "recordlinkage",
+]
+
+[project.urls]
+homepage = "https://github.com/datasciencecampus/pprl"
+
+[project.optional-dependencies]
+lint = ["ruff==0.3.0", "mypy"]
+test = [
+    "hypothesis",
+    "pytest",
+    "pytest-randomly",
+    "pytest-sugar",
+    "pytest-cov"
+]
+docs = [
+    "ipykernel",
+    "nbclient>=0.9.0",
+    "nbformat>=5.9.2",
+    "quartodoc>=0.6.6",
+]
+dev = [
+    "pre-commit==3.1.0",
+    "pprl[lint,docs,test]"
+]
+
+[tool.ruff]
+line-length = 99
+exclude = ["notebooks/*"]
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+extend-select = ["D", "I", "W"]
+ignore = ["D105", "D107", "D202", "D413"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pprl"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"

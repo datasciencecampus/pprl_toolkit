@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h2>Choose a dataset</h2>
+
+Use one of the FEBRL datasets from the <i>RecordLinkage</i> package or upload
+your own dataset. If you choose the latter, your file <b>must be a CSV</b>.
+<br>
+{{message}}
+<br>
+<form method = "POST" enctype = "multipart/form-data">
+   <p>
+      <input type="radio" id="FEBRLa" name="radio_input" value="FEBRLa" checked>
+      <label for="FEBRLa">FEBRLa</label>
+   </p>
+   <p>
+      <input type="radio" id="FEBRLb" name="radio_input" value="FEBRLb">
+      <label for="FEBRLb">FEBRLb</label>
+   </p>
+   <p>
+      <input type="radio" id="local_file" name="radio_input" value="local_file">
+      <label for="local_file">Upload Local File: &nbsp;</label><td><input type= "file" name = "file"/>
+   </p>
+   <p>
+      <br>
+      <input type = "submit"/>
+   </p>
+</form>
+{% endblock %}

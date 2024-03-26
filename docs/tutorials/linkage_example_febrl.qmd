@@ -1,0 +1,209 @@
+---
+title: "Linking the FEBRL datasets using the PPRL package"
+format: html
+jupyter:
+    kernelspec:
+        name: "pprl"
+        language: "python"
+        display_name: "pprl"
+---
+
+This tutorial shows how the package can be used locally to match the
+[FEBRL](http://users.cecs.anu.edu.au/~Peter.Christen/publications/hdkm2008slides.pdf)
+datasets, included as example datasets in the
+[`recordlinkage`](https://recordlinkage.readthedocs.io/en/latest/) package.
+
+```{python}
+import os
+import time
+from functools import partial
+
+import pandas as pd
+import numpy as np
+from recordlinkage.datasets import load_febrl4
+
+import pprl.embedder.features as feat
+from pprl import config
+from pprl.embedder.embedder import EmbeddedDataFrame, Embedder
+
+datadir = config.DIR_DATA_INTERIM
+```
+
+## Load the data
+
+The datasets we are using are 5000 records across two datasets with no
+duplicates, and each of the records has a valid match in the other dataset.
+
+After loading the data, we can parse the true matched ID number from the
+indices.
+
+```{python}
+feb4a, feb4b = load_febrl4()
+
+feb4a["true_id"] = (
+    feb4a.index.str.extract("^rec-([0-9]*)-")
+    .iloc[:, 0].astype("int")
+    .to_list()
+)
+feb4b["true_id"] = (
+    feb4b.index.str.extract("^rec-([0-9]*)-")
+    .iloc[:, 0].astype("int")
+    .to_list()
+)
+
+feb4a.to_csv(os.path.join(datadir, "febrl_data_1.csv"))
+feb4b.to_csv(os.path.join(datadir, "febrl_data_2.csv"))
+```
+
+## Create a feature factory
+
+Define the feature processing functions that convert each field into a string
+so that they can be hashed into the Bloom filter. The dictionary of functions
+is called `feature_factory`.
+
+If we want to pass the feature factory functions into the embedder with
+non-default parameters, we have two options:
+
+1. Pass a dictionary of dictionaries of keyword arguments as an optional
+   `ff_args` parameter (e.g. `ff_args = {"dob": {"dayfirst": False, "yearfirst": True}})`)
+2. Use `functools.partial()`, as we have below.
+
+```{python}
+feature_factory = dict(
+    name=feat.gen_name_features,
+    dob=partial(feat.gen_dateofbirth_features, dayfirst=False, yearfirst=True),
+    misc=feat.gen_misc_features,
+    address=partial(
+        feat.gen_misc_shingled_features, label="addr", ngram_length=[4]
+    ),
+)
+```
+
+
+## Initialise the embedder instance
+
+This instance embeds each feature twice into a Bloom filter of length 1025
+(with the offset).
+
+```{python}
+embedder = Embedder(feature_factory, bf_size=2**10, num_hashes=2)
+```
+
+## Embed the datasets
+
+The column specification `colspec` is a dictionary that tells the embedder how
+to map feature-processing functions to columns of the data. Notice that we can
+map more than one column to the same function. This means that we can easily
+handle cases where fields we want to compare all together span several columns.
+
+This process makes our Bloom filter robust to inconsistencies where, for
+example, surname and given name may be swapped, or addresses may be coded
+inconsistently.
+
+::: {.callout-note}
+To ensure that different feature types hash into different buckets, the
+functions `gen_misc_features()` and `gen_misc_shingled_features()` will add a
+label to parsed string features, which will default to the data column name.
+
+For example, to ensure suburb doesn't collide with state (if they happened to
+be the same), `gen_misc_features()` would encode each of their tokens as
+`suburb<token>` and `state<token>`, respectively. If you want to map different
+columns into the same feature, such as `address` below, you can set the label
+explicitly when passing the function to the embedder.
+:::
+
+```{python}
+colspec = dict(
+    given_name="name",
+    surname="name",
+    date_of_birth="dob",
+    street_number="misc",
+    state="misc",
+    soc_sec_id="misc",
+    postcode="misc",
+    suburb="misc",
+    address_1="address",
+    address_2="address",
+)
+
+edf1 = embedder.embed(feb4a, colspec=colspec)
+edf2 = embedder.embed(feb4b, colspec=colspec)
+```
+
+Store the embedded datasets and their embedder to file.
+
+```{python}
+edf1.to_json(os.path.join(datadir, "party1_data.json"))
+edf2.to_json(os.path.join(datadir, "party2_data.json"))
+embedder.to_pickle(os.path.join(datadir, "embedder.pkl"))
+```
+
+## Calculate similarity
+
+Compute the row thresholds to provide a lower bound on matching
+similarity scores for each row. This operation is the most
+computationally intensive part of the whole process.
+
+
+```{python}
+start = time.time()
+edf1.update_thresholds()
+edf2.update_thresholds()
+end = time.time()
+
+print(f"Updating thresholds took {end - start:.2f} seconds")
+```
+
+Compute the matrix of similarity scores.
+
+```{python}
+similarity_scores = embedder.compare(edf1,edf2)
+```
+
+## Compute a match
+
+Use the similarity scores to compute a match, using the Hungarian algorithm.
+First, we compute the match with the row thresholds.
+
+```{python}
+matching = similarity_scores.match(require_thresholds=True)
+```
+
+Using the true IDs, evaluate the precision and recall of the match.
+
+```{python}
+def get_results(edf1, edf2, matching):
+    """Get the results for a given matching."""
+
+    trueids_matched1 = edf1.iloc[matching[0], edf1.columns.get_loc("true_id")]
+    trueids_matched2 = edf2.iloc[matching[1], edf2.columns.get_loc("true_id")]
+
+    nmatches = len(matching[0])
+    truepos = sum(map(np.equal, trueids_matched1, trueids_matched2))
+    falsepos = nmatches - truepos
+
+    print(
+        f"True pos: {truepos} | False pos: {falsepos} | "
+        f"Precision: {truepos / nmatches:.1%} | Recall: {truepos / 5000:.1%}"
+    )
+
+    return nmatches, truepos, falsepos
+
+_ = get_results(edf1, edf2, matching)
+```
+
+Then, we compute the match without using the row thresholds, calculating the
+same performance metrics:
+
+```{python}
+matching = similarity_scores.match(require_thresholds=False)
+_ = get_results(edf1, edf2, matching)
+```
+
+Without using the row thresholds, the number of false positives is larger,
+but the recall is much better. For some uses this balance may be preferable.
+
+In testing, the use of local row thresholds provides a better trade-off between
+precision and recall, compared to using a single absolute threshold. It has the
+additional advantage, in a privacy-preserving setting, of being automatic and
+not requiring clerical review to set the level.

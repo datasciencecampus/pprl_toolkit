@@ -1,0 +1,66 @@
+<style>
+form  { display: table;}
+p     { display: table-row;  }
+label { display: table-cell; }
+input { display: table-cell; }
+table { width: 50%;}
+</style>
+
+{% extends "base.html" %}
+
+{% block body %}
+
+<form method = "POST" enctype = "multipart/form-data">
+  <h2>Select column types</h2>
+
+    Please choose how each column should be treated from the dropdown menus
+    below. See our <a
+    href="https://datasciencecampus.github.io/pprl/reference#features">feature
+    documentation</a> for details.
+  </p>
+  <br>
+  {% for column in columns%}
+    <p>
+      <label for="{{ column }}">{{ column }}: </label>
+      <select id="{{ column }}" name="{{ column }}">
+        <option value="drop">Drop Column</option>
+        {% for column_type in column_types%}
+          <option value="{{ column_type }}">{{ column_type }}</option>
+        {% endfor %}
+        <option value="keep">Keep Raw Column</option>
+      </select><br>
+    </p>
+  {% endfor %}
+
+  <br>
+  <h2>Choose a salt (optional)</h2>
+  <p>
+    A cryptographic salt is a string that can be appended to all data before
+    they are encrypted and sent to GCP.
+    The salt should be the <b>same for both parties</b>.
+  </p>
+  <br>
+  <p>
+    <label for="salt">Salt:</label>
+    <input type="text", name="salt", value="">
+  </p>
+
+  <br>
+  <h2>Where next?</h2>
+  <p>
+    You can either continue with the linkage by uploading the processed data to
+    Google Cloud Platform, or download your processed data locally. The local
+    download contains the Bloom filter embedding for your chosen dataset.
+  </p>
+  <br>
+  <input type="submit" name="upload" value="Upload to GCP">
+  &nbsp;
+  <input type="submit" name="download" value="Download file locally">
+</form>
+{% endblock %}
+
+
+form  { display: table;      }
+p     { display: table-row;  }
+label { display: table-cell; }
+input { display: table-cell; }

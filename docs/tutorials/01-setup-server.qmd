@@ -1,0 +1,115 @@
+---
+title: Setting up the server
+tags: [server]
+---
+
+In this tutorial, you will learn how to set up the cloud infrastructure to
+allow private record linkage on behalf of two parties.
+
+::: {.callout-important}
+You only need to follow this tutorial if you are going to be the administrator
+of the linkage. See our client set-up tutorial if you're looking to get your
+data linked privately by another party.
+:::
+
+
+## Setting yourself up
+
+The technical details of the set-up process have been abstracted away into
+`bash` scripts. However, for these to work, you need to be set up properly.
+
+### Google Cloud
+
+First, you will need to
+[set up a Google Cloud project](https://developers.google.com/workspace/guides/create-project)
+to act as the centre of the record linkage. The server will run as a virtual
+machine (VM) from this project, and all billing will route through it.
+
+Next, you need to
+[install the Google Cloud CLI](https://cloud.google.com/sdk/docs/install).
+Once you have that installed, you need to log in and authenticate yourself.
+Run the following in your terminal:
+
+```bash
+gcloud auth login
+```
+
+::: {.callout-tip}
+You may also need to configure `gcloud` to use your project. To do so, run
+the following in your terminal:
+
+```bash
+gcloud config set project <name-of-your-project>
+```
+:::
+
+### Docker
+
+You will also need [Docker installed](https://docs.docker.com/get-docker/)
+on your machine.
+
+To [run the scripts](running-the-scripts), you will also need to have the app
+running in the background, and be logged in.
+
+### Environment variables
+
+For the sake of security, we make use of a hidden environment file (`.env`) to
+store the environment variables used in this project.
+
+To set up the server using our scripts, you must edit your `.env` file further
+to the instructions in the README, adding three lines:
+
+```bash
+PPRL_PROJECT_NAME=<name-of-your-project>
+PPRL_PROJECT_REGION=<region-of-your-project>
+PPRL_PROJECT_ZONE=<zone-of-your-project>
+```
+
+You can find the region and zone of your project in the Google Cloud Console. For example, our region is
+`europe-west2`, and the zone is `europe-west2-c`.
+
+::: {.callout-important}
+Please ensure that you do not include spaces or quotation marks in the lines
+above as they will cause the scripts to throw an error.
+:::
+
+
+## Setting up the architecture
+
+There are two set-up scripts located in `scripts/`:
+
+- `01-setup-server.sh`: sets up the body of the architecture, comprising the
+  key management service and keys, service accounts (including the confidential
+  VM) and their permissions, storage buckets, a workload identity pool, and all
+  the credentials
+- `02-setup-docker.sh`: sets up an Artifact Registry for your project, and
+  uploads a Docker image to be run on the confidential server
+
+To execute these scripts, run the following commands in your terminal:
+
+```bash
+sh /path/to/pprl/scripts/01-setup-server.sh
+sh /path/to/pprl/scripts/02-setup-docker.sh
+```
+
+There will be points where you will have to authenticate in the browser.
+Once you've finished, the script should continue in your terminal.
+
+
+## Sharing the credentials
+
+Once you've run these scripts, there should be three new JSON files on your
+machine. These are:
+
+- `attestation_credentials.json`: attestation credentials for VM. These get
+  included in the Docker image that is uploaded by the second script. You don't
+  need to do anything with these.
+- `party-[1,2]-service-account-credentials.json`: credentials (including a
+  private key) for each party.
+
+You must share the party credential files with the respective parties, and keep
+them safe yourself.
+
+Once you've done that, you should be ready for your parties to work through our
+client tutorial. After they're finished, you can work through the pipeline
+tutorial to execute the matching.

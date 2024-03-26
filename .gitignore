@@ -1,0 +1,42 @@
+
+!.gitkeep
+
+# data
+data/*
+secrets/*
+*.json
+
+# logs
+log/*
+
+
+
+# environment
+.env
+
+# documentation
+/.quarto/
+/_site/
+
+# tests
+.tox/
+.coverage
+.mypy_cache/
+.pytest_cache/
+.hypothesis/
+.ruff_cache/
+
+
+# system
+.DS_Store
+.vscode/
+
+# cache
+*/__pycache__/
+*/**/__pycache__/
+
+# build
+build/
+dist/
+*.egg-info/
+*.egg

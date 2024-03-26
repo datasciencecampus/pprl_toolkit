@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+<h2>Check for your results</h2>
+<br>
+
+{% if message %}
+   <h3>{{message}}</h3><br>
+{% endif %}
+
+Press the button to check for your results.
+<br><br>
+
+<form method = "POST" enctype = "multipart/form-data">
+   <input type="submit" value="Check for results">
+</form>
+{% endblock %}

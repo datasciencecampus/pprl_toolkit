@@ -1,0 +1,110 @@
+---
+title: Getting started
+description: >
+    Make yourself familiar with how PPRL works and how to get up and running.
+---
+
+<!-- TODO: How many steps? -->
+This tutorial provides an overview of how the PPRL methodology works. We split
+the process into X steps, focusing on the bigger picture; we point you in the
+direction of relevant tutorials when we gloss over some of the finer details.
+
+
+## Assembling a linkage team
+
+There are three roles in any linkage project: two data-owning _parties_ and a
+linkage _administrator_. These roles need not be fulfilled by three people. It
+is perfectly possible to perform PPRL on your own, or perhaps you are working
+under a trust model that allows one of the data-owning parties to also be the
+administrator.
+
+<!-- TODO: Write solo tutorial with full process -->
+From here on, we will assume you are running PPRL with more than one person and
+in the cloud. If you intend on using PPRL on your own or locally, please follow
+this tutorial. Otherwise, you must decide who will be doing what from the
+outset. Each role comes with different responsibilities, but all roles require
+a Google Cloud Platform account and access to the `gcloud` command-line tool.
+
+### Data-owning party
+
+Often referred to as a _party_, a data owner is responsible for the
+storage and preparation of some confidential data. They create a Bloom filter
+embedding of their confidential data using an agreed configuration, and then
+share that with the administrator to process. Once the administrator is
+finished, they return the results of the linkage to the respective parties.
+
+### Linkage administrator
+
+The _administrator_ runs the linkage itself given some embedded data from the
+parties. They are responsible for setting up and running a
+[Confidential Space](https://cloud.google.com/docs/security/confidential-space)
+in which to perform the linkage. This setting means that the administrator
+never has access to the parties' data directly, and they can only be accessed
+via the PPRL code itself.
+
+
+## Names and projects
+
+Once you have decided who will be playing which role(s), you need to decide on
+a naming structure and make some projects. You will need a name for each party
+and the administrator. These names will be used in configuration files, Google
+Cloud projects and buckets. As such, they need to be descriptive and unique.
+
+### Choosing a unique name
+
+Since Google Cloud bucket names must be
+[globally unique](https://cloud.google.com/storage/docs/buckets#naming), we
+recommend using a hash in your names to ensure that they are unique.
+
+For example, say the US Census Bureau and UK Office for National Statistics
+(ONS) are looking to link some data on ex-patriated residents with PPRL. Then
+they might use `uk-ons` and `us-cb` as their party names, which are succinct
+and descriptive. However, they rule out future PPRL projects with the same
+names. So, they could make a hash of their project aims and append it to
+their names:
+
+```bash
+$ echo -n "pprl uk-ons us-cb ex-pats" | sha256sum
+698ea25dc5bc3086fa9600297cba9531615ca875bd3927f9229b7e2899f6dc48  -
+```
+
+This is very long. You might only want to use the first few characters of this
+hash. Note that Google Cloud bucket names also can't be more than 63 characters
+long without dots. You can trim it down like so:
+
+```bash
+$ echo -n "pprl uk-ons us-cb ex-pats" | sha256num | cut -c 1-7
+698ea25
+```
+
+So our names would be: `uk-ons-698ea25`, `us-cb-698ea25`, and `admin-698ea25`.
+
+### Party project and roles
+
+Now each party must create a project with the name as defined above. If one of
+parties is also acting as the administrator, they should still follow the
+guidance for administrators below.
+
+Importantly, each party will need to have their Google Cloud administrator
+grant them the following IAM roles on their project:
+
+- Cloud KMS Administrator (`roles/cloudkms.admin`)
+- IAM Workload Identity Pool Administrator
+  (`roles/iam.workloadIdentityPoolAdmin`)
+- Service Usage Administrator (`roles/serviceusage.serviceUseageAdmin`)
+- Service Account Administrator (`roles/iam.serviceAccountAdmin`)
+- Storage Administrator (`roles/storage.admin`)
+
+### Administrator project and roles
+
+The administrator also needs to set up a Google Cloud project with the agreed
+name. The administrator in PPRL takes on two Confidential Space
+[roles](https://cloud.google.com/confidential-computing/confidential-space/docs/confidential-space-overview#roles):
+they are the workload author and operator. As such, they will need the
+following IAM roles added to their account on the linkage administrator
+project:
+
+- Storage Administrator (`roles/storage.admin`)
+- Compute Administrator (`roles/compute.admin`)
+- Security Administrator (`roles/securityAdmin`)
+- Artifact Registry Administrator (`roles/artifactregistry.admin`)

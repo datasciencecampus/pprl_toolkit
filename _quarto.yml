@@ -1,0 +1,67 @@
+project:
+  type: website
+
+website:
+  title: "`pprl`"
+  navbar:
+    left:
+      - href: index.qmd
+        text: About
+      - href: docs/tutorials/index.qmd
+        text: Tutorials
+      - href: docs/reference/index.qmd
+        text: API Reference
+    right:
+      - icon: github
+        menu:
+          - text: Source code
+            url: https://github.com/datasciencecampus/pprl
+          - text: Open an issue
+            url: https://github.com/datasciencecampus/pprl/issues
+  page-footer:
+    left: >
+      All content is available under the
+      [Open Government Licence V3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/),
+      except where otherwise stated.
+    center: >
+      Built using [Quarto](https://quarto.org/).
+
+format:
+  html:
+    mainfont: Arial
+    theme: solar
+    lang: en-GB
+
+metadata-files:
+  - docs/_sidebar.yml
+
+quartodoc:
+  title: API reference
+  package: pprl
+  dir: docs/reference
+  sidebar: docs/_sidebar.yml
+  sections:
+    - title: Embeddings
+      desc: >
+        Tools for generating a Bloom filter embedding and its underlying
+        features.
+      package: pprl.embedder
+      contents:
+        - bloom_filters
+        - embedder
+        - features
+    - title: Utility
+      desc: Useful functions for performing linkage and handling data.
+      package: pprl.utils
+      contents:
+        - envelope_encryption_client
+        - envelope_encryption_server
+        - server_utils
+    - title: Client-side app
+      desc: >
+        Functions for the Flask application where users upload, process, and
+        download their data.
+      package: pprl.app
+      contents:
+        - app
+        - utils
