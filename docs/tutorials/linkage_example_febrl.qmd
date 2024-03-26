@@ -22,9 +22,8 @@ import pandas as pd
 import numpy as np
 from recordlinkage.datasets import load_febrl4
 
-import pprl.embedder.features as feat
-from pprl import config
-from pprl.embedder.embedder import EmbeddedDataFrame, Embedder
+from pprl import EmbeddedDataFrame, Embedder, config
+from pprl.embedder import features as feat
 
 datadir = config.DIR_DATA_INTERIM
 ```

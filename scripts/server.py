@@ -10,8 +10,7 @@ import pandas as pd
 from google.auth import identity_pool
 from google.cloud import storage
 
-from pprl import config, encryption
-from pprl.embedder.embedder import EmbeddedDataFrame, Embedder
+from pprl import EmbeddedDataFrame, Embedder, config, encryption
 from pprl.utils.server_utils import add_private_index
 
 ## CLOUD FUNCTIONS

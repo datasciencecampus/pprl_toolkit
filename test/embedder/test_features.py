@@ -10,7 +10,7 @@ from hypothesis import given
 from hypothesis import strategies as st
 from metaphone import doublemetaphone
 
-import pprl.embedder.features as feat
+from pprl.embedder import features as feat
 
 from .strategies import (
     NAMES,
