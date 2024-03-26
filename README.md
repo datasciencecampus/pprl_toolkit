@@ -33,8 +33,8 @@ pre-commit install
 ## Getting started
 
 Let us consider a small example where we want to link two excerpts of data on
-bands. In this scenario, we are looking at some toy data on the members of the
-psychedelic-rock trio, [Khruangbin](https://en.wikipedia.org/wiki/Khruangbin).
+bands. In this scenario, we are looking at some toy data on the members of a
+fictional, German rock trio called "Verknüpfung".
 
 ### Loading the data
 
@@ -47,17 +47,17 @@ matching. We will use the toolkit to identify these matches.
 >>>
 >>> df1 = pd.DataFrame(
 ...     {
-...         "first_name": ["Laura", "Mark", "DJ"],
-...         "last_name": ["Ochoa", "Speer", "Johnson"],
-...         "gender": ["f", "m", "m"],
+...         "first_name": ["Laura", "Kaspar", "Grete"],
+...         "last_name": ["Daten", "Gorman", "Knopf"],
+...         "gender": ["f", "m", "f"],
 ...         "instrument": ["bass", "guitar", "drums"],
 ...         "vocals_ever": [True, True, True],
 ...     }
 ... )
 >>> df2 = pd.DataFrame(
 ...     {
-...         "name": ["Laura 'Leezy' Lee Ochoa", "Donald J Johnson", "Marc Spear"],
-...         "sex": ["female", "male", "male"],
+...         "name": ["Laura Datten", "Greta Knopf", "Kasper Goreman"],
+...         "sex": ["female", "male", "female"],
 ...         "main_instrument": ["bass guitar", "percussion", "electric guitar"],
 ...         "vocals": ["yes", "sometimes", "sometimes"],
 ...     }
@@ -142,9 +142,9 @@ Hungarian algorithm to match the records based on those similarities.
 ```python
 >>> similarities = embedder.compare(edf1, edf2)
 >>> similarities
-SimilarityArray([[0.70133435, 0.01848053, 0.04622502],
-                 [0.06659271, 0.11581371, 0.55522526],
-                 [0.06584864, 0.66803136, 0.11935249]])
+SimilarityArray([[0.86017213, 0.12121832, 0.18442778],
+                 [0.13216962, 0.17162329, 0.59186407],
+                 [0.12126782, 0.73484694, 0.16770509]])
 
 ```
 
