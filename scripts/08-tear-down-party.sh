@@ -16,7 +16,8 @@ set_gcp_project $PROJECT_NAME
 
 delete_storage_bucket $PROJECT_NAME-bucket
 
-destroy_kms_key_version $PROJECT_NAME-akek $PROJECT_NAME-akek-kr $PROJECT_LOCATION $PROJECT_KEY_VERSION
+destroy_kms_key_version \
+  $PROJECT_NAME-akek $PROJECT_NAME-akek-kr $PROJECT_LOCATION $PROJECT_KEY_VERSION
 
 delete_workload_identity_pool $PROJECT_NAME-wip $PROJECT_LOCATION
 
