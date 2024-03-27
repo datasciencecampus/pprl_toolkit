@@ -13,7 +13,7 @@ Please be aware that, as the `pprl_toolkit` is an experimental package, ONS cann
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Steps to reproduce the behavior:
+Steps to reproduce the behaviour:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
