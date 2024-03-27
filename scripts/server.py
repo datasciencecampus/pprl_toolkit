@@ -323,8 +323,10 @@ def load_environment_variables(path: None | str = None) -> tuple[str, str, str, 
         Name of the second party.
     location : str
         Location of the workload identity pools and keyrings.
-    version : str
-        Version of the key encryption keys.
+    version_1 : str
+        Version of the key encryption key for the first party.
+    version_2 : str
+        Version of the key encryption key for the second party.
     """
 
     environ = config.load_environment(path)
@@ -333,9 +335,10 @@ def load_environment_variables(path: None | str = None) -> tuple[str, str, str, 
     party_1 = environ.get("PARTY_1_PROJECT")
     party_2 = environ.get("PARTY_2_PROJECT")
     location = environ.get("PROJECT_LOCATION", "global")
-    version = environ.get("PROJECT_KEY_VERSION", 1)
+    version_1 = environ.get("PARTY_1_KEY_VERSION", 1)
+    version_2 = environ.get("PARTY_2_KEY_VERSION", 1)
 
-    return operator, party_1, party_2, location, version
+    return operator, party_1, party_2, location, version_1, version_2
 
 
 def main():
@@ -346,15 +349,17 @@ def main():
         logger.setup_logging()
         logging.info("Logging set up.")
 
-        operator, party_1, party_2, location, version = load_environment_variables(".env")
+        operator, party_1, party_2, location, version_1, version_2 = load_environment_variables(
+            ".env"
+        )
         parties = (party_1, party_2)
 
         logging.info("Downloading embedder...")
         embedder = download_embedder(parties, operator)
 
         logging.info("Preparing assets...")
-        data_1, dek_1 = prepare_party_assets(party_1, operator, location, version)
-        data_2, dek_2 = prepare_party_assets(party_2, operator, location, version)
+        data_1, dek_1 = prepare_party_assets(party_1, operator, location, version_1)
+        data_2, dek_2 = prepare_party_assets(party_2, operator, location, version_2)
 
         logging.info("Performing matching...")
         outputs = perform_matching(data_1, data_2, embedder)
@@ -368,7 +373,7 @@ def main():
         # Set up local logging and storage
         logging.basicConfig(encoding="utf-8", level=logging.INFO)
 
-        operator, party_1, party_2, location, version = load_environment_variables()
+        operator, party_1, party_2, *_ = load_environment_variables()
         inpath_1, outpath_1 = build_local_file_paths(party_1)
         inpath_2, outpath_2 = build_local_file_paths(party_2)
         embedder = load_embedder()
