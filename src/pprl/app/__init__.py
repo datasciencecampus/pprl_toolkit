@@ -29,6 +29,7 @@ def home():
     environ = config.load_environment()
     parties = (environ.get("PARTY_1_PROJECT"), environ.get("PARTY_2_PROJECT"))
     app.config["env"] = environ
+    app.config["parties"] = parties
 
     return flask.render_template("home.html", parties=parties)
 
@@ -109,11 +110,16 @@ def upload_to_gcp(data, embedder):
     """Encrypt and upload the data to GCP, then wait for results."""
 
     app.config["submission_time"] = datetime.now(timezone.utc)
-    party_config = app.config.get("config")
     party = app.config.get("party")
+    environ = app.config.get("env")
+
+    location = environ.get("PROJECT_LOCATION", "global")
+
+    party_num = next(i + 1 for i, part in enumerate(app.config["parties"]) if party == part)
+    version = environ.get(f"PARTY_{party_num}_KEY_VERSION", 1)
 
     data_encrypted, dek = encryption.encrypt_data(data)
-    dek_encrypted = encryption.encrypt_dek(dek, party, party_config)
+    dek_encrypted = encryption.encrypt_dek(dek, party, location, version)
     app.config["dek"] = dek
 
     store = app.config.get("store")

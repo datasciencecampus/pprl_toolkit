@@ -152,18 +152,19 @@ create_kms_encryption_key() {
 #   Key name
 #   Keyring name
 #   Location
+#   Key version
 #######################################
-destroy_kms_key() {
+destroy_kms_key_version() {
   gcloud kms keys list --keyring=${2} --location=${3} --filter="PRIMARY_STATE=(ENABLED)" | grep ${1}
   if [[ $? -eq 0 ]]; then
-    gcloud kms keys versions destroy 1 --key ${1} --keyring ${2} --location ${3}
+    gcloud kms keys versions destroy ${4} --key ${1} --keyring ${2} --location ${3}
     if [[ $? -eq 0 ]]; then
-      echo "Key ${1} is deleted successfully."
+      echo "Key ${1} version ${4} deleted successfully."
     else
-      err "Failed to delete a key ${1}."
+      err "Failed to delete key ${1} version ${4}."
     fi
   else
-    echo "Key ${1} doesn't exist. Skipping the deletion of the key ${1}..."
+    echo "Key ${1} version ${4} doesn't exist. Skipping deletion..."
   fi
 }
 

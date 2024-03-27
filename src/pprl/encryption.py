@@ -64,7 +64,7 @@ def decrypt_data(encrypted: bytes, key: bytes) -> pd.DataFrame:
 
 
 def _build_key_version_path(
-    party: str, location: str, version: int, client: kms.KeyManagementServiceClient
+    party: str, location: str, version: int | str, client: kms.KeyManagementServiceClient
 ) -> str:
     """
     Build a full key version path for retrieval from KMS.
@@ -75,7 +75,7 @@ def _build_key_version_path(
         Name of the party whose key to retrieve.
     location : str
         Location of the keyring on which the key lives.
-    version : int
+    version : int | str
         Version of the key to retrieve.
     client : google.cloud.kms.KeyManagementServiceClient
         Connection to KMS.
@@ -92,7 +92,7 @@ def _build_key_version_path(
     return path
 
 
-def _get_public_key(party: str, location: str, version: int, **kwargs: dict) -> bytes:
+def _get_public_key(party: str, location: str, version: int | str, **kwargs: dict) -> bytes:
     """
     Get the public key from the GCP Key Management Service (KMS).
 
@@ -102,7 +102,7 @@ def _get_public_key(party: str, location: str, version: int, **kwargs: dict) -> 
         Name of the party.
     location : str
         Location of the keyring on which the key lives.
-    version : int
+    version : int | str
         Key version to use.
     **kwargs : dict
         Keyword arguments to pass when creating an instance of
@@ -123,7 +123,7 @@ def _get_public_key(party: str, location: str, version: int, **kwargs: dict) -> 
 
 
 def encrypt_dek(
-    dek: bytes, party: str, location: str = "global", version: int = 1, **kwargs: dict
+    dek: bytes, party: str, location: str = "global", version: int | str = 1, **kwargs
 ) -> bytes:
     """
     Encrypt the data encryption key.
@@ -139,8 +139,8 @@ def encrypt_dek(
         Name of the party.
     location : str
         Location of the keyring on which the key lives.
-    version : int
-        Version of the assymetric key to get from GCP. Default is 1.
+    version : int | str
+        Version of the asymmetric key to get from GCP. Default is 1.
     **kwargs : dict
         Keyword arguments to pass when creating an instance of
         `google.cloud.kms.KeyManagementServiceClient`.
@@ -166,7 +166,7 @@ def encrypt_dek(
 
 
 def decrypt_dek(
-    encrypted: bytes, party: str, location: str = "global", version: int = 1, **kwargs
+    encrypted: bytes, party: str, location: str = "global", version: int | str = 1, **kwargs
 ) -> bytes:
     """
     Decrypt a data encryption key using an asymmetric key held on KMS.
@@ -183,8 +183,8 @@ def decrypt_dek(
         Name of the party whose key we are decrypting.
     location : str
         Location of the keyring on which the key lives.
-    version : int
-        Version of the assymetric key to get from GCP. Default is 1.
+    version : int | str
+        Version of the asymmetric key to get from GCP. Default is 1.
     **kwargs : dict
         Keyword arguments to pass when creating an instance of
         `google.cloud.kms.KeyManagementServiceClient`.
