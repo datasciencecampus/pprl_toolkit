@@ -1,4 +1,4 @@
-"""Script for administrators to run linkage on a server or locally."""
+"""Script for running linkage on a server or locally."""
 
 import logging
 import os
@@ -72,7 +72,6 @@ def main():
             cloud.upload_party_results(output, dek, party, operator)
 
     else:
-        # Set up local logging and storage
         logging.basicConfig(encoding="utf-8", level=logging.INFO)
 
         operator, party_1, party_2, location, version = load_environment_variables()
@@ -80,7 +79,6 @@ def main():
         inpath_2, outpath_2 = local.build_local_file_paths(party_2)
         embedder = local.load_embedder()
 
-        # Loading local files
         logging.info("Loading files...")
         data_1 = pd.read_json(inpath_1)
         data_2 = pd.read_json(inpath_2)

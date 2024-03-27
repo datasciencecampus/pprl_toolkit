@@ -50,18 +50,18 @@ quartodoc:
         - bloom_filters
         - embedder
         - features
-    - title: Utility
-      desc: Useful functions for performing linkage and handling data.
-      package: pprl.utils
+    - title: Encryption
+      desc: Functions for handling the data and key encryption processes.
       contents:
-        - envelope_encryption_client
-        - envelope_encryption_server
-        - server_utils
+        - encryption
+    - title: Configuration
+      desc: Functions for working out and handling linkage configuration.
+      contents:
+        - config
     - title: Client-side app
       desc: >
         Functions for the Flask application where users upload, process, and
         download their data.
       package: pprl.app
       contents:
-        - app
         - utils
