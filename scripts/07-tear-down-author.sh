@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Tears down all billable resources for the workload operator.
+# Tears down all billable resources for the workload author.
 
 echo "Loading functions and environment variables..."
 source common.sh
