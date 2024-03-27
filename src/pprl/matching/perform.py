@@ -1,9 +1,12 @@
-"""Utility functions for running the linkage server."""
+"""Functions for performing the matching itself."""
 
+import logging
 import secrets
 
 import numpy as np
 import pandas as pd
+
+from pprl.embedder.embedder import EmbeddedDataFrame, Embedder
 
 
 def add_private_index(
@@ -76,3 +79,72 @@ def add_private_index(
     ]
 
     return out1, out2
+
+
+def calculate_performance(
+    data_1: pd.DataFrame, data_2: pd.DataFrame, match: tuple[list, list]
+) -> None:
+    """
+    Calculate the performance of the match by counting the positives.
+
+    Performance metrics are sent to the logger.
+
+    Parameters
+    ----------
+    data_1 : pandas.DataFrame
+        Data frame for `PARTY1`.
+    data_2 : pandas.DataFrame
+        Data frame for `PARTY2`.
+    match : tuple
+        Tuple of indices of matched pairs between the data frames.
+    """
+
+    data_1_sorted = data_1.iloc[list(match[0]), :]
+    data_2_sorted = data_2.iloc[list(match[1]), :]
+    tps = sum(map(np.equal, data_1_sorted["true_id"], data_2_sorted["true_id"]))
+    fps = len(match[0]) - tps
+
+    logging.info(f"True positives {tps}; false positives {fps}")
+
+
+def perform_matching(
+    data_1: pd.DataFrame, data_2: pd.DataFrame, embedder: Embedder
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """
+    Initiate the data, get similarities, and match the rows.
+
+    Parameters
+    ----------
+    data_1 : pandas.DataFrame
+        Data frame for `PARTY1`.
+    data_2 : pandas.DataFrame
+        Data frame for `PARTY2`.
+    embedder : Embedder
+        Instance used to embed both data frames.
+
+    Returns
+    -------
+    output_1 : pandas.DataFrame
+        Output for `PARTY1`.
+    output_2 : pandas.DataFrame
+        Output for `PARTY2`.
+    """
+
+    logging.info("Initialising data with norms and thresholds...")
+    edf_1 = EmbeddedDataFrame(data_1, embedder, update_norms=True, update_thresholds=True)
+    edf_2 = EmbeddedDataFrame(data_2, embedder, update_norms=True, update_thresholds=True)
+
+    logging.info("Calculating similarities...")
+    similarities = embedder.compare(edf_1, edf_2)
+    match = similarities.match()
+
+    logging.info("Matching completed!")
+
+    # size_assumed must be > data size
+    output_1, output_2 = add_private_index(data_1, data_2, match, size_assumed=10_000)
+
+    # If the true index is provided, print performance
+    if "true_id" in data_1.columns and "true_id" in data_2.columns:
+        calculate_performance(data_1, data_2, match)
+
+    return output_1, output_2
