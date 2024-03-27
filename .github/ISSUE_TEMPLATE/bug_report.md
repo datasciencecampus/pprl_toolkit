@@ -12,7 +12,7 @@ Please be aware that, as the `pprl_toolkit` is an experimental package, ONS cann
 ### Describe the bug
 A clear and concise description of what the bug is.
 
-**To Reproduce**
+### How to reproduce the bug
 Steps to reproduce the behaviour:
 1. Go to '...'
 2. Click on '....'
@@ -22,14 +22,16 @@ Steps to reproduce the behaviour:
 ### Expected behaviour
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+### Evidence (tracebacks and screenshots
+If applicable, please add any tracebacks or screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+### System information
+Please provide the following information about your environment:
 
-**Additional context**
+ - OS: [e.g. macOS]
+ - Browser (when using the client-side app or GCP): [e.g. Chrome, Safari]
+ - `pprl_toolkit` version: [e.g. 0.0.1]
+
+### Additional context
 Add any other context about the problem here.
 
