@@ -3,7 +3,7 @@
 import pandas as pd
 import pytest
 
-from pprl.utils.server_utils import add_private_index
+from pprl.matching import perform
 
 
 # Adding row index to check for bug to do with use of .loc instead of .iloc
@@ -21,7 +21,7 @@ from pprl.utils.server_utils import add_private_index
 )
 def test_add_private_index(df1, df2, match, colname, expected):
     """Test adding a private index works with move to `.iloc`."""
-    out1, out2 = add_private_index(df1=df1, df2=df2, match=match, colname=colname)
+    out1, out2 = perform.add_private_index(df1=df1, df2=df2, match=match, colname=colname)
     result = out1.merge(out2, on=colname).loc[:, ["x", "y"]].agg("".join, axis=1).to_list()
 
     assert result == expected
@@ -39,7 +39,7 @@ def test_add_private_index(df1, df2, match, colname, expected):
 )
 def test_add_private_index_complete(df1, df2, match):
     """Check that the private indexes are all integers (no missing)."""
-    out1, out2 = add_private_index(df1=df1, df2=df2, match=match)
+    out1, out2 = perform.add_private_index(df1=df1, df2=df2, match=match)
 
     assert all(isinstance(i, int) for i in out1.private_index)
     assert all(isinstance(i, int) for i in out2.private_index)
