@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Please be aware that, as the `pprl_toolkit` is an experimental package, and ONS does not have a team dedicated to maintaining it, ONS cannot promise to resolve bugs.
+Please be aware that, as the `pprl_toolkit` is an experimental package, ONS cannot promise to resolve bugs.
 
 **Describe the bug**
 A clear and concise description of what the bug is.
