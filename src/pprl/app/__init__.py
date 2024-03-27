@@ -115,7 +115,7 @@ def upload_to_gcp(data, embedder):
 
     location = environ.get("PROJECT_LOCATION", "global")
 
-    party_num = next(i + 1 for i, part in app.config["parties"] if party == part)
+    party_num = next(i + 1 for i, part in enumerate(app.config["parties"]) if party == part)
     version = environ.get(f"PARTY_{party_num}_KEY_VERSION", 1)
 
     data_encrypted, dek = encryption.encrypt_data(data)
