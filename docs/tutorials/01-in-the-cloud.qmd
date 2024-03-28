@@ -1,0 +1,138 @@
+---
+title: Working in the cloud
+description: >
+    Get you and your collaborators performing linkage in the cloud.
+---
+
+This tutorial provides an overview of how to use `pprl_toolkit` on
+Google Cloud Platform (GCP). We go over how to assemble and assign roles in a
+linkage team, how to set up everybody's projects, and end with executing the
+linkage itself.
+
+
+## Assembling a linkage team
+
+There are four roles to fill in any PPRL project: two data-owning **parties**,
+a workload **author**, and a workload **operator**. A workload is how we refer
+to the resources for the linkage operation itself (i.e. the containerised
+linkage code and the environment in which to run it.)
+
+These roles need not be fulfilled by four separate people. It is perfectly
+possible to perform PPRL on your own, or perhaps you are working under a trust
+model that allows one of the data-owning parties to author the workload while
+the other is the operator.
+
+::: {.callout-tip}
+In fact, `pprl_toolkit` is set up to allow any configuration of these roles
+among up to four people.
+:::
+
+In any case, you must decide who will be doing what from the outset. Each role
+comes with different responsibilities, but all roles require a GCP account and
+access to the `gcloud` command-line tool.
+
+### Data-owning party
+
+Often referred to as just a **party**, a data owner is responsible for the
+storage and preparation of some confidential data. They create a Bloom filter
+embedding of their confidential data using an agreed configuration, and then
+upload that to GCP for processing. Once the workload operator is finished, the
+parties are able to retrieve their linkage results.
+
+### Workload author
+
+The workload **author** is responsible for building a Docker image containing
+the cloud-based linkage code and uploading it to a GCP Artifact Registry. This
+image is the workload to be run by the operator.
+
+### Workload operator
+
+The workload **operator** runs the linkage itself using some embedded data from
+the parties and an image from the author. They are responsible for setting up
+and running a
+[Confidential Space](https://cloud.google.com/docs/security/confidential-space)
+in which to perform the linkage. This setting ensures that nobody ever has
+access to all the data at once, and that the data can only be accessed via the
+linkage code itself.
+
+
+## Naming your projects
+
+Once you have decided who will be playing which role(s), you need to decide on
+a naming structure and make some GCP projects. You will need a project for each
+member of the linkage project - not one for each role. The names of these
+projects will be used throughout the cloud implementation, from configuration
+files to buckets. As such, they need to be descriptive and unique.
+
+::: {.callout-warning}
+Since Google Cloud bucket names must be
+[globally unique](https://cloud.google.com/storage/docs/buckets#naming), we
+highly recommend using a hash in your project names to ensure that they are
+unique.
+
+Our aim is to create a globally unique name (and thus ID) for each project.
+:::
+
+For example, say the US Census Bureau and UK Office for National Statistics
+(ONS) are looking to link some data on ex-patriated residents with PPRL. Then
+they might use `us-cb` and `uk-ons` as their party names, which are succinct
+and descriptive. However, they are generic and rule out future PPRL projects
+with the same names.
+
+As a remedy, they could make a hash of their project description to create an
+identifier:
+
+```bash
+$ echo -n "pprl us-cb uk-ons ex-pats-analysis" | sha256sum
+d59a50241dc78c3f926b565937b99614b7bb7c84e44fb780440718cb2b0ddc1b  -
+```
+
+This is very long. You might only want to use the first few characters of this
+hash. Note that Google Cloud bucket names also can't be more than 63 characters
+long without dots. You can trim it down like so:
+
+```bash
+$ echo -n "pprl us-cb uk-ons ex-pats-analysis" | sha256sum | cut -c 1-7
+d59a502
+```
+
+So, our names would be: `uk-ons-d59a502`, `us-cb-d59a502`, and `admin-d59a502`.
+
+
+## Setting up your projects
+
+Once you have decided on a naming structure, it is time to create the GCP
+projects. Each project will need specific Identity and Access Management (IAM)
+roles granted to them by the project owner's GCP Administrator. Which IAM roles
+depends on the linkage role they are playing. If someone is fulfilling more
+than one role, they should follow all the relevant sections below.
+
+### Data-owning parties
+
+Each data-owning party requires the following IAM roles:
+
+| Title                            | Code                                   | Purpose                           |
+|----------------------------------|----------------------------------------|-----------------------------------|
+| Cloud KMS Admin                  | `roles/cloudkms.admin`                 | Managing encryption keys          |
+| IAM Workload Identity Pool Admin | `roles/iam.workloadIdentityPoolAdmin`  | Managing an impersonation service |
+| Service Usage Admin              | `roles/serviceusage.serviceUsageAdmin` | Managing access to other APIs     |
+| Service Account Admin            | `roles/iam.serviceAccountAdmin`        | Managing a service account        |
+| Storage Admin                    | `roles/storage.admin`                  | Managing a bucket for their data  |
+
+### Workload author
+
+The workload author only requires one IAM role:
+
+| Title                           | Code                           | Purpose                                |
+|---------------------------------|--------------------------------|----------------------------------------|
+| Artifact Registry Administrator | `roles/artifactregistry.admin` | Managing the registry for the workload |
+
+### Workload operator
+
+The workload operator requires three IAM roles:
+
+| Title          | Code                      | Purpose                             |
+|----------------|---------------------------|-------------------------------------|
+| Compute Admin  | `roles/compute.admin`     | Managing the virtual machine        |
+| Security Admin | `roles/iam.securityAdmin` | Ability to set and get IAM policies |
+| Storage Admin  | `roles/storage.admin`     | Managing a shared bucket            |
