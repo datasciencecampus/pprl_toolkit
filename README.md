@@ -3,7 +3,7 @@
 # `pprl_toolkit`: a toolkit for privacy-preserving record linkage
 
 
-The Privacy Preserving Record Linkage (PPRL) toolkit has been developed by data scientists at the Data Science Campus of the UK Office for National Statistics. This project has benefitted from earlier collaborations with colleagues at NHS England.
+The Privacy Preserving Record Linkage (PPRL) toolkit has been developed by data scientists at the [Data Science Campus](https://datasciencecampus.ons.gov.uk/) of the UK [Office for National Statistics](https://www.ons.gov.uk/). This project has benefitted from earlier collaborations with colleagues at NHS England.
 
 The toolkit has been designed for a situation where two organisations (perhaps in different jurisdictions) want to link their datasets at record level, to enrich the information they contain, but neither party is able to send sensitive personal identifiers to the other. Building on [previous ONS research](https://www.gov.uk/government/publications/joined-up-data-in-government-the-future-of-data-linking-methods/privacy-preserving-record-linkage-in-the-context-of-a-national-statistics-institute), the toolkit implements a well-known privacy-preserving linkage method in a new way to improve performance, and wraps it in a secure cloud architecture to demonstrate the potential of a layered approach.
 
@@ -12,7 +12,7 @@ The two parts of the toolkit are:
 * a Python package for privacy-preserving record linkage with Bloom filters and hash embeddings, that can be used locally with no cloud set-up
 * Instructions, scripts and resources to run record linkage in a cloud-based secure enclave. This part of the toolkit requires you to set up a Google Cloud account with billing
 
-We're publishing the repo as a prototype and teaching tool. Please feel free to download, adapt and experiment with it in compliance with the open-source license. You can submit issues here. However, as this is an experimental repo, the development team cannot commit to maintaining the repo or responding to issues.
+We're publishing the repo as a prototype and teaching tool. Please feel free to download, adapt and experiment with it in compliance with the open-source license. You can submit issues [here](https://github.com/datasciencecampus/pprl_toolkit/issues). However, as this is an experimental repo, the development team cannot commit to maintaining the repo or responding to issues. If you'd like to collaborate with us, to put these ideas into practice for the public good, please [get in touch](https://datasciencecampus.ons.gov.uk/contact/).
 
 ## Installation
 
