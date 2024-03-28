@@ -213,20 +213,25 @@ descriptive and [unique](https://cloud.google.com/storage/docs/buckets#naming).
 
 Each user will also need to have their Google Cloud administrator grant them
 certain IAM roles on their project depending on which role(s) they are playing
-in the linkage:
+in the linkage.
 
-- **Data-owning party**:
-  - Cloud KMS Admin (`roles/cloudkms.admin`)
-  - IAM Workload Identity Pool Admin (`roles/iam.workloadIdentityPoolAdmin`)
-  - Service Usage Admin (`roles/serviceusage.serviceUsageAdmin`)
-  - Service Account Admin (`roles/iam.serviceAccountAdmin`)
-  - Storage Admin (`roles/storage.admin`)
-- **Workload author**:
-  - Artifact Registry Administrator (`roles/artifactregistry.admin`)
-- **Workload operator**:
-  - Compute Admin (`roles/compute.admin`)
-  - Security Admin (`roles/securityAdmin`)
-  - Storage Admin (`roles/storage.admin`)
+#### Data-owning party
+
+- Cloud KMS Admin (`roles/cloudkms.admin`)
+- IAM Workload Identity Pool Admin (`roles/iam.workloadIdentityPoolAdmin`)
+- Service Usage Admin (`roles/serviceusage.serviceUsageAdmin`)
+- Service Account Admin (`roles/iam.serviceAccountAdmin`)
+- Storage Admin (`roles/storage.admin`)
+
+#### Workload author
+
+- Artifact Registry Administrator (`roles/artifactregistry.admin`)
+
+#### Workload operator
+
+- Compute Admin (`roles/compute.admin`)
+- Security Admin (`roles/securityAdmin`)
+- Storage Admin (`roles/storage.admin`)
 
 ### Toolkit configuration
 
