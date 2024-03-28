@@ -1,4 +1,4 @@
-![ONS and DSC logos]("https://github.com/datasciencecampus/awesome-campus/blob/master/ons_dsc_logo.png")
+![ONS and DSC logos](https://github.com/datasciencecampus/awesome-campus/blob/master/ons_dsc_logo.png)
 
 # `pprl_toolkit`: a toolkit for privacy-preserving record linkage
 
