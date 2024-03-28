@@ -156,7 +156,7 @@ in your project details as necessary.
 
 For our example above, let's say the ONS will be the workload author and the US
 Census Bureau will be the workload operator. The environment file would look
-like this:
+something like this:
 
 ```
 # .env
@@ -174,5 +174,120 @@ WORKLOAD_OPERATOR_PROJECT=us-cb-d59a502
 WORKLOAD_OPERATOR_PROJECT_ZONE=us-east4-a
 ```
 
-This environment file should be identical among all the members of the linkage
+::: {.callout-important}
+Your environment file should be identical among all the members of your linkage
 project.
+:::
+
+
+## Creating the other resources
+
+The last step in setting up your linkage project is to create and configure the
+other resources on GCP. To make things straightforward for users, we have
+packaged up the steps to do this into a number of `bash` scripts. These scripts
+are located in the `scripts/` directory and are numbered. You and your team
+must execute them from the `scripts/` directory in their named order according
+to which role(s) each member is fulfilling in the linkage project.
+
+::: {.callout-tip}
+Make sure you have set up `gcloud` on the command line. Once you've installed
+it, log in and set the application default:
+
+```bash
+gcloud auth login
+gcloud auth application-default login
+```
+:::
+
+1. The data-owning parties set up: a key encryption key; a bucket in which to
+   store their encrypted data, data encryption key and results; a service
+   account for accessing said bucket and key; and a workload identity pool to
+   allow impersonations under stringent conditions.
+   ```bash
+   sh ./01-setup-party-resources.sh <name-of-party-project>
+   ```
+2. The workload operator sets up a bucket for the parties to put their
+   (non-sensitive) attestation credentials, and a service account for running
+   the workload.
+   ```bash
+   sh ./02-setup-workload-operator.sh
+   ```
+3. The workload author sets up an Artifact Registry on GCP, creates a Docker
+   image and uploads that image to their registry.
+   ```bash
+   sh ./03-setup-workload-author.sh
+   ```
+4. The data-owning parties authorise the workload operator's service account to
+   use the workload identity pool to impersonate their service account in a
+   Confidential Space.
+   ```bash
+   sh ./04-authorise-workload.sh <name-of-party-project>
+   ```
+
+
+## Processing and uploading the results
+
+::: {.callout-important}
+This section only applies to data-owning parties. The workload author is
+finished now, and the workload operator should wait for this section to be
+completed before moving on to the next section.
+:::
+
+<!-- TODO: Link to create an embedding tutorial -->
+Now that all the cloud infrastructure has been set up, we are ready to start
+the first step in doing the actual linkage. That is, to create a Bloom filter
+embedding of their data, encrypt it, and upload that to GCP.
+
+For users who prefer a graphical user interface, we have included a Flask app
+to handle the processing and uploading of data behind the scenes. This app will
+also be used to download the results once the linkage has completed.
+
+To launch the app, run the following in your terminal:
+
+```bash
+python -m flask --app src/pprl/app run
+```
+
+You should now be able to find the app in your browser of choice at
+[127.0.0.1:5000](http://127.0.0.1:5000). It should look something like this:
+
+![A screenshot of the app](_static/02-app-screenshot.png)
+
+From here, the process to upload your data is as follows:
+
+1. Choose which party you are uploading for. Click `Submit`.
+2. Select `Upload local file` and click `Choose file` to open your file
+   browser. Navigate to and select your dataset. Click `Submit`.
+3. Assign types to each column in your dataset. Enter the agreed salt.
+4. Click `Upload file to GCP`.
+
+::: {.callout-note}
+If you choose to use the Flask app to process your data, you will use a set of
+defaults for processing the confidential data before it gets embedded. If you
+want more control, then you'll have to agree an embedding configuration with
+the other data-owning party and do the processing directly.
+:::
+
+Once you have worked through the selection, processing, and GCP upload portions
+of the app, you will be at a holding page. This page can be updated by clicking
+the button, and when your results are ready you will be taken to another page
+where you can download them.
+
+
+## Running the linkage
+
+::: {.callout-important}
+This section only applies to the workload operator.
+:::
+
+Once the data-owning parties have uploaded their processed data, you are able
+to begin the linkage. To do so, run the `05-run-workload.sh` bash script from
+`scripts/`:
+
+```bash
+cd /path/to/pprl_toolkit/scripts
+sh ./05-run-workload.sh
+```
+
+You can follow the progress of the workload from the Logs Explorer on GCP. Once
+it is complete, the data-owning parties will be able to download their results.
