@@ -247,33 +247,9 @@ should have identical environment files.
 
 The last step in setting your linkage project up is to create and configure all
 the other resources on GCP. We have packaged up these steps into a series of
-`bash` scripts, located in the `scripts/` directory. They should be executed in
-order from the `scripts/` directory:
-
-1. The data-owning parties set up a key encryption key, a bucket in which to
-   store their encrypted data, data encryption key and results, a service
-   account for accessing said bucket and key, and a workload identity pool to
-   allow impersonations under stringent conditions:
-   ```bash
-   sh ./01-setup-party-resources.sh <name-of-party-project>
-   ```
-2. The workload operator sets up a bucket for the parties to put their
-   (non-sensitive) attestation credentials, and a service account for running
-   the workload:
-   ```bash
-   sh ./02-setup-workload-operator.sh
-   ```
-3. The workload author sets up an Artifact Registry on GCP, creates a Docker
-   image and uploads that image to their registry:
-   ```bash
-   sh ./03-setup-workload-author.sh
-   ```
-4. The data-owning parties authorise the workload operator's service account to
-   use the workload identity pool to impersonate their service account in a
-   Confidential Space:
-   ```bash
-   sh ./04-authorise-workload.sh <name-of-party-project>
-   ```
+`bash` scripts, located in the `scripts/` directory. The first four scripts
+should be executed in order from the `scripts/` directory according to who is
+fulfilling which roles.
 
 ### Processing and uploading the datasets
 
