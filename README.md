@@ -1,4 +1,18 @@
+![ONS and DSC logos]("https://github.com/datasciencecampus/awesome-campus/blob/master/ons_dsc_logo.png")
+
 # `pprl_toolkit`: a toolkit for privacy-preserving record linkage
+
+
+The Privacy Preserving Record Linkage (PPRL) toolkit has been developed by data scientists at the Data Science Campus of the UK Office for National Statistics. This project has benefitted from earlier collaborations with colleagues at NHS England.
+
+The toolkit has been designed for a situation where two organisations (perhaps in different jurisdictions) want to link their datasets at record level, to enrich the information they contain, but neither party is able to send sensitive personal identifiers to the other. Building on [previous ONS research](https://www.gov.uk/government/publications/joined-up-data-in-government-the-future-of-data-linking-methods/privacy-preserving-record-linkage-in-the-context-of-a-national-statistics-institute), the toolkit implements a well-known privacy-preserving linkage method in a new way to improve performance, and wraps it in a secure cloud architecture to demonstrate the potential of a layered approach.
+
+The two parts of the toolkit are:
+
+* a Python package for privacy-preserving record linkage with Bloom filters and hash embeddings, that can be used locally with no cloud set-up
+* Instructions, scripts and resources to run record linkage in a cloud-based secure enclave. This part of the toolkit requires you to set up a Google Cloud account with billing
+
+We're publishing the repo as a prototype and teaching tool. Please feel free to download, adapt and experiment with it in compliance with the open-source license. You can submit issues here. However, as this is an experimental repo, the development team cannot commit to maintaining the repo or responding to issues.
 
 ## Installation
 
@@ -32,9 +46,11 @@ pre-commit install
 
 ## Getting started
 
+The Python package implements both the Bloom filter linkage method ([Schnell et al., 2009](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/1472-6947-9-41)), and can also implement pretrained Hash embeddings ([Miranda et al., 2022](https://arxiv.org/abs/2212.09255)), if a suitable large, pre-matched corpus of data is available.
+
 Let us consider a small example where we want to link two excerpts of data on
 bands. In this scenario, we are looking at some toy data on the members of a
-fictional, German rock trio called "Verknüpfung".
+fictional, German rock trio called "Verknüpfung". In this example we will see how to use untrained Bloom filters to match data.
 
 ### Loading the data
 
@@ -102,7 +118,7 @@ columns to column types in the factory.
 
 With our specifications sorted out, we can get to creating our Bloom filter
 embedding. Before doing so, we need to decide on two parameters: the size of
-the filter and the number of hashes. By default, these are `2**10` and `2`,
+the filter and the number of hashes. By default, these are `1024` and `2`,
 respectively.
 
 Once we've decided, we can create our `Embedder` instance and use it to embed
@@ -111,7 +127,7 @@ our data with their column specifications.
 ```python
 >>> from pprl.embedder.embedder import Embedder
 >>>
->>> embedder = Embedder(factory, bf_size=2**10, num_hashes=2)
+>>> embedder = Embedder(factory, bf_size=1024, num_hashes=2)
 >>> edf1 = embedder.embed(df1, colspec=spec1, update_thresholds=True)
 >>> edf2 = embedder.embed(df2, colspec=spec2, update_thresholds=True)
 
@@ -168,11 +184,9 @@ So, all three of the records in each dataset were matched correctly. Excellent!
 ## Working in the cloud
 
 
-![alt text](https://github.com/datasciencecampus/pprl_toolkit/blob/main/docs/_static/02-client-screenshot.png?raw=true)
+![A diagram of the PPRL cloud architecture, with the secure enclave and key management services](https://github.com/datasciencecampus/pprl_toolkit/blob/main/assets/pprl_cloud_diagram.png?raw=true)
 
-The toolkit is configured to work on Google Cloud Platform (GCP) provided you
-have a team of users with Google Cloud accounts and the appropriate
-permissions. In particular, `pprl_toolkit`'s cloud functionality is built on
+The toolkit is configured to work on Google Cloud Platform (GCP) which requires Google Cloud accounts with billing set up. In particular, `pprl_toolkit`'s cloud functionality is built on
 top of a GCP Confidential Space. This setting means that nobody ever has direct
 access to each other's data, and the datasets to be linked are only ever
 brought together in a secure environment.
