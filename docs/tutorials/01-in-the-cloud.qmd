@@ -1,7 +1,7 @@
 ---
 title: Working in the cloud
 description: >
-    Get you and your collaborators performing linkage in the cloud.
+    Get you and your collaborators performing linkage in the cloud
 ---
 
 This tutorial provides an overview of how to use `pprl_toolkit` on

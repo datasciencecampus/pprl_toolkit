@@ -1,5 +1,6 @@
 ---
-title: "Linking the FEBRL datasets using the PPRL package"
+title: Linking the FEBRL datasets
+description: Using PPRL locally to link two well-known datasets
 format: html
 jupyter:
     kernelspec:
