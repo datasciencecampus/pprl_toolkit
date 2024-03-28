@@ -167,6 +167,9 @@ So, all three of the records in each dataset were matched correctly. Excellent!
 
 ## Working in the cloud
 
+
+![alt text](https://github.com/datasciencecampus/pprl_toolkit/blob/main/docs/_static/02-client-screenshot.png?raw=true)
+
 The toolkit is configured to work on Google Cloud Platform (GCP) provided you
 have a team of users with Google Cloud accounts and the appropriate
 permissions. In particular, `pprl_toolkit`'s cloud functionality is built on
