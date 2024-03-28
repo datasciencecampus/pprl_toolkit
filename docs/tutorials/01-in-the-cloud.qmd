@@ -158,9 +158,7 @@ For our example above, let's say the ONS will be the workload author and the US
 Census Bureau will be the workload operator. The environment file would look
 something like this:
 
-```
-# .env
-
+```bash
 PARTY_1_PROJECT=us-cb-d59a502
 PARTY_1_KEY_VERSION=1
 
@@ -251,7 +249,7 @@ python -m flask --app src/pprl/app run
 You should now be able to find the app in your browser of choice at
 [127.0.0.1:5000](http://127.0.0.1:5000). It should look something like this:
 
-![A screenshot of the app](_static/02-app-screenshot.png)
+![A screenshot of the app](../_static/02-app-screenshot.png)
 
 From here, the process to upload your data is as follows:
 
