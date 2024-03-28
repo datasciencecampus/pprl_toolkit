@@ -29,7 +29,8 @@ among up to four people.
 
 In any case, you must decide who will be doing what from the outset. Each role
 comes with different responsibilities, but all roles require a GCP account and
-access to the `gcloud` command-line tool.
+access to the `gcloud` command-line tool. Additionally, everyone in the linkage
+project will need to install `pprl_toolkit`.
 
 ### Data-owning party
 
@@ -56,7 +57,7 @@ access to all the data at once, and that the data can only be accessed via the
 linkage code itself.
 
 
-## Naming your projects
+## Creating your GCP projects
 
 Once you have decided who will be playing which role(s), you need to decide on
 a naming structure and make some GCP projects. You will need a project for each
@@ -89,14 +90,18 @@ d59a50241dc78c3f926b565937b99614b7bb7c84e44fb780440718cb2b0ddc1b  -
 
 This is very long. You might only want to use the first few characters of this
 hash. Note that Google Cloud bucket names also can't be more than 63 characters
-long without dots. You can trim it down like so:
+long without dots.
+
+You can trim it down like so:
 
 ```bash
 $ echo -n "pprl us-cb uk-ons ex-pats-analysis" | sha256sum | cut -c 1-7
 d59a502
 ```
 
-So, our names would be: `uk-ons-d59a502`, `us-cb-d59a502`, and `admin-d59a502`.
+So, our names would be: `uk-ons-d59a502`, `us-cb-d59a502`. If they had a
+third-party linkage administrator (authoring and operating the workload), they
+would have a project called something like `admin-d59a502`.
 
 
 ## Setting up your projects
@@ -136,3 +141,38 @@ The workload operator requires three IAM roles:
 | Compute Admin  | `roles/compute.admin`     | Managing the virtual machine        |
 | Security Admin | `roles/iam.securityAdmin` | Ability to set and get IAM policies |
 | Storage Admin  | `roles/storage.admin`     | Managing a shared bucket            |
+
+
+## Configuring `pprl_toolkit`
+
+Now your linkage team has its projects made up, you need to configure
+`pprl_toolkit`. This configuration tells the package where to look and what to
+call things; we do this with a single environment file containing a short
+collection of key-value pairs.
+
+We have provided an example environment file in `.env.example`. Copy or rename
+that file to `.env` in the root of the `pprl_toolkit` installation. Then, fill
+in your project details as necessary.
+
+For our example above, let's say the ONS will be the workload author and the US
+Census Bureau will be the workload operator. The environment file would look
+like this:
+
+```
+# .env
+
+PARTY_1_PROJECT=us-cb-d59a502
+PARTY_1_KEY_VERSION=1
+
+PARTY_2_PROJECT=uk-ons-d59a502
+PARTY_2_KEY_VERSION=1
+
+WORKLOAD_AUTHOR_PROJECT=uk-ons-d59a502
+WORKLOAD_AUTHOR_PROJECT_REGION=europe-west2
+
+WORKLOAD_OPERATOR_PROJECT=us-cb-d59a502
+WORKLOAD_OPERATOR_PROJECT_ZONE=us-east4-a
+```
+
+This environment file should be identical among all the members of the linkage
+project.
