@@ -2,10 +2,12 @@
 
 # `pprl_toolkit`: a toolkit for privacy-preserving record linkage
 
+> "We find ourselves living in a society which is rich with data and the opportunities that comes with this. Yet, when disconnected, this data is limited in its usefulness. ... Being able to link data will be vital for enhancing our understanding of society, driving policy change for greater public good."
+Sir Ian Diamond, the National Statistician
 
-The Privacy Preserving Record Linkage (PPRL) toolkit has been developed by data scientists at the [Data Science Campus](https://datasciencecampus.ons.gov.uk/) of the UK [Office for National Statistics](https://www.ons.gov.uk/). This project has benefitted from earlier collaborations with colleagues at NHS England.
+The Privacy Preserving Record Linkage (PPRL) toolkit demonstrates the feasibility of record linkage in 'eyes off' settings. It has been designed around a situation where two organisations (perhaps in different jurisdictions) want to link their datasets at record level, to enrich the information they contain, but neither party is able to send sensitive personal identifiers to the other. Building on [previous ONS research](https://www.gov.uk/government/publications/joined-up-data-in-government-the-future-of-data-linking-methods/privacy-preserving-record-linkage-in-the-context-of-a-national-statistics-institute), the toolkit implements a well-known privacy-preserving linkage method in a new way to improve performance, and wraps it in a secure cloud architecture to demonstrate the potential of a layered approach.
 
-The toolkit has been designed for a situation where two organisations (perhaps in different jurisdictions) want to link their datasets at record level, to enrich the information they contain, but neither party is able to send sensitive personal identifiers to the other. Building on [previous ONS research](https://www.gov.uk/government/publications/joined-up-data-in-government-the-future-of-data-linking-methods/privacy-preserving-record-linkage-in-the-context-of-a-national-statistics-institute), the toolkit implements a well-known privacy-preserving linkage method in a new way to improve performance, and wraps it in a secure cloud architecture to demonstrate the potential of a layered approach.
+The  toolkit has been developed by data scientists at the [Data Science Campus](https://datasciencecampus.ons.gov.uk/) of the UK [Office for National Statistics](https://www.ons.gov.uk/). This project has benefitted from earlier collaborations with colleagues at NHS England.
 
 The two parts of the toolkit are:
 
