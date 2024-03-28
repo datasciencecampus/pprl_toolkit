@@ -203,9 +203,13 @@ linkage project will need to set up a GCP project. The names of these projects
 will be used in file names and GCP storage buckets. As such, they need to be
 descriptive and [unique](https://cloud.google.com/storage/docs/buckets#naming).
 
-> [!TIP]
-> It may be worth appending a hash of some sort to every project name to help
-> ensure their uniqueness.
+> [!WARNING]
+> It is highly recommneded to agree a hash of some sort between you and your
+> collaborators. This hash should be appended to the name of every GCP project
+> to help ensure their uniqueness.
+>
+> If you do not do this, it is likely that `pprl_toolkit` will not work in the
+> cloud.
 
 Each user will also need to have their Google Cloud administrator grant them
 certain IAM roles on their project depending on which role(s) they are playing
