@@ -2,13 +2,11 @@
 
 # `pprl_toolkit`: a toolkit for privacy-preserving record linkage
 
-> "We find ourselves living in a society which is rich with data and the opportunities that comes with this. Yet, when disconnected, this data is limited in its usefulness. ... Being able to link data will be vital for enhancing our understanding of society, driving policy change for greater public good."
+> "We find ourselves living in a society which is rich with data and the opportunities that comes with this. Yet, when disconnected, this data is limited in its usefulness. ... Being able to link data will be vital for enhancing our understanding of society, driving policy change for greater public good." Sir Ian Diamond, the National Statistician
 
-Sir Ian Diamond, the National Statistician
+The Privacy Preserving Record Linkage (PPRL) toolkit demonstrates the feasibility of record linkage in difficult 'eyes off' settings. It has been designed for a situation where two organisations (perhaps in different jurisdictions) want to link their datasets at record level, to enrich the information they contain, but neither party is able to send sensitive personal identifiers -- such as names, addresses or dates of birth -- to the other. Building on [previous ONS research](https://www.gov.uk/government/publications/joined-up-data-in-government-the-future-of-data-linking-methods/privacy-preserving-record-linkage-in-the-context-of-a-national-statistics-institute), the toolkit implements a well-known privacy-preserving linkage method in a new way to improve performance, and wraps it in a secure cloud architecture to demonstrate the potential of a layered approach.
 
-The Privacy Preserving Record Linkage (PPRL) toolkit demonstrates the feasibility of record linkage in 'eyes off' settings. It has been designed for a situation where two organisations (perhaps in different jurisdictions) want to link their datasets at record level, to enrich the information they contain, but neither party is able to send sensitive personal identifiers to the other. Building on [previous ONS research](https://www.gov.uk/government/publications/joined-up-data-in-government-the-future-of-data-linking-methods/privacy-preserving-record-linkage-in-the-context-of-a-national-statistics-institute), the toolkit implements a well-known privacy-preserving linkage method in a new way to improve performance, and wraps it in a secure cloud architecture to demonstrate the potential of a layered approach.
-
-The  toolkit has been developed by data scientists at the [Data Science Campus](https://datasciencecampus.ons.gov.uk/) of the UK [Office for National Statistics](https://www.ons.gov.uk/). This project has benefitted from early collaborations with colleagues at NHS England.
+The  toolkit has been developed by data scientists at the [Data Science Campus](https://datasciencecampus.ons.gov.uk/) of the UK Office for National Statistics. This project has benefitted from early collaborations with colleagues at NHS England.
 
 The two parts of the toolkit are:
 
@@ -114,9 +112,7 @@ The `pprl.embedder.features` module provides functions that process different da
 ### Embedding the data
 
 With our specifications sorted out, we can get to creating our Bloom filter
-embedding. Before doing so, we need to decide on
-
-Then, we can create our `Embedder` instance and use it to embed
+embedding. We can create our `Embedder` instance and use it to embed
 our data with their column specifications. The `Embedder` object has two more parameters: the size of the filter and the number of hashes. We can use the defaults.
 
 ```python
@@ -136,9 +132,9 @@ uses the Soft Cosine Measure to calculate record-wise similarity scores.
 ```python
 >>> similarities = embedder.compare(edf1, edf2)
 >>> similarities
-SimilarityArray([[0.86017213, 0.14285716, 0.12803688],
-                 [0.13216962, 0.13483999, 0.50067019],
-                 [0.12126782, 0.76292716, 0.09240265]])
+SimilarityArray([[0.61419494, 0.14226319, 0.13367994],
+                 [0.122279  , 0.15294382, 0.34840284],
+                 [0.15866576, 0.53748385, 0.07063714]])
 
 ```
 
@@ -201,7 +197,7 @@ the API reference material:
 python -m quartodoc build
 ```
 
-This will create a bunch of files under `docs/reference/`. You can render the
+This will create a set of Quarto files under `docs/reference/`. You can render the
 documentation itself with the following command, opening a local version of the
 site in your browser:
 
