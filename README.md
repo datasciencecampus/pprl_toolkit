@@ -93,19 +93,20 @@ The `pprl.embedder.features` module provides functions that process different da
 
 ```python
 >>> from pprl.embedder import features
+>>> from functools import partial
 >>>
 >>> factory = dict(
 ...     name=features.gen_name_features,
 ...     sex=features.gen_sex_features,
-...     misc=features.gen_misc_shingled_features,
+...     instrument=partial(features.gen_misc_shingled_features, label="instrument"),
 ... )
 >>> spec1 = dict(
 ...     first_name="name",
 ...     last_name="name",
 ...     gender="sex",
-...     instrument="misc",
+...     instrument="instrument",
 ... )
->>> spec2 = dict(name="name", sex="sex", main_instrument="misc")
+>>> spec2 = dict(name="name", sex="sex", main_instrument="instrument")
 
 ```
 
@@ -132,9 +133,9 @@ uses the Soft Cosine Measure to calculate record-wise similarity scores.
 ```python
 >>> similarities = embedder.compare(edf1, edf2)
 >>> similarities
-SimilarityArray([[0.61419494, 0.14226319, 0.13367994],
-                 [0.122279  , 0.15294382, 0.34840284],
-                 [0.15866576, 0.53748385, 0.07063714]])
+SimilarityArray([[0.80074101, 0.18160957, 0.09722178],
+                 [0.40124732, 0.1877348 , 0.58792979],
+                 [0.13147656, 0.51426533, 0.11772856]])
 
 ```
 
