@@ -1,25 +1,40 @@
+---
+title: "Using the cloud demo"
+format: html
+jupyter:
+    kernelspec:
+        name: "pprl"
+        language: "python"
+        display_name: "pprl"
+---
 
 
-[This Google tutorial](https://cloud.google.com/confidential-computing/confidential-space/docs/create-your-first-confidential-space-environment)
-provides a simple example to familiarise yourselves with the concepts and commands.
 
-### Determining roles
 
-There are four roles to fill in a data linkage project: two data-owning
-parties, a workload author, and a workload operator. A workload is how we refer
-to the linkage operation itself. These roles can be summarised as follows:
+![A diagram of the PPRL cloud architecture, with the secure enclave and key management services](https://github.com/datasciencecampus/pprl_toolkit/blob/main/assets/pprl_cloud_diagram.png?raw=true)
 
-- A data-owning **party** is responsible for embedding and uploading their data
-  to the cloud. They also download their results. There are typically two data-owning parties.
+The cloud demo uses a Google Cloud Platform (GCP) Confidential Space compute instance, which is a virtual machine (VM) using AMD [Secure Encrypted Virtualisation](https://www.amd.com/en/developer/sev.html) (AMD-SEV) technology to encrypt data in-memory.
+The Confidential Space VM can also provide cryptographically signed documents, called attestations, which the server can use to prove that it is running in a secure environment before gaining access to data.
+
+The cloud demo assigns four roles: two data-owning
+parties, a workload author, and a workload operator. These roles can be summarised as follows:
+
+- Each data-owning **party** is responsible for embedding and uploading their data
+  to the cloud. They also download their results.
 - The workload **author** audits and assures the source code of the server, and then builds and uploads the server as a Docker image.
 - The workload **operator** sets up and runs the Confidential
   Space virtual machine, which uses the Docker image to perform the record linkage.
 
-> [!NOTE]
-> We have set up `pprl_toolkit` to allow any configuration of these roles among
-> users. You could do it all yourself, split the workload roles between two
-> data owning-parties, or use a third-party administrator to maintain the
-> workload.
+We have set up `pprl_toolkit` to allow any configuration of these roles among
+users. You could do it all yourself, split the workload roles between two
+data owning-parties, or ask a trusted third party to maintain the
+workload.
+
+[This Google tutorial](https://cloud.google.com/confidential-computing/confidential-space/docs/create-your-first-confidential-space-environment)
+provides a simple example to familiarise yourselves with the concepts and commands.
+
+> [!WARNING] The cloud demo requires you to set up one or more Google Cloud accounts with billing. The cost of running the demo should be very small, or within your free quota.
+> However, you should ensure that all resources are torn down after running the demo to avoid ongoing charges.
 
 ### Creating your projects
 
