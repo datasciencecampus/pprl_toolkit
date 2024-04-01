@@ -160,6 +160,7 @@ So, all three of the records in each dataset were matched correctly. Excellent!
 ![A diagram of the PPRL cloud architecture, with the secure enclave and key management services](https://github.com/datasciencecampus/pprl_toolkit/blob/main/assets/pprl_cloud_diagram.png?raw=true)
 
 The cloud demo uses a Google Cloud Platform (GCP) Confidential Space compute instance, which is a virtual machine (VM) using AMD [Secure Encrypted Virtualisation](https://www.amd.com/en/developer/sev.html) (AMD-SEV) technology to encrypt data in-memory.
+
 The Confidential Space VM can also provide cryptographically signed documents, called attestations, which the server can use to prove that it is running in a secure environment before gaining access to data.
 
 The cloud demo assigns four roles: two data-owning
@@ -178,10 +179,6 @@ workload.
 
 > [!WARNING] The cloud demo requires you to set up one or more Google Cloud accounts with billing. The cost of running the demo should be very small, or within your free quota.
 > However, you should ensure that all resources are torn down after running the demo to avoid ongoing charges.
-
-### Running the cloud demo
-
-
 
 ## Building the documentation
 
