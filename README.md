@@ -177,7 +177,8 @@ users. You could do it all yourself, split the workload roles between two
 data owning-parties, or ask a trusted third party to maintain the
 workload.
 
-> [!WARNING] The cloud demo requires you to set up one or more Google Cloud accounts with billing. The cost of running the demo should be very small, or within your free quota.
+> [!WARNING]
+> The cloud demo requires you to set up one or more Google Cloud accounts with billing. The cost of running the demo should be very small, or within your free quota.
 > However, you should ensure that all resources are torn down after running the demo to avoid ongoing charges.
 
 ## Building the documentation
