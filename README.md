@@ -13,7 +13,7 @@ The  toolkit has been developed by data scientists at the [Data Science Campus](
 The two parts of the toolkit are:
 
 * a Python package for privacy-preserving record linkage with Bloom filters and hash embeddings, that can be used locally with no cloud set-up
-* Instructions, scripts and resources to run record linkage in a cloud-based secure enclave. This part of the toolkit requires you to set up a Google Cloud account with billing
+* instructions, scripts and resources to run record linkage in a cloud-based secure enclave. This part of the toolkit requires you to set up Google Cloud accounts with billing
 
 We're publishing the repo as a prototype and teaching tool. Please feel free to download, adapt and experiment with it in compliance with the open-source license. You can submit issues [here](https://github.com/datasciencecampus/pprl_toolkit/issues). However, as this is an experimental repo, the development team cannot commit to maintaining the repo or responding to issues. If you'd like to collaborate with us, to put these ideas into practice for the public good, please [get in touch](https://datasciencecampus.ons.gov.uk/contact/).
 
@@ -49,7 +49,7 @@ pre-commit install
 
 ## Getting started
 
-The Python package implements both the Bloom filter linkage method ([Schnell et al., 2009](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/1472-6947-9-41)), and can also implement pretrained Hash embeddings ([Miranda et al., 2022](https://arxiv.org/abs/2212.09255)), if a suitable large, pre-matched corpus of data is available.
+The Python package implements the Bloom filter linkage method ([Schnell et al., 2009](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/1472-6947-9-41)), and can also implement pretrained Hash embeddings ([Miranda et al., 2022](https://arxiv.org/abs/2212.09255)), if a suitable large, pre-matched corpus of data is available.
 
 Let us consider a small example where we want to link two excerpts of data on
 bands. In this scenario, we are looking at some toy data on the members of a
@@ -70,7 +70,6 @@ matching. We will use the toolkit to identify these matches.
 ...         "last_name": ["Daten", "Gorman", "Knopf"],
 ...         "gender": ["f", "m", "f"],
 ...         "instrument": ["bass", "guitar", "drums"],
-...         "vocals_ever": [True, True, True],
 ...     }
 ... )
 >>> df2 = pd.DataFrame(
@@ -78,7 +77,6 @@ matching. We will use the toolkit to identify these matches.
 ...         "name": ["Laura Datten", "Greta Knopf", "Casper Goreman"],
 ...         "sex": ["female", "female", "male"],
 ...         "main_instrument": ["bass guitar", "percussion", "electric guitar"],
-...         "vocals": ["yes", "sometimes", "sometimes"],
 ...     }
 ... )
 
@@ -93,10 +91,7 @@ matching. We will use the toolkit to identify these matches.
 ### Creating and assigning a feature factory
 
 The next step is to decide how to process each of the columns in our datasets.
-
-To do this, we define a feature factory that maps column types to feature
-generation functions, and a column specification for each dataset mapping our
-columns to column types in the factory.
+The `pprl.embedder.features` module provides functions that process different data types so that they can be embedded into the Bloom filter. We pass these functions into the embedder in a dictionary called a feature factory. We also provide a column specification for each dataset mapping our columns to column types in the factory.
 
 ```python
 >>> from pprl.embedder import features
@@ -104,28 +99,25 @@ columns to column types in the factory.
 >>> factory = dict(
 ...     name=features.gen_name_features,
 ...     sex=features.gen_sex_features,
-...     misc=features.gen_misc_features,
+...     misc=features.gen_misc_shingled_features,
 ... )
 >>> spec1 = dict(
 ...     first_name="name",
 ...     last_name="name",
 ...     gender="sex",
 ...     instrument="misc",
-...     vocals_ever="misc",
 ... )
->>> spec2 = dict(name="name", sex="sex", main_instrument="misc", vocals="misc")
+>>> spec2 = dict(name="name", sex="sex", main_instrument="misc")
 
 ```
 
 ### Embedding the data
 
 With our specifications sorted out, we can get to creating our Bloom filter
-embedding. Before doing so, we need to decide on two parameters: the size of
-the filter and the number of hashes. By default, these are `1024` and `2`,
-respectively.
+embedding. Before doing so, we need to decide on
 
-Once we've decided, we can create our `Embedder` instance and use it to embed
-our data with their column specifications.
+Then, we can create our `Embedder` instance and use it to embed
+our data with their column specifications. The `Embedder` object has two more parameters: the size of the filter and the number of hashes. We can use the defaults.
 
 ```python
 >>> from pprl.embedder.embedder import Embedder
@@ -136,28 +128,10 @@ our data with their column specifications.
 
 ```
 
-If we take a look at one of these embedded datasets, we can see that it has a
-whole bunch of new columns. There is a `_features` column for each of the
-original columns containing their pre-embedding string features. Then there are
-three additional columns: `bf_indices`, `bf_norms` and `thresholds`.
-
-```python
->>> edf1.columns
-Index(['first_name', 'last_name', 'gender', 'instrument', 'vocals_ever',
-       'first_name_features', 'last_name_features', 'gender_features',
-       'instrument_features', 'vocals_ever_features', 'all_features',
-       'bf_indices', 'bf_norms', 'thresholds'],
-      dtype='object')
-
-```
-
-<!-- TODO: What do these columns actually describe? -->
-
 ### Performing the linkage
 
-We can now perform the linkage by comparing these Bloom filter embeddings. We
-use the Soft Cosine Measure to calculate record-wise similarity and an adapted
-Hungarian algorithm to match the records based on those similarities.
+We can now perform the linkage by comparing these Bloom filter embeddings. The package
+uses the Soft Cosine Measure to calculate record-wise similarity scores.
 
 ```python
 >>> similarities = embedder.compare(edf1, edf2)
@@ -168,14 +142,10 @@ SimilarityArray([[0.86017213, 0.14285716, 0.12803688],
 
 ```
 
-This `SimilarityArray` object is an augmented `numpy.ndarray` that can perform
-our matching. The matching itself has a number of parameters that allow you to
-control how similar two embedded records must be to be matched. In this case,
-let's say that two records can only be matched if their pairwise similarity is
-at least `0.5`.
+Lastly, we compute the matching using an adapted Hungarian algorithm with local match thresholds:
 
 ```python
->>> matching = similarities.match(abs_cutoff=0.5)
+>>> matching = similarities.match()
 >>> matching
 (array([0, 1, 2]), array([0, 2, 1]))
 
@@ -189,9 +159,8 @@ So, all three of the records in each dataset were matched correctly. Excellent!
 
 ![A diagram of the PPRL cloud architecture, with the secure enclave and key management services](https://github.com/datasciencecampus/pprl_toolkit/blob/main/assets/pprl_cloud_diagram.png?raw=true)
 
-> [!WARNING] The cloud demo requires you to set up one or more Google Cloud accounts with billing. The cost of running the demo should be very small, or within users' free quota. However, you should ensure that all resources are torn down after running the demo to avoid ongoing charges.
-
-The cloud demo uses a Google Cloud Platform (GCP) Confidential Space compute instance, which is a virtual machine (VM) using AMD [Secure Encrypted Virtualisation](https://www.amd.com/en/developer/sev.html) (AMD-SEV) technology to encrypt data in-memory. The Confidential Space VM can also provide cryptographically signed documents, called attestations, which the server can use to prove that it is running in a secure environment before gaining access to data.
+The cloud demo uses a Google Cloud Platform (GCP) Confidential Space compute instance, which is a virtual machine (VM) using AMD [Secure Encrypted Virtualisation](https://www.amd.com/en/developer/sev.html) (AMD-SEV) technology to encrypt data in-memory.
+The Confidential Space VM can also provide cryptographically signed documents, called attestations, which the server can use to prove that it is running in a secure environment before gaining access to data.
 
 The cloud demo assigns four roles: two data-owning
 parties, a workload author, and a workload operator. These roles can be summarised as follows:
@@ -202,11 +171,17 @@ parties, a workload author, and a workload operator. These roles can be summaris
 - The workload **operator** sets up and runs the Confidential
   Space virtual machine, which uses the Docker image to perform the record linkage.
 
-> [!NOTE]
-> We have set up `pprl_toolkit` to allow any configuration of these roles among
-> users. You could do it all yourself, split the workload roles between two
-> data owning-parties, or ask a trusted third party to maintain the
-> workload.
+We have set up `pprl_toolkit` to allow any configuration of these roles among
+users. You could do it all yourself, split the workload roles between two
+data owning-parties, or ask a trusted third party to maintain the
+workload.
+
+> [!WARNING] The cloud demo requires you to set up one or more Google Cloud accounts with billing. The cost of running the demo should be very small, or within your free quota.
+> However, you should ensure that all resources are torn down after running the demo to avoid ongoing charges.
+
+### Running the cloud demo
+
+
 
 ## Building the documentation
 
