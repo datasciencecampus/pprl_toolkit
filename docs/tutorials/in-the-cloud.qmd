@@ -9,6 +9,17 @@ Google Cloud Platform (GCP). We go over how to assemble and assign roles in a
 linkage team, how to set up everybody's projects, and end with executing the
 linkage itself.
 
+![A diagram of the PPRL cloud architecture, with the secure enclave and key management services](https://github.com/datasciencecampus/pprl_toolkit/blob/main/assets/pprl_cloud_diagram.png?raw=true)
+
+Above is a diagram showing the PPRL cloud architecture. The cloud demo uses a
+Google Cloud Platform (GCP) Confidential Space compute instance, which is a
+virtual machine (VM) using AMD
+[Secure Encrypted Virtualisation](https://www.amd.com/en/developer/sev.html)
+(AMD-SEV) technology to encrypt data in-memory. The Confidential Space VM can
+also provide cryptographically signed documents, called attestations, which the
+server can use to prove that it is running in a secure environment before
+gaining access to data.
+
 
 ## Assembling a linkage team
 
@@ -249,7 +260,7 @@ python -m flask --app src/pprl/app run
 You should now be able to find the app in your browser of choice at
 [127.0.0.1:5000](http://127.0.0.1:5000). It should look something like this:
 
-![A screenshot of the app](../_static/02-app-screenshot.png)
+![A screenshot of the app](../_static/app-home-screenshot.png)
 
 From here, the process to upload your data is as follows:
 
