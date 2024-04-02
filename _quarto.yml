@@ -18,6 +18,14 @@ website:
             url: https://github.com/datasciencecampus/pprl
           - text: Open an issue
             url: https://github.com/datasciencecampus/pprl/issues
+  sidebar:
+    style: docked
+    search: true
+    contents:
+      - text: About
+        href: index.qmd
+      - auto: "*.qmd"
+  reader-mode: true
   page-footer:
     left: >
       All content is available under the
@@ -29,7 +37,9 @@ website:
 format:
   html:
     mainfont: Arial
-    theme: solar
+    theme:
+      light: flatly
+      dark: darkly
     lang: en-GB
 
 metadata-files:
