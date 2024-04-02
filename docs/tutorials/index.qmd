@@ -4,7 +4,9 @@ listing:
     type: table
     contents:
         - "*.qmd"
-    fields: [title, description, tags]
+    fields: [title, description, reading-time]
+    sort-ui: false
+    filter-ui: false
 ---
 
 These tutorials walk you through some of the essential workflows for `pprl`.
