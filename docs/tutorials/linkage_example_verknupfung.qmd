@@ -37,7 +37,7 @@ df2 = pd.DataFrame(
         "name": ["Laura Datten", "Greta Knopf", "Casper Goreman"],
         "sex": ["female", "female", "male"],
         "main_instrument": ["bass guitar", "percussion", "electric guitar"],
-        "birth_date": ["1977-03-23","1981-07-12","1975-12-31"],
+        "birth_date": ["1977-03-23", "1981-07-12", "1975-12-31"],
     }
 )
 ```
@@ -65,7 +65,7 @@ factory = dict(
     sex=features.gen_sex_features,
     misc=features.gen_misc_features,
     dob=features.gen_dateofbirth_features,
-    instrument=partial(features.gen_misc_shingled_features,label='instrument')
+    instrument=partial(features.gen_misc_shingled_features, label="instrument")
 )
 spec1 = dict(
     first_name="name",
@@ -74,12 +74,12 @@ spec1 = dict(
     instrument="instrument",
     date_of_birth="dob",
 )
-spec2 = dict(name="name", sex="sex", main_instrument="instrument",birth_date="dob")
+spec2 = dict(name="name", sex="sex", main_instrument="instrument", birth_date="dob")
 ```
 
 > [!TIP]
 > The feature generation functions, `features.gen_XXX_features` have sensible default parameters, but sometimes have to be passed in to the feature factory with different parameters, such as to set a feature label in the example above.
-> There are two ways to achieve this. Either use `functools.partial` to set parameters (as above), or pass keyword arguments as a dictionary of dictionaries to the Embedder as `ff_args`.
+> There are two ways to achieve this. Either use `functools.partial` to set parameters (as above), or pass keyword arguments as a dictionary of dictionaries to the `Embedder` as `ff_args`.
 
 ### Embedding the data
 
@@ -108,7 +108,7 @@ three additional columns: `bf_indices`, `bf_norms` and `thresholds`.
 edf1.columns
 ```
 
-The `bf_indices` column contains the Bloom filters, represented compactly as a list of non-zero indices for each record. The `bf_norms` column contains the norm of each Bloom filter with respect to the Soft Cosine Measure (SCM) matrix. In this case since we are using an untrained model, the SCM matrix is an identity matrix, and the norm is just the euclidean norm of the Bloom filter represented as a binary vector, which is equal to `np.sqrt(len(bf_indices[i]))` for record `i`. The norm is used to scale the similarity measures so that they take values between -1 and 1.
+The `bf_indices` column contains the Bloom filters, represented compactly as a list of non-zero indices for each record. The `bf_norms` column contains the norm of each Bloom filter with respect to the Soft Cosine Measure (SCM) matrix. In this case since we are using an untrained model, the SCM matrix is an identity matrix, and the norm is just the Euclidean norm of the Bloom filter represented as a binary vector, which is equal to `np.sqrt(len(bf_indices[i]))` for record `i`. The norm is used to scale the similarity measures so that they take values between -1 and 1.
 
 The `thresholds` column is calculated to provide, for each record, a threshold similarity score below which it will not be matched. It's like a reserve price in an auction -- it stops a record being matched to another record when the similarity isn't high enough. In this feature, the method implemented here differs from other linkage methods, which typically only have one global threshold score for the entire dataset.
 
@@ -116,7 +116,7 @@ The `thresholds` column is calculated to provide, for each record, a threshold s
 
 ### The processed features
 
-Let's take a look at how the features are processed into small text strings (shingles) before being hashed into the Bloom filter. The first record in the first dataset is the same person as the first record in the second dataset, although the data is not identical, so we can compare the processed features for these records to see how `pprl` puts them into a format where they can be compared.
+Let's take a look at how the features are processed into small text strings (shingles) before being hashed into the Bloom filter. The first record in the first dataset is the same person as the first record in the second dataset, although the data is not identical, so we can compare the processed features for these records to see how `pprl_toolkit` puts them into a format where they can be compared.
 
 First, we'll look at date of birth:
 
@@ -144,7 +144,7 @@ print(edf2.sex_features[0])
 ```
 
 
-Finally, we'll see how `partial(features.gen_misc_shingled_features,label="instrument")` processed the data:
+Finally, we'll see how our instrument feature function (`partial(features.gen_misc_shingled_features, label="instrument")`) processed the data:
 
 ```{python}
 print(edf1.instrument_features[0])
