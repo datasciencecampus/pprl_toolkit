@@ -180,6 +180,10 @@ workload.
 > free quota. However, you should ensure that all resources are torn down after
 > running the demo to avoid ongoing charges.
 
+Please refer to our
+[cloud tutorial](https://datasciencecampus.github.io/pprl_toolkit/docs/tutorials/in-the-cloud)
+for further details on how to get working in the cloud.
+
 ## Building the documentation
 
 This package is accompanied by documentation which includes tutorials and API
