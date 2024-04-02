@@ -28,7 +28,7 @@ df1 = pd.DataFrame(
         "first_name": ["Laura", "Kaspar", "Grete"],
         "last_name": ["Daten", "Gorman", "Knopf"],
         "gender": ["f", "m", "f"],
-        "date_of_birth": ["01/03/1977","31/12/1975","12/7/1981"],
+        "date_of_birth": ["01/03/1977", "31/12/1975", "12/7/1981"],
         "instrument": ["bass", "guitar", "drums"],
     }
 )
