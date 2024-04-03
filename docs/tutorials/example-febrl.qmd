@@ -20,8 +20,6 @@ from recordlinkage.datasets import load_febrl4
 
 from pprl import EmbeddedDataFrame, Embedder, config
 from pprl.embedder import features as feat
-
-datadir = config.DIR_DATA_INTERIM
 ```
 
 ## Load the data
@@ -45,9 +43,6 @@ feb4b["true_id"] = (
     .iloc[:, 0].astype("int")
     .to_list()
 )
-
-feb4a.to_csv(os.path.join(datadir, "febrl_data_1.csv"))
-feb4b.to_csv(os.path.join(datadir, "febrl_data_2.csv"))
 ```
 
 ## Create a feature factory
@@ -128,9 +123,9 @@ edf2 = embedder.embed(feb4b, colspec=colspec)
 Store the embedded datasets and their embedder to file.
 
 ```{python}
-edf1.to_json(os.path.join(datadir, "party1_data.json"))
-edf2.to_json(os.path.join(datadir, "party2_data.json"))
-embedder.to_pickle(os.path.join(datadir, "embedder.pkl"))
+edf1.to_json("party1_data.json")
+edf2.to_json("party2_data.json")
+embedder.to_pickle("embedder.pkl")
 ```
 
 ## Calculate similarity
