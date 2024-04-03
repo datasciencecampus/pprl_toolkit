@@ -1,11 +1,6 @@
 ---
 title: "Embedder API run-through"
 format: html
-jupyter:
-    kernelspec:
-        name: "pprl"
-        language: "python"
-        display_name: "pprl"
 ---
 
 This article shows the main classes, methods and functionality of the Embedder
