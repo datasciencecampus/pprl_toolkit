@@ -133,9 +133,9 @@ uses the Soft Cosine Measure to calculate record-wise similarity scores.
 ```python
 >>> similarities = embedder.compare(edf1, edf2)
 >>> similarities
-SimilarityArray([[0.80074101, 0.18160957, 0.09722178],
-                 [0.40124732, 0.1877348 , 0.58792979],
-                 [0.13147656, 0.51426533, 0.11772856]])
+SimilarityArray([[0.81229552, 0.1115206 , 0.09557733],
+                 [0.35460909, 0.16368072, 0.60428527],
+                 [0.11720977, 0.50957391, 0.10343462]])
 
 ```
 

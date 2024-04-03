@@ -23,7 +23,7 @@ def test_bloom_filter_vector_collision_fraction(feature, size, num_hashes, offse
     vec_idx_deduped, collision_fraction = bfencoder.bloom_filter_vector_collision_fraction(feature)
 
     assert all(isinstance(element, int) for element in vec_idx_deduped)
-    assert all(element <= (size + offset - 2) for element in vec_idx_deduped)
+    assert all(element <= (size + offset - 1) for element in vec_idx_deduped)
     assert all(element >= offset for element in vec_idx_deduped)
 
     assert collision_fraction <= 1
