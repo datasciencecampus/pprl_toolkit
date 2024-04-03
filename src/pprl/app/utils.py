@@ -138,11 +138,8 @@ def convert_dataframe_to_bf(
         other_columns = []
 
     output_columns = other_columns + ["bf_indices", "bf_norms", "thresholds"]
-    NUMHASHES = 2
-    OFFSET = 0
     NGRAMS = [1, 2, 3, 4]
     FFARGS = {"name": {"ngram_length": NGRAMS, "use_gen_skip_grams": True}}
-    BFSIZE = 2**10
 
     column_types_dict = {
         "name": features.gen_name_features,
@@ -155,9 +152,6 @@ def convert_dataframe_to_bf(
     embedder = Embedder(
         feature_factory=column_types_dict,
         ff_args=FFARGS,
-        bf_size=BFSIZE,
-        num_hashes=NUMHASHES,
-        offset=OFFSET,
         salt=salt,
     )
 
