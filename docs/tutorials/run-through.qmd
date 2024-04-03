@@ -72,7 +72,7 @@ ff_args = dict(name={}, sex={}, dob={})
 ## Embedding
 
 Now we can create an `Embedder` object. We want our Bloom filter vectors to
-have a length of 1024 elements (actually 1025 because of an offset), and we
+have a length of 1024 elements, and we
 choose to hash each feature two times. These choices seem to work ok, but we
 haven't explored them systematically.
 

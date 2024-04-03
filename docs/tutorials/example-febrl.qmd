@@ -72,11 +72,10 @@ feature_factory = dict(
 
 ## Initialise the embedder instance
 
-This instance embeds each feature twice into a Bloom filter of length 1025
-(with the offset).
+This instance embeds each feature twice into a Bloom filter of length 1024.
 
 ```{python}
-embedder = Embedder(feature_factory, bf_size=2**10, num_hashes=2)
+embedder = Embedder(feature_factory, bf_size=1024, num_hashes=2)
 ```
 
 ## Embed the datasets

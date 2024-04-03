@@ -139,7 +139,7 @@ def convert_dataframe_to_bf(
 
     output_columns = other_columns + ["bf_indices", "bf_norms", "thresholds"]
     NUMHASHES = 2
-    OFFSET = 1
+    OFFSET = 0
     NGRAMS = [1, 2, 3, 4]
     FFARGS = {"name": {"ngram_length": NGRAMS, "use_gen_skip_grams": True}}
     BFSIZE = 2**10

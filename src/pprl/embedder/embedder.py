@@ -279,11 +279,11 @@ class Embedder:
         Mapping from dataset columns to keyword arguments for their
         respective feature generation functions.
     bf_size: int
-        Size of the Bloom filter. Default is `2**10`.
+        Size of the Bloom filter. Default is 1024.
     num_hashes: int
         Number of hashes to perform. Default is two.
     offset: int
-        Offset for Bloom filter to enable masking. Default is one.
+        Offset for Bloom filter to enable masking. Default is zero.
     salt: str, optional
         Cryptographic salt added to tokens from the data before hashing.
 
@@ -324,9 +324,9 @@ class Embedder:
         self,
         feature_factory: dict,
         ff_args: dict[str, dict] | None = None,
-        bf_size: int = 2**10,
+        bf_size: int = 1024,
         num_hashes: int = 2,
-        offset: int = 1,
+        offset: int = 0,
         salt: str | None = None,
     ) -> None:
         # Get embedding from model
