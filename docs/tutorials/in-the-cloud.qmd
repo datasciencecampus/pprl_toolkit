@@ -127,6 +127,17 @@ roles granted to them by the project owner's GCP Administrator. Which IAM roles
 depends on the linkage role they are playing. If someone is fulfilling more
 than one role, they should follow all the relevant sections below.
 
+::: {.callout-tip}
+If you have Administrator permissions for your GCP project, you can grant these
+roles using the `gcloud` command-line tool:
+
+```bash
+gcloud projects add-iam-policy-binding <project-name> \
+  --member=user:<user-email> \
+  --role=<role-code>
+```
+:::
+
 ### Data-owning parties
 
 Each data-owning party requires the following IAM roles:
