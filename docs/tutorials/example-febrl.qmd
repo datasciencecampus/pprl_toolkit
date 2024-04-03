@@ -2,11 +2,6 @@
 title: Linking the FEBRL datasets
 description: Using PPRL locally to link two well-known datasets
 format: html
-jupyter:
-    kernelspec:
-        name: "pprl"
-        language: "python"
-        display_name: "pprl"
 ---
 
 This tutorial shows how the package can be used locally to match the

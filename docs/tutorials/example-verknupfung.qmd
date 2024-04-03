@@ -1,11 +1,6 @@
 ---
 title: "Exploring a simple linkage example"
 format: html
-jupyter:
-    kernelspec:
-        name: "pprl"
-        language: "python"
-        display_name: "pprl"
 ---
 
 The Python package implements the Bloom filter linkage method ([Schnell et al., 2009](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/1472-6947-9-41)), and can also implement pretrained Hash embeddings ([Miranda et al., 2022](https://arxiv.org/abs/2212.09255)), if a suitable large, pre-matched corpus of data is available.
