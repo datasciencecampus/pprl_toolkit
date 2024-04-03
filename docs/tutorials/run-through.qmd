@@ -21,8 +21,6 @@ import pandas as pd
 
 from pprl import EmbeddedDataFrame, Embedder, config
 from pprl.embedder import features as feat
-
-filestem = config.DIR_DATA_INTERIM
 ```
 
 ## Data set-up
@@ -160,9 +158,9 @@ matching server. For this purpose, it's possible to pickle the entire
 `Embedder` object.
 
 ```{python}
-embedder.to_pickle(os.path.join(filestem, "embedder.pkl"))
+embedder.to_pickle("embedder.pkl")
 
-embedder_copy = Embedder.from_pickle(os.path.join(filestem, "embedder.pkl"))
+embedder_copy = Embedder.from_pickle("embedder.pkl")
 ```
 
 The copy has the same functionality as the original:
@@ -194,9 +192,9 @@ The EDF objects are just a thin wrapper around `pandas.DataFrame` instances, so
 you can serialise to JSON using the normal methods.
 
 ```{python}
-edf1.to_json(os.path.join(filestem, "edf1.json"))
+edf1.to_json("edf1.json")
 
-edf1_copy = pd.read_json(os.path.join(filestem, "edf1.json"))
+edf1_copy = pd.read_json("edf1.json")
 
 print(isinstance(edf1_copy,EmbeddedDataFrame))
 print(isinstance(edf1_copy,pd.DataFrame))
