@@ -46,10 +46,14 @@ project will need to install `pprl_toolkit`.
 ### Data-owning party
 
 Often referred to as just a **party**, a data owner is responsible for the
-storage and preparation of some confidential data. They create a Bloom filter
-embedding of their confidential data using an agreed configuration, and then
-upload that to GCP for processing. Once the workload operator is finished, the
-parties are able to retrieve their linkage results.
+storage and preparation of some confidential data. During set-up, each party
+also sets up a storage bucket, a key management service, and a workload
+identity pool that allows the party to share permissions with the server during
+the linkage operation.
+
+They create a Bloom filter embedding of their confidential data using an agreed
+configuration, and then upload that to GCP for processing. Once the workload
+operator is finished, the parties are able to retrieve their linkage results.
 
 ### Workload author
 
