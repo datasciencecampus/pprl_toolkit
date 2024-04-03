@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -137,7 +171,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/tutorials/index.html">Docs</a></li><li class="breadcrumb-item"><a href="../../docs/reference/index.html">API reference</a></li><li class="breadcrumb-item"><a href="../../docs/reference/bloom_filters.html">bloom_filters</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/reference/index.html">Docs</a></li><li class="breadcrumb-item"><a href="../../docs/reference/index.html">API reference</a></li><li class="breadcrumb-item"><a href="../../docs/reference/bloom_filters.html">bloom_filters</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -174,48 +208,13 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../docs/tutorials/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/example-febrl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Linking the FEBRL datasets</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/example-verknupfung.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Exploring a simple linkage example</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/in-the-cloud.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Working in the cloud</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/run-through.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Embedder API run-through</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
             <a href="../../docs/reference/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">API reference</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/reference/bloom_filters.html" class="sidebar-item-text sidebar-link active">
@@ -250,6 +249,41 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../docs/reference/utils.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">utils</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/tutorials/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/example-febrl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linking the FEBRL datasets</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/example-verknupfung.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exploring a simple linkage example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/in-the-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working in the cloud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/run-through.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Embedder API run-through</span></a>
   </div>
 </li>
       </ul>
@@ -290,13 +324,13 @@ ul.task-list li input[type="checkbox"] {
 </table>
 <section id="pprl.embedder.bloom_filters.BloomFilterEncoder" class="level3">
 <h3 class="anchored" data-anchor-id="pprl.embedder.bloom_filters.BloomFilterEncoder">BloomFilterEncoder</h3>
-<p><code>embedder.bloom_filters.BloomFilterEncoder(self, size, num_hashes=3, offset=1, salt=None)</code></p>
+<p><code>embedder.bloom_filters.BloomFilterEncoder(self, size=1024, num_hashes=2, offset=0, salt=None)</code></p>
 <p>Encoder of tokens and features via hashing and a Bloom filter.</p>
 <p>The process for creating a cryptographically secure Bloom filter encoding of a set of tokens is as follows:</p>
 <ol type="1">
 <li>Compute the hash digest for your tokens</li>
 <li>Convert the digest bytes into integers</li>
-<li>Map the integer to a bloom filter vector (modulo <code>b</code>, where <code>b</code> represents the length of the vector)</li>
+<li>Map the integer to a bloom filter vector (modulo the length of the vector)</li>
 </ol>
 <section id="parameters" class="level4">
 <h4 class="anchored" data-anchor-id="parameters">Parameters</h4>
@@ -304,8 +338,8 @@ ul.task-list li input[type="checkbox"] {
 <colgroup>
 <col style="width: 12%">
 <col style="width: 11%">
-<col style="width: 64%">
-<col style="width: 10%">
+<col style="width: 65%">
+<col style="width: 9%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -319,20 +353,20 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td><code>size</code></td>
 <td>int</td>
-<td>Size of the Bloom filter.</td>
-<td><em>required</em></td>
+<td>Size of the Bloom filter. Defaults to 1024</td>
+<td><code>1024</code></td>
 </tr>
 <tr class="even">
 <td><code>num_hashes</code></td>
 <td>int</td>
-<td>Number of hashes to perform. Defaults to three.</td>
-<td><code>3</code></td>
+<td>Number of hashes to perform. Defaults to two.</td>
+<td><code>2</code></td>
 </tr>
 <tr class="odd">
 <td><code>offset</code></td>
 <td>int</td>
-<td>Offset for Bloom filter indices to allow for masking. Defaults to one.</td>
-<td><code>1</code></td>
+<td>Offset for Bloom filter indices to allow for masking. Defaults to zero.</td>
+<td><code>0</code></td>
 </tr>
 <tr class="even">
 <td><code>salt</code></td>
@@ -357,7 +391,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>hash_function</td>
 <td>func</td>
-<td>Hashing function (<code>hashlib.sha1</code>).</td>
+<td>Hashing function (<code>hashlib.sha256</code>).</td>
 </tr>
 </tbody>
 </table>
@@ -373,36 +407,28 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="#pprl.embedder.bloom_filters.BloomFilterEncoder.big_int_to_vec">big_int_to_vec</a></td>
-<td>Convert an integer vector into indices for a Bloom vector.</td>
-</tr>
-<tr class="even">
 <td><a href="#pprl.embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector">bloom_filter_vector</a></td>
 <td>Convert a feature vector into indices for a Bloom vector.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><a href="#pprl.embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector_collision_fraction">bloom_filter_vector_collision_fraction</a></td>
 <td>Convert a feature vector and return its collision fraction.</td>
 </tr>
-<tr class="even">
-<td><a href="#pprl.embedder.bloom_filters.BloomFilterEncoder.feature_to_big_int_repr">feature_to_big_int_repr</a></td>
-<td>Convert a feature vector into an integer vector.</td>
-</tr>
 </tbody>
 </table>
-<section id="pprl.embedder.bloom_filters.BloomFilterEncoder.big_int_to_vec" class="level5">
-<h5 class="anchored" data-anchor-id="pprl.embedder.bloom_filters.BloomFilterEncoder.big_int_to_vec">big_int_to_vec</h5>
-<p><code>embedder.bloom_filters.BloomFilterEncoder.big_int_to_vec(feature_ints, offset=1)</code></p>
-<p>Convert an integer vector into indices for a Bloom vector.</p>
-<p>This conversion inserts 1 at the location derived from the integer vector, which is an integer representation of a deterministic hash value, modulo to the size of the Bloom filter.</p>
+<section id="pprl.embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector" class="level5">
+<h5 class="anchored" data-anchor-id="pprl.embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector">bloom_filter_vector</h5>
+<p><code>embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector(feature)</code></p>
+<p>Convert a feature vector into indices for a Bloom vector.</p>
+<p>The index vector uses an optional offset for masking.</p>
 <section id="parameters-1" class="level6">
 <h6 class="anchored" data-anchor-id="parameters-1">Parameters</h6>
 <table class="table">
 <colgroup>
+<col style="width: 15%">
+<col style="width: 18%">
+<col style="width: 49%">
 <col style="width: 16%">
-<col style="width: 8%">
-<col style="width: 62%">
-<col style="width: 12%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -414,16 +440,10 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>feature_ints</code></td>
-<td>list</td>
-<td>List of integer values representing the feature.</td>
+<td><code>feature</code></td>
+<td>list[str]</td>
+<td>List of features to be converted.</td>
 <td><em>required</em></td>
-</tr>
-<tr class="even">
-<td><code>offset</code></td>
-<td>int</td>
-<td>An offset to indices to allow for masking. Defaults to one.</td>
-<td><code>1</code></td>
 </tr>
 </tbody>
 </table>
@@ -440,20 +460,32 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>list</td>
-<td>List of integers representing an index on the Bloom filter.</td>
+<td>Index values used to create the Bloom filter vector.</td>
 </tr>
 </tbody>
 </table>
 </section>
+<section id="examples" class="level6">
+<h6 class="anchored" data-anchor-id="examples">Examples</h6>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> bfe <span class="op">=</span> BloomFilterEncoder()</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> bfe.bloom_filter_vector([<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>])</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">334</span>, <span class="dv">1013</span>, <span class="dv">192</span>, <span class="dv">381</span>, <span class="dv">18</span>, <span class="dv">720</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="pprl.embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector" class="level5">
-<h5 class="anchored" data-anchor-id="pprl.embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector">bloom_filter_vector</h5>
-<p><code>embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector(feature)</code></p>
-<p>Convert a feature vector into indices for a Bloom vector.</p>
+</section>
+<section id="pprl.embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector_collision_fraction" class="level5">
+<h5 class="anchored" data-anchor-id="pprl.embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector_collision_fraction">bloom_filter_vector_collision_fraction</h5>
+<p><code>embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector_collision_fraction(feature)</code></p>
+<p>Convert a feature vector and return its collision fraction.</p>
 <p>The index vector uses an optional offset for masking.</p>
 <section id="parameters-2" class="level6">
 <h6 class="anchored" data-anchor-id="parameters-2">Parameters</h6>
 <table class="table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 18%">
+<col style="width: 49%">
+<col style="width: 16%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Name</th>
@@ -465,8 +497,8 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td><code>feature</code></td>
-<td>list</td>
-<td>List of features to be converted.</td>
+<td>list[str]</td>
+<td>List of features to be processed.</td>
 <td><em>required</em></td>
 </tr>
 </tbody>
@@ -486,50 +518,6 @@ ul.task-list li input[type="checkbox"] {
 <td>list</td>
 <td>Index values used to create the Bloom filter vector.</td>
 </tr>
-</tbody>
-</table>
-</section>
-</section>
-<section id="pprl.embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector_collision_fraction" class="level5">
-<h5 class="anchored" data-anchor-id="pprl.embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector_collision_fraction">bloom_filter_vector_collision_fraction</h5>
-<p><code>embedder.bloom_filters.BloomFilterEncoder.bloom_filter_vector_collision_fraction(feature)</code></p>
-<p>Convert a feature vector and return its collision fraction.</p>
-<p>The index vector uses an optional offset for masking.</p>
-<section id="parameters-3" class="level6">
-<h6 class="anchored" data-anchor-id="parameters-3">Parameters</h6>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>feature</code></td>
-<td>list</td>
-<td>List of features to be processed.</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="returns-2" class="level6">
-<h6 class="anchored" data-anchor-id="returns-2">Returns</h6>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>list</td>
-<td>Index values used to create the Bloom filter vector.</td>
-</tr>
 <tr class="even">
 <td>float</td>
 <td>Proportion of repeated indices.</td>
@@ -537,49 +525,11 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </section>
-</section>
-<section id="pprl.embedder.bloom_filters.BloomFilterEncoder.feature_to_big_int_repr" class="level5">
-<h5 class="anchored" data-anchor-id="pprl.embedder.bloom_filters.BloomFilterEncoder.feature_to_big_int_repr">feature_to_big_int_repr</h5>
-<p><code>embedder.bloom_filters.BloomFilterEncoder.feature_to_big_int_repr(feature)</code></p>
-<p>Convert a feature vector into an integer vector.</p>
-<p>This conversion first generates a hash digest for each member of the feature vector and then converts them to an integer.</p>
-<section id="parameters-4" class="level6">
-<h6 class="anchored" data-anchor-id="parameters-4">Parameters</h6>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>feature</code></td>
-<td>list</td>
-<td>List of features to be processed.</td>
-<td><em>required</em></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="returns-3" class="level6">
-<h6 class="anchored" data-anchor-id="returns-3">Returns</h6>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>list</td>
-<td>List of features as integers.</td>
-</tr>
-</tbody>
-</table>
+<section id="examples-1" class="level6">
+<h6 class="anchored" data-anchor-id="examples-1">Examples</h6>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> bfe <span class="op">=</span> BloomFilterEncoder()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> bfe.bloom_filter_vector_collision_fraction([<span class="st">"a"</span>,<span class="st">"b"</span>,<span class="st">"c"</span>])</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>([<span class="dv">334</span>, <span class="dv">1013</span>, <span class="dv">192</span>, <span class="dv">381</span>, <span class="dv">18</span>, <span class="dv">720</span>], <span class="fl">0.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
