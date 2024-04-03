@@ -84,7 +84,7 @@ files to buckets. As such, they need to be descriptive and unique.
 Since Google Cloud bucket names must be
 [globally unique](https://cloud.google.com/storage/docs/buckets#naming), we
 highly recommend using a hash in your project names to ensure that they are
-unique.
+unique. This will ensure that bucket names are also globally unique.
 
 Our aim is to create a globally unique name (and thus ID) for each project.
 :::
