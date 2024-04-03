@@ -1,6 +1,7 @@
 ---
 title: Welcome to the `pprl` documentation!
 toc: false
+sidebar: false
 about:
     template: marquee
     links:

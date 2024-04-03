@@ -175,8 +175,14 @@ data owning-parties, or ask a trusted third party to maintain the
 workload.
 
 > [!WARNING]
-> The cloud demo requires you to set up one or more Google Cloud accounts with billing. The cost of running the demo should be very small, or within your free quota.
-> However, you should ensure that all resources are torn down after running the demo to avoid ongoing charges.
+> The cloud demo requires you to set up one or more Google Cloud accounts with
+> billing. The cost of running the demo should be very small, or within your
+> free quota. However, you should ensure that all resources are torn down after
+> running the demo to avoid ongoing charges.
+
+Please refer to our
+[cloud tutorial](https://datasciencecampus.github.io/pprl_toolkit/docs/tutorials/in-the-cloud)
+for further details on how to get working in the cloud.
 
 ## Building the documentation
 
