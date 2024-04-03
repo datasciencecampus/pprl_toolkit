@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>`pprl` – embedder</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar docked nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title"><code>pprl</code></span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../../index.html" rel="" target="" aria-current="page">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../docs/tutorials/index.html" rel="" target="">
+ <span class="menu-text">Tutorials</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../docs/reference/index.html" rel="" target="">
+ <span class="menu-text">API Reference</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-bi-github" role="button" data-bs-toggle="dropdown" aria-expanded="false" rel="" target="">
+      <i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-github">    
+        <li>
+    <a class="dropdown-item" href="https://github.com/datasciencecampus/pprl" rel="" target="">
+ <span class="dropdown-text">Source code</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/datasciencecampus/pprl/issues" rel="" target="">
+ <span class="dropdown-text">Open an issue</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/tutorials/index.html">Docs</a></li><li class="breadcrumb-item"><a href="../../docs/reference/index.html">API reference</a></li><li class="breadcrumb-item"><a href="../../docs/reference/embedder.html">embedder</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Docs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/tutorials/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/example-febrl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linking the FEBRL datasets</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/example-verknupfung.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exploring a simple linkage example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/in-the-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working in the cloud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/run-through.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Embedder API run-through</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/reference/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">API reference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/reference/bloom_filters.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">bloom_filters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/reference/config.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">config</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/reference/embedder.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">embedder</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/reference/encryption.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">encryption</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/reference/features.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">features</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/reference/utils.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">utils</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="pprl.embedder.embedder" class="level1">
+<h1>embedder</h1>
+<p><code>embedder.embedder</code></p>
+<p>Classes and functions for handling embedding objects.</p>
+<section id="classes" class="level2">
+<h2 class="anchored" data-anchor-id="classes">Classes</h2>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#pprl.embedder.embedder.EmbeddedDataFrame">EmbeddedDataFrame</a></td>
+<td>A data frame with a reference to an <code>Embedder</code> object.</td>
+</tr>
+<tr class="even">
+<td><a href="#pprl.embedder.embedder.Embedder">Embedder</a></td>
+<td>Class for embedding a dataset.</td>
+</tr>
+<tr class="odd">
+<td><a href="#pprl.embedder.embedder.SimilarityArray">SimilarityArray</a></td>
+<td>Augmented NumPy array of similarity scores with extra attributes.</td>
+</tr>
+</tbody>
+</table>
+<section id="pprl.embedder.embedder.EmbeddedDataFrame" class="level3">
+<h3 class="anchored" data-anchor-id="pprl.embedder.embedder.EmbeddedDataFrame">EmbeddedDataFrame</h3>
+<p><code>embedder.embedder.EmbeddedDataFrame(self, data, embedder, update_norms=True, update_thresholds=False, *args, **kwargs)</code></p>
+<p>A data frame with a reference to an <code>Embedder</code> object.</p>
+<p>An <code>EmbeddedDataFrame</code> (EDF) instance wraps together a <code>pandas.DataFrame</code> with a reference to a <code>pprl.embedder.Embedder</code> object. An EDF also has a mandatory <code>bf_indices</code> column, describing the Bloom filter indices used for linkage.</p>
+<p>The EDF instance can also calculate <code>bf_norms</code> and <code>thresholds</code> columns which are used in the <code>Embedder.compare()</code> method to compute <code>pprl.embedder.SimilarityArray</code> instances.</p>
+<section id="parameters" class="level4">
+<h4 class="anchored" data-anchor-id="parameters">Parameters</h4>
+<table class="table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 36%">
+<col style="width: 47%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>data</code></td>
+<td>numpy.numpy.ndarray | typing.Iterable | dict | pandas.pandas.DataFrame</td>
+<td>Data to which to attach the embedder. Must include a <code>bf_indices</code> column with <code>list</code> data type.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td><code>embedder</code></td>
+<td>pprl.embedder.embedder.Embedder</td>
+<td>A compatible embedder object for the Bloom filter columns in <code>data</code>.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
+<td><code>update_norms</code></td>
+<td>bool</td>
+<td>Whether to update the Bloom filter norms on creation. Defaults to <code>False</code>.</td>
+<td><code>True</code></td>
+</tr>
+<tr class="even">
+<td><code>update_thresholds</code></td>
+<td>bool</td>
+<td>Whether to update the similarity thresholds on creation. Defaults to <code>True</code>.</td>
+<td><code>False</code></td>
+</tr>
+<tr class="odd">
+<td><code>*args</code></td>
+<td></td>
+<td>Additional positional arguments to pass to <code>pandas.DataFrame</code> along with <code>data</code>.</td>
+<td><code>()</code></td>
+</tr>
+<tr class="even">
+<td><code>**kwargs</code></td>
+<td></td>
+<td>Additional keyword arguments to pass to <code>pandas.DataFrame</code> along with <code>data</code>.</td>
+<td><code>{}</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes" class="level4">
+<h4 class="anchored" data-anchor-id="attributes">Attributes</h4>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 10%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>embedder_checksum</td>
+<td>str</td>
+<td>Hexadecimal string digest from <code>self.embedder</code>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="notes" class="level4">
+<h4 class="anchored" data-anchor-id="notes">Notes</h4>
+<p>An EDF instance is usually created from an existing <code>Embedder</code> object by calling the <code>embedder.embed()</code> method. It can also be initialised using an embedder and a <code>pandas.DataFrame</code> that already has a <code>bf_indices</code> column via <code>EmbeddedDataFrame(df, embedder)</code>.</p>
+<p>If using the second method it is up to the user to ensure that the <code>Embedder</code> instance is compatible with the <code>bf_indices</code> column (as well as <code>bf_norms</code> and <code>thresholds</code>, if present) in the data frame. If in doubt, call <code>edf.update_norms()</code> and <code>edf.update_thresholds()</code> to refresh them.</p>
+</section>
+<section id="methods" class="level4">
+<h4 class="anchored" data-anchor-id="methods">Methods</h4>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#pprl.embedder.embedder.EmbeddedDataFrame.to_bloom_matrix">to_bloom_matrix</a></td>
+<td>Convert Bloom filter indices into a binary matrix.</td>
+</tr>
+<tr class="even">
+<td><a href="#pprl.embedder.embedder.EmbeddedDataFrame.update_norms">update_norms</a></td>
+<td>Generate vector norms (wrt. <code>self.embedder</code>) for each row.</td>
+</tr>
+<tr class="odd">
+<td><a href="#pprl.embedder.embedder.EmbeddedDataFrame.update_thresholds">update_thresholds</a></td>
+<td>Generate matching thresholds for each row of the data.</td>
+</tr>
+</tbody>
+</table>
+<section id="pprl.embedder.embedder.EmbeddedDataFrame.to_bloom_matrix" class="level5">
+<h5 class="anchored" data-anchor-id="pprl.embedder.embedder.EmbeddedDataFrame.to_bloom_matrix">to_bloom_matrix</h5>
+<p><code>embedder.embedder.EmbeddedDataFrame.to_bloom_matrix()</code></p>
+<p>Convert Bloom filter indices into a binary matrix.</p>
+<p>The matrix has a row for each row in the EDF. The number of columns is equal to <code>self.embedder.bf_size + self.embedder.offset</code>. This representation is used in the <code>Embedder.compare()</code> method.</p>
+<section id="returns" class="level6">
+<h6 class="anchored" data-anchor-id="returns">Returns</h6>
+<table class="table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 72%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>numpy.numpy.ndarray</td>
+<td>Binary array of size <code>(len(self), self.bf_size + 1)</code>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="pprl.embedder.embedder.EmbeddedDataFrame.update_norms" class="level5">
+<h5 class="anchored" data-anchor-id="pprl.embedder.embedder.EmbeddedDataFrame.update_norms">update_norms</h5>
+<p><code>embedder.embedder.EmbeddedDataFrame.update_norms()</code></p>
+<p>Generate vector norms (wrt. <code>self.embedder</code>) for each row.</p>
+<p>The vector norm is used to scale the (Soft) Cosine similarity scores.</p>
+<section id="attributes-1" class="level6">
+<h6 class="anchored" data-anchor-id="attributes-1">Attributes</h6>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 11%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>data.bf_norms</td>
+<td>list</td>
+<td>Column of vector norms for each row in the EDF.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="pprl.embedder.embedder.EmbeddedDataFrame.update_thresholds" class="level5">
+<h5 class="anchored" data-anchor-id="pprl.embedder.embedder.EmbeddedDataFrame.update_thresholds">update_thresholds</h5>
+<p><code>embedder.embedder.EmbeddedDataFrame.update_thresholds()</code></p>
+<p>Generate matching thresholds for each row of the data.</p>
+<p>The threshold is the minimum similarity score that will be matched. It is found by getting the pairwise similarities between each row and the other rows in the same EDF, and taking the maximum of these.</p>
+<section id="attributes-2" class="level6">
+<h6 class="anchored" data-anchor-id="attributes-2">Attributes</h6>
+<table class="table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 21%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>data.thresholds</td>
+<td>numpy.numpy.ndarray</td>
+<td>Column for maximum similarity of each row within the EDF.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+</section>
+<section id="pprl.embedder.embedder.Embedder" class="level3">
+<h3 class="anchored" data-anchor-id="pprl.embedder.embedder.Embedder">Embedder</h3>
+<p><code>embedder.embedder.Embedder(self, feature_factory, ff_args=None, bf_size=2 ** 10, num_hashes=2, offset=1, salt=None)</code></p>
+<p>Class for embedding a dataset.</p>
+<p>Each instance of the <code>Embedder</code> class represents an embedding space on personal data features. An <code>Embedder</code> instance is defined by three things:</p>
+<ol type="1">
+<li>A set of Bloom filter parameters</li>
+<li>A set of feature factory functions</li>
+<li>An embedding matrix that corresponds to the above</li>
+</ol>
+<section id="parameters-1" class="level4">
+<h4 class="anchored" data-anchor-id="parameters-1">Parameters</h4>
+<table class="table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 16%">
+<col style="width: 63%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>feature_factory</code></td>
+<td>dict</td>
+<td>Mapping from dataset columns to feature generation functions.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td><code>ff_args</code></td>
+<td>dict[str, dict] | None</td>
+<td>Mapping from dataset columns to keyword arguments for their respective feature generation functions.</td>
+<td><code>None</code></td>
+</tr>
+<tr class="odd">
+<td><code>bf_size</code></td>
+<td>int</td>
+<td>Size of the Bloom filter. Default is <code>2**10</code>.</td>
+<td><code>2 ** 10</code></td>
+</tr>
+<tr class="even">
+<td><code>num_hashes</code></td>
+<td>int</td>
+<td>Number of hashes to perform. Default is two.</td>
+<td><code>2</code></td>
+</tr>
+<tr class="odd">
+<td><code>offset</code></td>
+<td>int</td>
+<td>Offset for Bloom filter to enable masking. Default is one.</td>
+<td><code>1</code></td>
+</tr>
+<tr class="even">
+<td><code>salt</code></td>
+<td>str | None</td>
+<td>Cryptographic salt added to tokens from the data before hashing.</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes-3" class="level4">
+<h4 class="anchored" data-anchor-id="attributes-3">Attributes</h4>
+<table class="table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 79%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>scm_matrix</td>
+<td>numpy.numpy.ndarray</td>
+<td>Soft Cosine Measure matrix. Initialised as an identity matrix of size <code>bf_size + offset</code>.</td>
+</tr>
+<tr class="even">
+<td>freq_matr_matched</td>
+<td>numpy.numpy.ndarray</td>
+<td>Matched frequency matrix for computing <code>scm_matrix</code>. Initialised as an identity matrix of size <code>bf_size + offset</code>.</td>
+</tr>
+<tr class="odd">
+<td>freq_matr_unmatched</td>
+<td>numpy.numpy.ndarray</td>
+<td>Unmatched frequency matrix for computing <code>scm_matrix</code>. Initialised as an identity matrix of size <code>bf_size + offset</code>.</td>
+</tr>
+<tr class="even">
+<td>checksum</td>
+<td>str</td>
+<td>Hexadecimal string digest of the feature factory, SCM matrix, and other embedding parameters. Used to check an embedder is compatible with an <code>EmbeddedDataFrame</code>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="notes-1" class="level4">
+<h4 class="anchored" data-anchor-id="notes-1">Notes</h4>
+<p>When an instance is initialised in code, the embedding matrix is initialised as an identity matrix; the matrix can then be trained using a pair of datasets with known match status and the trained <code>Embedder</code> instance pickled to file. The pre-trained <code>Embedder</code> instance can then be reinitialised from the pickle file.</p>
+<p>Both the untrained and trained instances provide <code>embed()</code> and <code>compare()</code> methods. Comparing datasets using an untrained <code>Embedder</code> instance is equivalent to calculating Cosine similarities on ordinary Bloom filters. Comparing datasets using a pre-trained <code>Embedder</code> calculates the Soft Cosine Measure between Bloom filters. The Soft Cosine Measure embedding matrix is trained using an experimental method.</p>
+</section>
+<section id="methods-1" class="level4">
+<h4 class="anchored" data-anchor-id="methods-1">Methods</h4>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#pprl.embedder.embedder.Embedder.compare">compare</a></td>
+<td>Calculate a <code>SimilarityArray</code> on two EDFs.</td>
+</tr>
+<tr class="even">
+<td><a href="#pprl.embedder.embedder.Embedder.embed">embed</a></td>
+<td>Encode data columns into features from Bloom embedding.</td>
+</tr>
+<tr class="odd">
+<td><a href="#pprl.embedder.embedder.Embedder.from_pickle">from_pickle</a></td>
+<td>Initialise Embedder instance from pickle file.</td>
+</tr>
+<tr class="even">
+<td><a href="#pprl.embedder.embedder.Embedder.to_pickle">to_pickle</a></td>
+<td>Save Embedder instance to pickle file.</td>
+</tr>
+<tr class="odd">
+<td><a href="#pprl.embedder.embedder.Embedder.train">train</a></td>
+<td>Fit Soft Cosine Measure matrix to two matched datasets.</td>
+</tr>
+</tbody>
+</table>
+<section id="pprl.embedder.embedder.Embedder.compare" class="level5">
+<h5 class="anchored" data-anchor-id="pprl.embedder.embedder.Embedder.compare">compare</h5>
+<p><code>embedder.embedder.Embedder.compare(edf1, edf2, require_thresholds=True)</code></p>
+<p>Calculate a <code>SimilarityArray</code> on two EDFs.</p>
+<p>Given two EDFs, calculate all pairwise Soft Cosine Similarities between rows.</p>
+<section id="parameters-2" class="level6">
+<h6 class="anchored" data-anchor-id="parameters-2">Parameters</h6>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 18%">
+<col style="width: 66%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>edf1</code></td>
+<td>pprl.embedder.embedder.EmbeddedDataFrame</td>
+<td>An EDF instance with N rows. Must have <code>thresholds</code> column unless <code>require_thresholds=False</code>.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td><code>edf2</code></td>
+<td>pprl.embedder.embedder.EmbeddedDataFrame</td>
+<td>An EDF instance with M rows. Must have <code>thresholds</code> column unless <code>require_thresholds=False</code>.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
+<td><code>require_thresholds</code></td>
+<td>bool</td>
+<td>If <code>True</code> (default), the comparison will fail if thresholds are not present. Must be explicitly set to <code>False</code> to allow comparison without thresholds.</td>
+<td><code>True</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="returns-1" class="level6">
+<h6 class="anchored" data-anchor-id="returns-1">Returns</h6>
+<table class="table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>pprl.embedder.embedder.SimilarityArray</td>
+<td>An N by M array containing the similarity matrix of pairwise Soft Cosine similarities between rows of <code>edf1</code> and <code>edf2</code>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="raises" class="level6">
+<h6 class="anchored" data-anchor-id="raises">Raises</h6>
+<table class="table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 87%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ValueError</td>
+<td>If <code>require_thresholds</code> is <code>True</code> and both EDFs don’t have a <code>thresholds</code> column.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="pprl.embedder.embedder.Embedder.embed" class="level5">
+<h5 class="anchored" data-anchor-id="pprl.embedder.embedder.Embedder.embed">embed</h5>
+<p><code>embedder.embedder.Embedder.embed(df, colspec, update_norms=True, update_thresholds=False)</code></p>
+<p>Encode data columns into features from Bloom embedding.</p>
+<section id="parameters-3" class="level6">
+<h6 class="anchored" data-anchor-id="parameters-3">Parameters</h6>
+<table class="table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 67%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>df</code></td>
+<td>pandas.pandas.DataFrame</td>
+<td>Data frame to be embedded.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td><code>colspec</code></td>
+<td>dict</td>
+<td>Dictionary mapping columns in <code>df</code> to feature factory functions.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
+<td><code>update_norms</code></td>
+<td>bool</td>
+<td>Whether to calculate vector norms for SCM and add to EDF. <code>False</code> by default.</td>
+<td><code>True</code></td>
+</tr>
+<tr class="even">
+<td><code>update_thresholds</code></td>
+<td>bool</td>
+<td>Whether to calculate similarity thresholds and add to EDF. Used as an outside option in matching. <code>False</code> by default.</td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="returns-2" class="level6">
+<h6 class="anchored" data-anchor-id="returns-2">Returns</h6>
+<table class="table">
+<colgroup>
+<col style="width: 49%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>pprl.embedder.embedder.EmbeddedDataFrame</td>
+<td>An embedded data frame with its embedder.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="pprl.embedder.embedder.Embedder.from_pickle" class="level5">
+<h5 class="anchored" data-anchor-id="pprl.embedder.embedder.Embedder.from_pickle">from_pickle</h5>
+<p><code>embedder.embedder.Embedder.from_pickle(path=None, pickled=None)</code></p>
+<p>Initialise Embedder instance from pickle file.</p>
+<section id="parameters-4" class="level6">
+<h6 class="anchored" data-anchor-id="parameters-4">Parameters</h6>
+<table class="table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 9%">
+<col style="width: 63%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>path</code></td>
+<td>str</td>
+<td>File path from which to load the pickled embedder.</td>
+<td><code>None</code></td>
+</tr>
+<tr class="even">
+<td><code>pickled</code></td>
+<td>bytes</td>
+<td>Byte-string containing the pickled embedder.</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="raises-1" class="level6">
+<h6 class="anchored" data-anchor-id="raises-1">Raises</h6>
+<table class="table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 83%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ValueError</td>
+<td>If not exactly one of <code>path</code> and <code>pickled</code> are specified.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="returns-3" class="level6">
+<h6 class="anchored" data-anchor-id="returns-3">Returns</h6>
+<table class="table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 59%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>pprl.embedder.embedder.Embedder</td>
+<td>The reformed instance of the <code>Embedder</code> class.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="pprl.embedder.embedder.Embedder.to_pickle" class="level5">
+<h5 class="anchored" data-anchor-id="pprl.embedder.embedder.Embedder.to_pickle">to_pickle</h5>
+<p><code>embedder.embedder.Embedder.to_pickle(path=None)</code></p>
+<p>Save Embedder instance to pickle file.</p>
+<section id="parameters-5" class="level6">
+<h6 class="anchored" data-anchor-id="parameters-5">Parameters</h6>
+<table class="table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 79%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>path</code></td>
+<td>str</td>
+<td>File path at which to save the pickled embedder. If not specified, the pickled bytes string is returned.</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="returns-4" class="level6">
+<h6 class="anchored" data-anchor-id="returns-4">Returns</h6>
+<table class="table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 85%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>bytes or None</td>
+<td>If <code>path</code> is not specified, the pickled string comes back. Otherwise, nothing is returned.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="pprl.embedder.embedder.Embedder.train" class="level5">
+<h5 class="anchored" data-anchor-id="pprl.embedder.embedder.Embedder.train">train</h5>
+<p><code>embedder.embedder.Embedder.train(edf1, edf2, update=True, learning_rate=1.0, eps=0.01, random_state=None)</code></p>
+<p>Fit Soft Cosine Measure matrix to two matched datasets.</p>
+<p>This function updates the <code>scm_matrix</code> attribute in-place along with its constituent matrices, <code>freq_matr_matched</code> and <code>freq_matr_unmatched</code>.</p>
+<p>Provide two datasets of pre-matched data. If <code>update=True</code>, the training is cumulative, so that <code>train()</code> can be called more than once, updating the same matrices each time by adding new frequency tables. Otherwise, all three matrices are reinitialised prior to training.</p>
+<section id="parameters-6" class="level6">
+<h6 class="anchored" data-anchor-id="parameters-6">Parameters</h6>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 30%">
+<col style="width: 53%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>edf1</code></td>
+<td>pprl.embedder.embedder.EmbeddedDataFrame</td>
+<td>An embedded dataset.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td><code>edf2</code></td>
+<td>pprl.embedder.embedder.EmbeddedDataFrame</td>
+<td>An Embedded dataset of known matches in the same order as <code>edf1</code>.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
+<td><code>update</code></td>
+<td>bool</td>
+<td>Whether to update the existing SCM matrix, or overwrite it. Defaults to <code>True</code>.</td>
+<td><code>True</code></td>
+</tr>
+<tr class="even">
+<td><code>eps</code></td>
+<td>float</td>
+<td>Small non-negative constant to avoid <code>-Inf</code> in log of frequencies. Default is one.</td>
+<td><code>0.01</code></td>
+</tr>
+<tr class="odd">
+<td><code>learning_rate</code></td>
+<td>float</td>
+<td>Scaling factor to dampen matrix updates. Must be in the interval <code>(0, 1]</code>. Default is 0.01.</td>
+<td><code>1.0</code></td>
+</tr>
+<tr class="even">
+<td><code>random_state</code></td>
+<td>None | numpy.numpy.random.numpy.random.RandomState</td>
+<td>Random state to pass to dataset jumbler. Defaults to <code>None</code>.</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes-4" class="level6">
+<h6 class="anchored" data-anchor-id="attributes-4">Attributes</h6>
+<table class="table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 21%">
+<col style="width: 67%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>scm_matrix</td>
+<td>numpy.numpy.ndarray</td>
+<td>Soft Cosine Measure matrix that is fitted cumulatively or afresh.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+</section>
+<section id="pprl.embedder.embedder.SimilarityArray" class="level3">
+<h3 class="anchored" data-anchor-id="pprl.embedder.embedder.SimilarityArray">SimilarityArray</h3>
+<p><code>embedder.embedder.SimilarityArray()</code></p>
+<p>Augmented NumPy array of similarity scores with extra attributes.</p>
+<section id="parameters-7" class="level4">
+<h4 class="anchored" data-anchor-id="parameters-7">Parameters</h4>
+<table class="table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 4%">
+<col style="width: 76%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>input_array</code></td>
+<td></td>
+<td>Original array of similarity score data.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td><code>thresholds</code></td>
+<td></td>
+<td>2-tuple of similarity score thresholds for each axis. These thresholds can be used as an outside option when generating a matching.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="odd">
+<td><code>embedder_checksum</code></td>
+<td></td>
+<td>Hexadecimal string digest of a <code>pprl.embedder.Embedder</code> object.</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="notes-2" class="level4">
+<h4 class="anchored" data-anchor-id="notes-2">Notes</h4>
+<p><code>SimilarityArray</code> objects are usually initialised from an instance of <code>pprl.embedder.Embedder</code> via the <code>embedder.compare()</code> method.</p>
+</section>
+<section id="methods-2" class="level4">
+<h4 class="anchored" data-anchor-id="methods-2">Methods</h4>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#pprl.embedder.embedder.SimilarityArray.match">match</a></td>
+<td>Compute a matching.</td>
+</tr>
+</tbody>
+</table>
+<section id="pprl.embedder.embedder.SimilarityArray.match" class="level5">
+<h5 class="anchored" data-anchor-id="pprl.embedder.embedder.SimilarityArray.match">match</h5>
+<p><code>embedder.embedder.SimilarityArray.match(abs_cutoff=0, rel_cutoff=0, hungarian=True, require_thresholds=True)</code></p>
+<p>Compute a matching.</p>
+<p>Given an array of similarity scores, compute a matching of its elements, using the Hungarian algorithm by default. If the <code>SimilarityArray</code> has thresholds, masking is used to ensure they are respected. An <code>abs_cutoff</code> (global minimum similarity score) can also be supplied.</p>
+<section id="parameters-8" class="level6">
+<h6 class="anchored" data-anchor-id="parameters-8">Parameters</h6>
+<table class="table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 5%">
+<col style="width: 80%">
+<col style="width: 4%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>abs_cutoff</code></td>
+<td>int or float</td>
+<td>A lower cutoff for the similarity score. No pairs with similarity below the absolute cutoff will be matched. By default, this is 0.</td>
+<td><code>0</code></td>
+</tr>
+<tr class="even">
+<td><code>rel_cutoff</code></td>
+<td>int or float</td>
+<td>A margin above the row/column-specific threshold. Raises all thresholds by a constant. By default, this is 0.</td>
+<td><code>0</code></td>
+</tr>
+<tr class="odd">
+<td><code>hungarian</code></td>
+<td>bool</td>
+<td>Whether to compute the unique matching using the Hungarian algorithm, filtered using <code>thresholds</code> and <code>abs_cutoff</code>. Default is <code>True</code>. If <code>False</code>, just return all pairs above the threshold.</td>
+<td><code>True</code></td>
+</tr>
+<tr class="even">
+<td><code>require_thresholds</code></td>
+<td>bool</td>
+<td>If <code>True</code> (default), the matching will fail if <code>thresholds</code> is not present and valid. Must be explicitly set to <code>False</code> to allow matching without similarity thresholds.</td>
+<td><code>True</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="returns-5" class="level6">
+<h6 class="anchored" data-anchor-id="returns-5">Returns</h6>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>tuple[list[int], list[int]]</td>
+<td>2-tuple of indexes containing row and column indices of matched pairs eg. <code>([0, 1, ...], [0, 1, ...])</code>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="notes-3" class="level6">
+<h6 class="anchored" data-anchor-id="notes-3">Notes</h6>
+<p>If <code>hungarian=False</code>, the matching returns all pairs with similarity score above the <code>abs_cutoff</code>, respecting <code>thresholds</code> if present. This method does not guarantee no duplicates.</p>
+</section>
+</section>
+</section>
+</section>
+</section>
+<section id="functions" class="level2">
+<h2 class="anchored" data-anchor-id="functions">Functions</h2>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#pprl.embedder.embedder.nearest_pos_semi_definite">nearest_pos_semi_definite</a></td>
+<td>Calculate nearest positive semi-definite version of a matrix.</td>
+</tr>
+</tbody>
+</table>
+<section id="pprl.embedder.embedder.nearest_pos_semi_definite" class="level3">
+<h3 class="anchored" data-anchor-id="pprl.embedder.embedder.nearest_pos_semi_definite">nearest_pos_semi_definite</h3>
+<p><code>embedder.embedder.nearest_pos_semi_definite(X, eps=0.0)</code></p>
+<p>Calculate nearest positive semi-definite version of a matrix.</p>
+<p>This function achieves this by setting all negative eigenvalues of the matrix to zero, or a small positive value to give a positive definite matrix.</p>
+<p>Graciously taken from this StackOverflow <a href="https://stackoverflow.com/questions/43238173/python-convert-matrix-to-positive-semi-definite">post</a></p>
+<section id="parameters-9" class="level4">
+<h4 class="anchored" data-anchor-id="parameters-9">Parameters</h4>
+<table class="table">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 12%">
+<col style="width: 74%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>X</code></td>
+<td>numpy.numpy.ndarray</td>
+<td>Matrix-like array.</td>
+<td><em>required</em></td>
+</tr>
+<tr class="even">
+<td><code>eps</code></td>
+<td>float</td>
+<td>Use a small positive constant to give a positive definite matrix. Default is 0 to give a positive semi-definite matrix.</td>
+<td><code>0.0</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="returns-6" class="level4">
+<h4 class="anchored" data-anchor-id="returns-6">Returns</h4>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>numpy.numpy.ndarray</td>
+<td>A positive (semi-)definite matrix.</td>
+</tr>
+</tbody>
+</table>
+
+
+</section>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">All content is available under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence V3.0</a>, except where otherwise stated.</div>   
+    <div class="nav-footer-center">Built using <a href="https://quarto.org/">Quarto</a>.</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
