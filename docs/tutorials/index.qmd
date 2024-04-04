@@ -9,8 +9,8 @@ listing:
     filter-ui: false
 ---
 
-These tutorials walk you through some of the essential workflows for `pprl`.
-The purpose of these documents is for you to learn how to use the `pprl`
+These tutorials walk you through some of the essential workflows for pprl.
+The purpose of these documents is for you to learn how to use the pprl
 package for your own linkage projects.
 
 <br>

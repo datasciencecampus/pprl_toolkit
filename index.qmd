@@ -1,5 +1,5 @@
 ---
-title: Welcome to the `pprl` documentation!
+title: Welcome to the **pprl** documentation!
 toc: false
 sidebar: false
 about:
@@ -12,13 +12,13 @@ about:
 
 ## What is this and why does it exist?
 
-This package, `pprl`, implements a method for performing
-`p`rivacy-`p`reserving `r`ecord `l`inkage. This linkage can be done
+This package, **pprl**, implements a method for performing
+Privacy Preserving Record Linkage. This linkage can be done
 locally or through Google Cloud Platform.
 
 ## Where do I go now?
 
-If you're looking to get stuck in with `pprl`, head over to our
+If you're looking to get stuck in with pprl, head over to our
 [tutorials](docs/tutorials/index.qmd).
 
 For more focused, technical details of how this all works, see our

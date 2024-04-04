@@ -171,7 +171,7 @@ def decrypt_dek(
     """
     Decrypt a data encryption key using an asymmetric key held on KMS.
 
-    Owing to the nature of the encryption key set-up of `pprl` this
+    Owing to the nature of the encryption key set-up of pprl this
     function is only really to be used in the GCP Confidential Space set
     up by the linkage administrator.
 

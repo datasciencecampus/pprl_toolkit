@@ -11,7 +11,7 @@ import pprl
 
 def _find_directory(kind: str, what: str | None = None) -> Path:
     """
-    Find a directory in the root of the `pprl` installation.
+    Find a directory in the root of the pprl installation.
 
     Parameters
     ----------
@@ -43,7 +43,7 @@ def load_environment(path: None | str = None) -> dict[str, None | str]:
     ----------
     path : str, optional
         Location of the configuration file to load. If not specified,
-        try to load the configuration file from the root of the `pprl`
+        try to load the configuration file from the root of the pprl
         installation called `.env`.
 
     Returns

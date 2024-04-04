@@ -4,7 +4,7 @@ description: >
     Get you and your collaborators performing linkage in the cloud
 ---
 
-This tutorial provides an overview of how to use `pprl_toolkit` on
+This tutorial provides an overview of how to use the PPRL Toolkit on
 Google Cloud Platform (GCP). We go over how to assemble and assign roles in a
 linkage team, how to set up everybody's projects, and end with executing the
 linkage itself.
@@ -34,14 +34,14 @@ model that allows one of the data-owning parties to author the workload while
 the other is the operator.
 
 ::: {.callout-tip}
-In fact, `pprl_toolkit` is set up to allow any configuration of these roles
+In fact, the PPRL Toolkit is set up to allow any configuration of these roles
 among up to four people.
 :::
 
 In any case, you must decide who will be doing what from the outset. Each role
 comes with different responsibilities, but all roles require a GCP account and
 access to the `gcloud` command-line tool. Additionally, everyone in the linkage
-project will need to install `pprl_toolkit`.
+project will need to install the PPRL Toolkit.
 
 ### Data-owning party
 
@@ -89,34 +89,23 @@ unique. This will ensure that bucket names are also globally unique.
 Our aim is to create a globally unique name (and thus ID) for each project.
 :::
 
-For example, say the US Census Bureau and UK Office for National Statistics
-(ONS) are looking to link some data on ex-patriated residents with PPRL. Then
-they might use `us-cb` and `uk-ons` as their party names, which are succinct
+For example, say a UK bank and a US bank are looking to link some data on international
+transactions to fit a machine learning model to predict fraud. Then
+they might use `us-eaglebank` and `uk-royalbank` as their party names, which are succinct
 and descriptive. However, they are generic and rule out future PPRL projects
 with the same names.
 
-As a remedy, they could make a hash of their project description to create an
+As a remedy, they could make a short hash of their project description to create an
 identifier:
 
 ```bash
-$ echo -n "pprl us-cb uk-ons ex-pats-analysis" | sha256sum
-d59a50241dc78c3f926b565937b99614b7bb7c84e44fb780440718cb2b0ddc1b  -
+$ echo -n "pprl us-eaglebank uk-royalbank fraud apr 2024" | sha256sum | cut -c 1-7
+4fb6720
 ```
 
-This is very long. You might only want to use the first few characters of this
-hash. Note that Google Cloud bucket names also can't be more than 63 characters
-long without dots.
-
-You can trim it down like so:
-
-```bash
-$ echo -n "pprl us-cb uk-ons ex-pats-analysis" | sha256sum | cut -c 1-7
-d59a502
-```
-
-So, our names would be: `uk-ons-d59a502`, `us-cb-d59a502`. If they had a
+So, our project names would be: `uk-royalbank-4fb6720`, `us-eaglebank-4fb6720`. If they had a
 third-party linkage administrator (authoring and operating the workload), they
-would have a project called something like `admin-d59a502`.
+would have a project called something like `admin-4fb6720`.
 
 
 ## Setting up your projects
@@ -169,15 +158,15 @@ The workload operator requires three IAM roles:
 | Storage Admin  | `roles/storage.admin`     | Managing a shared bucket            |
 
 
-## Configuring `pprl_toolkit`
+## Configuring the PPRL Toolkit
 
 Now your linkage team has its projects made up, you need to configure
-`pprl_toolkit`. This configuration tells the package where to look and what to
+the PPRL Toolkit. This configuration tells the package where to look and what to
 call things; we do this with a single environment file containing a short
 collection of key-value pairs.
 
 We have provided an example environment file in `.env.example`. Copy or rename
-that file to `.env` in the root of the `pprl_toolkit` installation. Then, fill
+that file to `.env` in the root of the PPRL Toolkit installation. Then, fill
 in your project details as necessary.
 
 For our example above, let's say the ONS will be the workload author and the US
@@ -185,16 +174,16 @@ Census Bureau will be the workload operator. The environment file would look
 something like this:
 
 ```bash
-PARTY_1_PROJECT=us-cb-d59a502
+PARTY_1_PROJECT=uk-royalbank-4fb6720
 PARTY_1_KEY_VERSION=1
 
-PARTY_2_PROJECT=uk-ons-d59a502
+PARTY_2_PROJECT=us-eaglebank-4fb6720
 PARTY_2_KEY_VERSION=1
 
-WORKLOAD_AUTHOR_PROJECT=uk-ons-d59a502
+WORKLOAD_AUTHOR_PROJECT=uk-royalbank-4fb6720
 WORKLOAD_AUTHOR_PROJECT_REGION=europe-west2
 
-WORKLOAD_OPERATOR_PROJECT=us-cb-d59a502
+WORKLOAD_OPERATOR_PROJECT=us-eaglebank-4fb6720
 WORKLOAD_OPERATOR_PROJECT_ZONE=us-east4-a
 ```
 
