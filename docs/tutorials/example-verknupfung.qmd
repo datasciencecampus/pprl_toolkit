@@ -41,7 +41,7 @@ df2 = pd.DataFrame(
 These datasets don't have the same column names or follow the same encodings,
 and there are several spelling mistakes in the names of the band members, as well as a typo in the dates.
 
-Thankfully, pprl is flexible enough to handle this!
+Thankfully, the PPRL Toolkit is flexible enough to handle this!
 :::
 
 ### Creating and assigning a feature factory
