@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Please be aware that, as the `pprl_toolkit` is an experimental package, ONS cannot promise to implement feature ideas.
+Please be aware that, as pprl is an experimental package, ONS cannot promise to implement feature ideas.
 
 ### Does your feature idea solve a problem?
 If this applies to your idea, please provide a clear and concise description of what the problem is.
@@ -20,4 +20,3 @@ A clear and concise description of any alternative solutions or features you've 
 
 ### Additional context
 Add any other context or screenshots about the feature request here.
-

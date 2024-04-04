@@ -11,17 +11,15 @@ def split_string_underscore(string: str) -> list[str]:
     """Split and underwrap a string at typical punctuation marks.
 
     Currently, we split at any combination of spaces, dashes, dots,
-    commas, or underscores. For example:
+    commas, or underscores.
 
-    ```
+    Examples
+    --------
     >>> strings = ("dave  william johnson", "Francesca__Hogan-O'Malley")
     >>> for string in strings:
     ...     print(split_string_underscore(string))
-    ...
     ["_dave_", "_william_", "_johnson_"]
     ["_Francesca_", "_Hogan_", "_O'Malley_"]
-
-    ```
 
     Parameters
     ----------
@@ -71,16 +69,15 @@ def gen_skip_grams(split_tokens: list) -> Generator[str, None, None]:
     """Generate skip 2-grams from a set of tokens.
 
     This function is a generator that contains a series of skip 2-grams.
-    For example:
 
-    ```
+    Examples
+    --------
     >>> string = "dave james"
     >>> tokens = split_string_underscore(string)
     >>> skips = list(gen_skip_grams(tokens))
     >>> print(skips)
     ["_a", "dv", "ae", "v_", "_a", "jm", "ae", "ms", "e_"]
 
-    ```
 
     Parameters
     ----------

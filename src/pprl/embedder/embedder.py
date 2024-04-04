@@ -93,12 +93,14 @@ class EmbeddedDataFrame(pd.DataFrame):
 
         The matrix has a row for each row in the EDF. The number of
         columns is equal to `self.embedder.bf_size + self.embedder.offset`.
+        Each row in the matrix is a Bloom filter expressed as a binary vector, with
+        the ones corresponding to hashed features.
         This representation is used in the `Embedder.compare()` method.
 
         Returns
         -------
         X: np.ndarray
-            Binary array of size `(len(self), self.bf_size + 1)`.
+            Binary array of size `(len(self), self.embedder.bf_size + self.embedder.offset)`.
         """
         assert self.embedder_checksum == self.embedder.checksum, "Checksum mismatch"
 
@@ -137,10 +139,12 @@ class EmbeddedDataFrame(pd.DataFrame):
         return np.sqrt(np.sum(self.embedder.scm_matrix[np.ix_(bf_indices, bf_indices)]))
 
     def update_norms(self) -> "EmbeddedDataFrame":
-        """Generate vector norms (wrt. `self.embedder`) for each row.
+        """Generate vector norms for each row.
 
-        The vector norm is used to scale the (Soft) Cosine similarity
-        scores.
+        Create or update the `bf_norms` column in the EDF. This method calculates,
+        for each Bloom filter, its Euclidean norm when the filter is expressed as a
+        binary vector, and saves it to the EDF. The norm is used to scale the
+        (Soft) Cosine similarity scores.
 
         Attributes
         ----------
@@ -163,8 +167,7 @@ class SimilarityArray(np.ndarray):
         Original array of similarity score data.
     thresholds: tuple, optional
         2-tuple of similarity score thresholds for each axis. These
-        thresholds can be used as an outside option when generating a
-        matching.
+        thresholds are used when generating a matching.
     embedder_checksum: str, optional
         Hexadecimal string digest of a `pprl.embedder.Embedder` object.
 
@@ -203,9 +206,9 @@ class SimilarityArray(np.ndarray):
 
         Given an array of similarity scores, compute a matching of its
         elements, using the Hungarian algorithm by default. If the
-        `SimilarityArray` has thresholds, masking is used to ensure they
-        are respected. An `abs_cutoff` (global minimum similarity score)
-        can also be supplied.
+        `SimilarityArray` has thresholds, masking is used to ensure that prospective
+        matches whose similarity score is below the thresholds are not returned.
+        An `abs_cutoff` (global minimum similarity score) can also be supplied.
 
         Parameters
         ----------
@@ -350,9 +353,14 @@ class Embedder:
         self.checksum = self._compute_checksum()
 
     def _initmatrix(self) -> np.ndarray:
+        """Initialise matrices as identity matrices of dimension `bf_size` + `offset`."""
         return np.eye((self.bf_size + self.offset), dtype=np.float32)
 
     def _compute_checksum(self) -> str:
+        """Compute a checksum on important attributes of the Embedder instance.
+
+        To check for functional equality of two instances
+        """
         res = hashlib.md5()
 
         # bytes from feature_factory
@@ -377,6 +385,10 @@ class Embedder:
         update_thresholds: bool = False,
     ) -> EmbeddedDataFrame:
         """Encode data columns into features from Bloom embedding.
+
+        Given a pandas DataFrame and a column specification, convert columns into
+        string features, and then embed the features into Bloom filters. The method
+        returns an instance of `EmbeddedDataFrame`, which is an augmented pandas DataFrame.
 
         Parameters
         ----------
@@ -494,18 +506,29 @@ class Embedder:
 
     def _joint_freq_matrix(
         self,
-        x: list[list] | pd.Series,
-        y: list[list] | pd.Series,
+        bf_indices1: list[list] | pd.Series,
+        bf_indices2: list[list] | pd.Series,
         prob: bool = False,
     ) -> np.ndarray:
-        assert len(x) == len(y), "x and y lengths must match"
-        N = len(x)
+        """Calculate the symmetrised joint frequency matrix on the Bloom filters.
+
+        Given two EDFs' bf_indices, returns a square matrix of size `self.bf_size` where
+        each entry (i,j) is the frequency of observing a feature hashed into slot `i` in
+        one dataset, and a feature hashed into slot `j` in the other dataset, at the same
+        row number. The frequency matrix is then symmetrised because the order of the two
+        datasets doesn't matter. `prob`, if True, converts frequencies to probabilities by dividing
+        by N, not usually needed because we're using a logged ratio of two matrices so the
+        division by N cancels out.
+        """
+        assert len(bf_indices1) == len(bf_indices2), "x and y lengths must match"
+        N = len(bf_indices1)
         bfsize = self.bf_size + self.offset
 
         coordinates = ([], [])
-        # Loop through the cross-product of every index in x[n] and every index in y[n]
-        # for n in 1:len(x)
-        for i, j in it.chain.from_iterable(map(it.product, x, y)):
+        # Loop through the cross-product of every index in bf_indices1[n]
+        # and every index in bf_indices2[n]
+        # for n in 1:len(bf_indices1)
+        for i, j in it.chain.from_iterable(map(it.product, bf_indices1, bf_indices2)):
             coordinates[0].append(i)
             coordinates[1].append(j)
 
@@ -534,8 +557,8 @@ class Embedder:
         with its constituent matrices, `freq_matr_matched` and
         `freq_matr_unmatched`.
 
-        Provide two datasets of pre-matched data. If `update=True`, the
-        training is cumulative, so that `train()` can be called more
+        Provide two datasets of pre-matched data, with matching records aligned.
+        If `update=True`, the training is cumulative, so that `train()` can be called more
         than once, updating the same matrices each time by adding new
         frequency tables. Otherwise, all three matrices are
         reinitialised prior to training.

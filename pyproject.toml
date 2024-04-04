@@ -12,7 +12,7 @@ authors = [
     {name = "Henry Wilde"},
     {name = "Data Science Campus", email = "datacampus@ons.gov.uk"},
 ]
-description = "Privacy-preserving record linkage via bloom filter embedding"
+description = "Privacy-preserving record linkage via Bloom filter embedding"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT License"}
@@ -33,7 +33,7 @@ dependencies = [
 ]
 
 [project.urls]
-homepage = "https://github.com/datasciencecampus/pprl"
+homepage = "https://github.com/datasciencecampus/pprl_toolkit"
 
 [project.optional-dependencies]
 lint = ["ruff==0.3.0", "mypy"]

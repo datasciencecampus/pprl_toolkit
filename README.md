@@ -1,10 +1,10 @@
 ![ONS and DSC logos](https://github.com/datasciencecampus/awesome-campus/blob/master/ons_dsc_logo.png)
 
-# `pprl_toolkit`: a toolkit for privacy-preserving record linkage
+# PPRL Toolkit: A toolkit for Privacy-Preserving Record Linkage
 
 > "We find ourselves living in a society which is rich with data and the opportunities that comes with this. Yet, when disconnected, this data is limited in its usefulness. ... Being able to link data will be vital for enhancing our understanding of society, driving policy change for greater public good." Sir Ian Diamond, the National Statistician
 
-The Privacy Preserving Record Linkage (PPRL) toolkit demonstrates the feasibility of record linkage in difficult 'eyes off' settings. It has been designed for a situation where two organisations (perhaps in different jurisdictions) want to link their datasets at record level, to enrich the information they contain, but neither party is able to send sensitive personal identifiers -- such as names, addresses or dates of birth -- to the other. Building on [previous ONS research](https://www.gov.uk/government/publications/joined-up-data-in-government-the-future-of-data-linking-methods/privacy-preserving-record-linkage-in-the-context-of-a-national-statistics-institute), the toolkit implements a well-known privacy-preserving linkage method in a new way to improve performance, and wraps it in a secure cloud architecture to demonstrate the potential of a layered approach.
+The Privacy Preserving Record Linkage (PPRL) toolkit demonstrates the feasibility of record linkage in difficult 'eyes off' settings. It has been designed for a situation where two organisations (perhaps in different jurisdictions) want to link their datasets at record level, to enrich the information they contain, but neither party is able to send sensitive personal identifiers - such as names, addresses or dates of birth - to the other. Building on [previous ONS research](https://www.gov.uk/government/publications/joined-up-data-in-government-the-future-of-data-linking-methods/privacy-preserving-record-linkage-in-the-context-of-a-national-statistics-institute), the toolkit implements a well-known privacy-preserving linkage method in a new way to improve performance, and wraps it in a secure cloud architecture to demonstrate the potential of a layered approach.
 
 The  toolkit has been developed by data scientists at the [Data Science Campus](https://datasciencecampus.ons.gov.uk/) of the UK Office for National Statistics. This project has benefitted from early collaborations with colleagues at NHS England.
 
@@ -13,7 +13,9 @@ The two parts of the toolkit are:
 * a Python package for privacy-preserving record linkage with Bloom filters and hash embeddings, that can be used locally with no cloud set-up
 * instructions, scripts and resources to run record linkage in a cloud-based secure enclave. This part of the toolkit requires you to set up Google Cloud accounts with billing
 
-We're publishing the repo as a prototype and teaching tool. Please feel free to download, adapt and experiment with it in compliance with the open-source license. You can submit issues [here](https://github.com/datasciencecampus/pprl_toolkit/issues). However, as this is an experimental repo, the development team cannot commit to maintaining the repo or responding to issues. If you'd like to collaborate with us, to put these ideas into practice for the public good, please [get in touch](https://datasciencecampus.ons.gov.uk/contact/).
+We're publishing the repo as a prototype and teaching tool. Please feel free to download, adapt and experiment with it in compliance with the open-source license. The reference documentation and tutorials are published [here](https://datasciencecampus.github.io/pprl_toolkit). You can submit issues [here](https://github.com/datasciencecampus/pprl_toolkit/issues). However, as this is a prototype, the development team cannot commit to maintaining the repo indefinitely or responding to all issues.
+
+This toolkit is not assured for use in production settings, but we believe the tools and methods demonstrated here have great potential for positive impact with further development and adaptation. If you'd like to collaborate with us, to put these ideas into practice for the public good, please [get in touch](https://datasciencecampus.ons.gov.uk/contact/).
 
 ## Installation
 
@@ -84,7 +86,7 @@ matching. We will use the toolkit to identify these matches.
 > These datasets don't have the same column names or follow the same encodings,
 > and there are several spelling mistakes in the names of the band members.
 >
-> Thankfully, the `pprl_toolkit` is flexible enough to handle this!
+> Thankfully, the PPRL Toolkit is flexible enough to handle this!
 
 ### Creating and assigning a feature factory
 
@@ -148,7 +150,7 @@ Lastly, we compute the matching using an adapted Hungarian algorithm with local 
 
 ```
 
-So, all three of the records in each dataset were matched correctly. Excellent!
+So, all three of the records in each dataset were matched correctly. Excellent! You can find a longer version of this tutorial [here](https://datasciencecampus.github.io/pprl_toolkit/docs/tutorials/example-verknupfung.html).
 
 
 ## Working in the cloud
@@ -169,7 +171,7 @@ parties, a workload author, and a workload operator. These roles can be summaris
 - The workload **operator** sets up and runs the Confidential
   Space virtual machine, which uses the Docker image to perform the record linkage.
 
-We have set up `pprl_toolkit` to allow any configuration of these roles among
+We have set up the PPRL Toolkit to allow any configuration of these roles among
 users. You could do it all yourself, split the workload roles between two
 data owning-parties, or ask a trusted third party to maintain the
 workload.
