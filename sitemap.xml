@@ -1,55 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/tutorials/run-through.html</loc>
-    <lastmod>2024-04-03T15:38:16.926Z</lastmod>
-  </url>
-  <url>
-    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/tutorials/example-febrl.html</loc>
-    <lastmod>2024-04-03T15:38:16.926Z</lastmod>
-  </url>
-  <url>
-    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/tutorials/index.html</loc>
-    <lastmod>2024-04-03T15:38:16.926Z</lastmod>
-  </url>
-  <url>
-    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/config.html</loc>
-    <lastmod>2024-04-03T15:39:02.379Z</lastmod>
-  </url>
-  <url>
-    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/bloom_filters.html</loc>
-    <lastmod>2024-04-03T15:39:02.283Z</lastmod>
-  </url>
-  <url>
-    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/embedder.html</loc>
-    <lastmod>2024-04-03T15:39:02.331Z</lastmod>
-  </url>
-  <url>
     <loc>https://datasciencecampus.github.io/pprl_toolkit/index.html</loc>
-    <lastmod>2024-04-03T15:38:16.926Z</lastmod>
-  </url>
-  <url>
-    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/encryption.html</loc>
-    <lastmod>2024-04-03T15:39:02.379Z</lastmod>
+    <lastmod>2024-04-04T11:05:33.852Z</lastmod>
   </url>
   <url>
     <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/index.html</loc>
-    <lastmod>2024-04-03T15:39:02.259Z</lastmod>
+    <lastmod>2024-04-04T11:06:19.914Z</lastmod>
   </url>
   <url>
-    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/utils.html</loc>
-    <lastmod>2024-04-03T15:39:02.395Z</lastmod>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/config.html</loc>
+    <lastmod>2024-04-04T11:06:20.034Z</lastmod>
   </url>
   <url>
-    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/features.html</loc>
-    <lastmod>2024-04-03T15:39:02.363Z</lastmod>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/bloom_filters.html</loc>
+    <lastmod>2024-04-04T11:06:19.934Z</lastmod>
+  </url>
+  <url>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/local.html</loc>
+    <lastmod>2024-04-04T11:06:20.070Z</lastmod>
+  </url>
+  <url>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/perform.html</loc>
+    <lastmod>2024-04-04T11:06:20.082Z</lastmod>
+  </url>
+  <url>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/tutorials/index.html</loc>
+    <lastmod>2024-04-04T11:05:33.852Z</lastmod>
   </url>
   <url>
     <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/tutorials/example-verknupfung.html</loc>
-    <lastmod>2024-04-03T15:38:16.926Z</lastmod>
+    <lastmod>2024-04-04T11:05:33.852Z</lastmod>
+  </url>
+  <url>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/tutorials/example-febrl.html</loc>
+    <lastmod>2024-04-04T11:05:33.852Z</lastmod>
   </url>
   <url>
     <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/tutorials/in-the-cloud.html</loc>
-    <lastmod>2024-04-03T15:38:16.926Z</lastmod>
+    <lastmod>2024-04-04T11:05:33.852Z</lastmod>
+  </url>
+  <url>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/tutorials/run-through.html</loc>
+    <lastmod>2024-04-04T11:05:33.852Z</lastmod>
+  </url>
+  <url>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/encryption.html</loc>
+    <lastmod>2024-04-04T11:06:20.030Z</lastmod>
+  </url>
+  <url>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/features.html</loc>
+    <lastmod>2024-04-04T11:06:20.014Z</lastmod>
+  </url>
+  <url>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/utils.html</loc>
+    <lastmod>2024-04-04T11:06:20.050Z</lastmod>
+  </url>
+  <url>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/cloud.html</loc>
+    <lastmod>2024-04-04T11:06:20.066Z</lastmod>
+  </url>
+  <url>
+    <loc>https://datasciencecampus.github.io/pprl_toolkit/docs/reference/embedder.html</loc>
+    <lastmod>2024-04-04T11:06:19.982Z</lastmod>
   </url>
 </urlset>

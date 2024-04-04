@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.552">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -80,7 +114,7 @@ ul.task-list li input[type="checkbox"] {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title"><code>pprl</code></span>
+    <span class="navbar-title"><strong>pprl</strong></span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -111,11 +145,11 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-bi-github">    
         <li>
-    <a class="dropdown-item" href="https://github.com/datasciencecampus/pprl">
+    <a class="dropdown-item" href="https://github.com/datasciencecampus/pprl_toolkit">
  <span class="dropdown-text">Source code</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="https://github.com/datasciencecampus/pprl/issues">
+    <a class="dropdown-item" href="https://github.com/datasciencecampus/pprl_toolkit/issues">
  <span class="dropdown-text">Open an issue</span></a>
   </li>  
     </ul>
@@ -137,7 +171,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/reference/index.html">Docs</a></li><li class="breadcrumb-item"><a href="../../docs/reference/index.html">API reference</a></li><li class="breadcrumb-item"><a href="../../docs/reference/features.html">features</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/tutorials/index.html">Docs</a></li><li class="breadcrumb-item"><a href="../../docs/reference/index.html">API reference</a></li><li class="breadcrumb-item"><a href="../../docs/reference/features.html">features</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -174,17 +208,58 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../docs/reference/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">API reference</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <a href="../../docs/tutorials/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/example-febrl.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Linking the FEBRL datasets</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/example-verknupfung.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Exploring a simple linkage example</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/in-the-cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working in the cloud</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/tutorials/run-through.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Embedder API run-through</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+          <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../docs/reference/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">API reference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/reference/bloom_filters.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">bloom_filters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/reference/cloud.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cloud</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -213,43 +288,20 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../docs/reference/local.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">local</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../docs/reference/perform.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">perform</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../docs/reference/utils.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">utils</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-          <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../../docs/tutorials/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/example-febrl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Linking the FEBRL datasets</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/example-verknupfung.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Exploring a simple linkage example</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/in-the-cloud.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Working in the cloud</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/run-through.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Embedder API run-through</span></a>
   </div>
 </li>
       </ul>
@@ -826,13 +878,15 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="pprl.embedder.features.gen_skip_grams">gen_skip_grams</h3>
 <p><code>embedder.features.gen_skip_grams(split_tokens)</code></p>
 <p>Generate skip 2-grams from a set of tokens.</p>
-<p>This function is a generator that contains a series of skip 2-grams. For example:</p>
-<pre><code>&gt;&gt;&gt; string = "dave james"
-&gt;&gt;&gt; tokens = split_string_underscore(string)
-&gt;&gt;&gt; skips = list(gen_skip_grams(tokens))
-&gt;&gt;&gt; print(skips)
-["_a", "dv", "ae", "v_", "_a", "jm", "ae", "ms", "e_"]
-</code></pre>
+<p>This function is a generator that contains a series of skip 2-grams.</p>
+<section id="examples" class="level4">
+<h4 class="anchored" data-anchor-id="examples">Examples</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> string <span class="op">=</span> <span class="st">"dave james"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> tokens <span class="op">=</span> split_string_underscore(string)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> skips <span class="op">=</span> <span class="bu">list</span>(gen_skip_grams(tokens))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="bu">print</span>(skips)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>[<span class="st">"_a"</span>, <span class="st">"dv"</span>, <span class="st">"ae"</span>, <span class="st">"v_"</span>, <span class="st">"_a"</span>, <span class="st">"jm"</span>, <span class="st">"ae"</span>, <span class="st">"ms"</span>, <span class="st">"e_"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 <section id="parameters-8" class="level4">
 <h4 class="anchored" data-anchor-id="parameters-8">Parameters</h4>
 <table class="table">
@@ -882,14 +936,15 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="pprl.embedder.features.split_string_underscore">split_string_underscore</h3>
 <p><code>embedder.features.split_string_underscore(string)</code></p>
 <p>Split and underwrap a string at typical punctuation marks.</p>
-<p>Currently, we split at any combination of spaces, dashes, dots, commas, or underscores. For example:</p>
-<pre><code>&gt;&gt;&gt; strings = ("dave  william johnson", "Francesca__Hogan-O'Malley")
-&gt;&gt;&gt; for string in strings:
-...     print(split_string_underscore(string))
-...
-["_dave_", "_william_", "_johnson_"]
-["_Francesca_", "_Hogan_", "_O'Malley_"]
-</code></pre>
+<p>Currently, we split at any combination of spaces, dashes, dots, commas, or underscores.</p>
+<section id="examples-1" class="level4">
+<h4 class="anchored" data-anchor-id="examples-1">Examples</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> strings <span class="op">=</span> (<span class="st">"dave  william johnson"</span>, <span class="st">"Francesca__Hogan-O'Malley"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="cf">for</span> string <span class="kw">in</span> strings:</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>...     <span class="bu">print</span>(split_string_underscore(string))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>[<span class="st">"_dave_"</span>, <span class="st">"_william_"</span>, <span class="st">"_johnson_"</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>[<span class="st">"_Francesca_"</span>, <span class="st">"_Hogan_"</span>, <span class="st">"_O'Malley_"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
 <section id="parameters-9" class="level4">
 <h4 class="anchored" data-anchor-id="parameters-9">Parameters</h4>
 <table class="table">

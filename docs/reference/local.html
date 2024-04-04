@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>pprl - Embedder API run-through</title>
+<title>pprl</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,44 +20,10 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -102,9 +68,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -174,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/tutorials/index.html">Docs</a></li><li class="breadcrumb-item"><a href="../../docs/tutorials/index.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../docs/tutorials/run-through.html">Embedder API run-through</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/tutorials/index.html">Docs</a></li><li class="breadcrumb-item"><a href="../../docs/reference/index.html">API reference</a></li><li class="breadcrumb-item"><a href="../../docs/reference/local.html">local</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -213,11 +176,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../../docs/tutorials/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth2 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/tutorials/example-febrl.html" class="sidebar-item-text sidebar-link">
@@ -238,7 +201,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/tutorials/run-through.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../docs/tutorials/run-through.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Embedder API run-through</span></a>
   </div>
 </li>
@@ -248,11 +211,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../../docs/reference/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">API reference</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../docs/reference/bloom_filters.html" class="sidebar-item-text sidebar-link">
@@ -291,7 +254,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../docs/reference/local.html" class="sidebar-item-text sidebar-link">
+  <a href="../../docs/reference/local.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">local</span></a>
   </div>
 </li>
@@ -320,304 +283,105 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../docs/tutorials/index.html">Docs</a></li><li class="breadcrumb-item"><a href="../../docs/tutorials/index.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../docs/tutorials/run-through.html">Embedder API run-through</a></li></ol></nav>
-<div class="quarto-title">
-<h1 class="title">Embedder API run-through</h1>
-</div>
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<p>This article shows the main classes, methods and functionality of the Embedder API.</p>
-<p>First, we’ll import a few modules, including:</p>
-<ul>
-<li>the <code>features</code> module, that has functions for processing data into features for embedding</li>
-<li>the <code>config</code> module, which includes our package configuration (such as the location of data directories)</li>
-<li>some classes from the main <code>embedder</code> module</li>
-</ul>
-<div id="20115c88" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pprl <span class="im">import</span> EmbeddedDataFrame, Embedder, config</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pprl.embedder <span class="im">import</span> features <span class="im">as</span> feat</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="data-set-up" class="level2">
-<h2 class="anchored" data-anchor-id="data-set-up">Data set-up</h2>
-<p>For this demo we’ll create a really minimal pair of datasets. Notice that they don’t have to have the same structure or field names.</p>
-<div id="5f4b4eee" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">dict</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">id</span><span class="op">=</span>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>],</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        forename<span class="op">=</span>[<span class="st">"Henry"</span>, <span class="st">"Sally"</span>, <span class="st">"Ina"</span>],</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        surname <span class="op">=</span> [<span class="st">"Tull"</span>, <span class="st">"Brown"</span>, <span class="st">"Lawrey"</span>],</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        dob<span class="op">=</span>[<span class="st">"1/1/2001"</span>, <span class="st">"2/1/2001"</span>, <span class="st">"4/10/1995"</span>],</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        gender<span class="op">=</span>[<span class="st">"male"</span>, <span class="st">"Male"</span>, <span class="st">"Female"</span>],</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>df2 <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">dict</span>(</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        personid<span class="op">=</span>[<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>],</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        full_name<span class="op">=</span>[<span class="st">"Harry Tull"</span>, <span class="st">"Sali Brown"</span>, <span class="st">"Ina Laurie"</span>],</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        date_of_birth<span class="op">=</span>[<span class="st">"2/1/2001"</span>, <span class="st">"2/1/2001"</span>, <span class="st">"4/11/1995"</span>],</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        sex<span class="op">=</span>[<span class="st">"M"</span>, <span class="st">"M"</span>, <span class="st">"F"</span>],</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Features are extracted as different kinds of string objects from each field, ready to be hash embedded into the Bloom filters. We need to specify the feature extraction functions we’ll need.</p>
-<p>In this case we’ll need one extractor for names, one for dates of birth, and one for sex/gender records. We create a dict with the functions we need. We create another dict to store any keyword arguments we want to pass in to each function (in this case we use all the default arguments so the keyword argument dictionaries are empty):</p>
-<div id="e8976aff" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>feature_factory <span class="op">=</span> <span class="bu">dict</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span>feat.gen_name_features,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    dob<span class="op">=</span>feat.gen_dateofbirth_features,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    sex<span class="op">=</span>feat.gen_sex_features,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ff_args <span class="op">=</span> <span class="bu">dict</span>(name<span class="op">=</span>{}, sex<span class="op">=</span>{}, dob<span class="op">=</span>{})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="embedding" class="level2">
-<h2 class="anchored" data-anchor-id="embedding">Embedding</h2>
-<p>Now we can create an <code>Embedder</code> object. We want our Bloom filter vectors to have a length of 1024 elements, and we choose to hash each feature two times. These choices seem to work ok, but we haven’t explored them systematically.</p>
-<div id="7e0ffb26" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>embedder <span class="op">=</span> Embedder(feature_factory,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                    ff_args,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                    bf_size <span class="op">=</span> <span class="dv">2</span><span class="op">**</span><span class="dv">10</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                    num_hashes<span class="op">=</span><span class="dv">2</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now we can hash embed the dataset into an EmbeddedDataFrame (EDF). For this we need to pass a column specification <code>colspec</code> that maps each column of the data into the <code>feature_factory</code> functions. Any columns not mapped will not contribute to the embedding.</p>
-<div id="0deb00d4" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>edf1 <span class="op">=</span> embedder.embed(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    df1, colspec<span class="op">=</span><span class="bu">dict</span>(forename<span class="op">=</span><span class="st">"name"</span>, surname<span class="op">=</span><span class="st">"name"</span>, dob<span class="op">=</span><span class="st">"dob"</span>, gender<span class="op">=</span><span class="st">"sex"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>edf2 <span class="op">=</span> embedder.embed(</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    df2, colspec<span class="op">=</span><span class="bu">dict</span>(full_name<span class="op">=</span><span class="st">"name"</span>, date_of_birth<span class="op">=</span><span class="st">"dob"</span>, sex<span class="op">=</span><span class="st">"sex"</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf1)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>   id forename surname        dob  gender  \
-0   1    Henry    Tull   1/1/2001    male   
-1   2    Sally   Brown   2/1/2001    Male   
-2   3      Ina  Lawrey  4/10/1995  Female   
-
-                                   forename_features  \
-0  [_h, he, en, nr, ry, y_, _he, hen, enr, nry, ry_]   
-1  [_s, sa, al, ll, ly, y_, _sa, sal, all, lly, ly_]   
-2                    [_i, in, na, a_, _in, ina, na_]   
-
-                                    surname_features  \
-0           [_t, tu, ul, ll, l_, _tu, tul, ull, ll_]   
-1  [_b, br, ro, ow, wn, n_, _br, bro, row, own, wn_]   
-2  [_l, la, aw, wr, re, ey, y_, _la, law, awr, wr...   
-
-                       dob_features gender_features  \
-0  [day&lt;01&gt;, month&lt;01&gt;, year&lt;2001&gt;]        [sex&lt;m&gt;]   
-1  [day&lt;02&gt;, month&lt;01&gt;, year&lt;2001&gt;]        [sex&lt;m&gt;]   
-2  [day&lt;04&gt;, month&lt;10&gt;, year&lt;1995&gt;]        [sex&lt;f&gt;]   
-
-                                        all_features  \
-0  [ll, hen, enr, ull, ul, _tu, nr, _he, ry_, ry,...   
-1  [ro, ll, sa, ly_, ly, all, _b, br, bro, sal, r...   
-2  [a_, wr, awr, sex&lt;f&gt;, _in, na, _la, aw, re, na...   
-
-                                          bf_indices  bf_norms  
-0  [130, 644, 773, 135, 776, 903, 778, 265, 654, ...  6.708204  
-1  [129, 258, 130, 776, 523, 525, 398, 271, 671, ...  7.141428  
-2  [647, 394, 269, 13, 15, 532, 667, 28, 413, 155...  6.855655  
-   personid   full_name date_of_birth sex  \
-0         4  Harry Tull      2/1/2001   M   
-1         5  Sali Brown      2/1/2001   M   
-2         6  Ina Laurie     4/11/1995   F   
-
-                                  full_name_features  \
-0  [_h, ha, ar, rr, ry, y_, _t, tu, ul, ll, l_, _...   
-1  [_s, sa, al, li, i_, _b, br, ro, ow, wn, n_, _...   
-2  [_i, in, na, a_, _l, la, au, ur, ri, ie, e_, _...   
-
-             date_of_birth_features sex_features  \
-0  [day&lt;02&gt;, month&lt;01&gt;, year&lt;2001&gt;]     [sex&lt;m&gt;]   
-1  [day&lt;02&gt;, month&lt;01&gt;, year&lt;2001&gt;]     [sex&lt;m&gt;]   
-2  [day&lt;04&gt;, month&lt;11&gt;, year&lt;1995&gt;]     [sex&lt;f&gt;]   
-
-                                        all_features  \
-0  [ll, ull, ul, rry, _tu, rr, har, arr, ha, _ha,...   
-1  [ro, sa, _b, li_, br, _br, bro, sal, row, _sa,...   
-2  [a_, sex&lt;f&gt;, ur, au, _in, na, _la, uri, lau, a...   
-
-                                          bf_indices  bf_norms  
-0  [640, 130, 644, 135, 776, 10, 778, 271, 402, 5...  6.708204  
-1  [130, 523, 525, 398, 271, 152, 671, 803, 806, ...  6.855655  
-2  [646, 647, 394, 269, 15, 272, 531, 532, 665, 6...  6.782330  </code></pre>
-</div>
-</div>
-</section>
-<section id="training" class="level2">
-<h2 class="anchored" data-anchor-id="training">Training</h2>
-<p>Discuss this at this stage</p>
-</section>
-<section id="computing-the-similarity-scores-and-the-matching" class="level2">
-<h2 class="anchored" data-anchor-id="computing-the-similarity-scores-and-the-matching">Computing the similarity scores and the matching</h2>
-<p>Now we have two embedded datasets, we can compare them and compute all the pairwise Cosine similarity scores.</p>
-<p>First, we have to compute the vector norms of each Bloom vector (for scaling the Cosine similarity) and the thresholds (thresholds are explained here [link]). Computing the thresholds can be time-consuming for a larger dataset, because it essentially computes all pairwise comparisons of the data to itself.</p>
-<div id="f5233edf" class="cell" data-execution_count="6">
-<div class="cell-output cell-output-display" data-execution_count="6">
-<div>
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<section id="pprl.matching.local" class="level1">
+<h1>local</h1>
+<p><code>matching.local</code></p>
+<p>Functions for performing matching locally.</p>
+<section id="functions" class="level2">
+<h2 class="anchored" data-anchor-id="functions">Functions</h2>
+<table class="table">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">personid</th>
-<th data-quarto-table-cell-role="th">full_name</th>
-<th data-quarto-table-cell-role="th">date_of_birth</th>
-<th data-quarto-table-cell-role="th">sex</th>
-<th data-quarto-table-cell-role="th">full_name_features</th>
-<th data-quarto-table-cell-role="th">date_of_birth_features</th>
-<th data-quarto-table-cell-role="th">sex_features</th>
-<th data-quarto-table-cell-role="th">all_features</th>
-<th data-quarto-table-cell-role="th">bf_indices</th>
-<th data-quarto-table-cell-role="th">bf_norms</th>
-<th data-quarto-table-cell-role="th">thresholds</th>
+<th>Name</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
-<td>4</td>
-<td>Harry Tull</td>
-<td>2/1/2001</td>
-<td>M</td>
-<td>[_h, ha, ar, rr, ry, y_, _t, tu, ul, ll, l_, _...</td>
-<td>[day&lt;02&gt;, month&lt;01&gt;, year&lt;2001&gt;]</td>
-<td>[sex&lt;m&gt;]</td>
-<td>[ll, ull, ul, rry, _tu, rr, har, arr, ha, _ha,...</td>
-<td>[640, 130, 644, 135, 776, 10, 778, 271, 402, 5...</td>
-<td>6.708204</td>
-<td>0.195698</td>
+<td><a href="#pprl.matching.local.build_local_file_paths">build_local_file_paths</a></td>
+<td>Construct the paths for the input and output datasets for a party.</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
-<td>5</td>
-<td>Sali Brown</td>
-<td>2/1/2001</td>
-<td>M</td>
-<td>[_s, sa, al, li, i_, _b, br, ro, ow, wn, n_, _...</td>
-<td>[day&lt;02&gt;, month&lt;01&gt;, year&lt;2001&gt;]</td>
-<td>[sex&lt;m&gt;]</td>
-<td>[ro, sa, _b, li_, br, _br, bro, sal, row, _sa,...</td>
-<td>[130, 523, 525, 398, 271, 152, 671, 803, 806, ...</td>
-<td>6.855655</td>
-<td>0.195698</td>
+<td><a href="#pprl.matching.local.load_embedder">load_embedder</a></td>
+<td>Load an embedder from a pickle in the local data directory.</td>
 </tr>
+</tbody>
+</table>
+<section id="pprl.matching.local.build_local_file_paths" class="level3">
+<h3 class="anchored" data-anchor-id="pprl.matching.local.build_local_file_paths">build_local_file_paths</h3>
+<p><code>matching.local.build_local_file_paths(party)</code></p>
+<p>Construct the paths for the input and output datasets for a party.</p>
+<section id="parameters" class="level4">
+<h4 class="anchored" data-anchor-id="parameters">Parameters</h4>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
-<td>6</td>
-<td>Ina Laurie</td>
-<td>4/11/1995</td>
-<td>F</td>
-<td>[_i, in, na, a_, _l, la, au, ur, ri, ie, e_, _...</td>
-<td>[day&lt;04&gt;, month&lt;11&gt;, year&lt;1995&gt;]</td>
-<td>[sex&lt;f&gt;]</td>
-<td>[a_, sex&lt;f&gt;, ur, au, _in, na, _la, uri, lau, a...</td>
-<td>[646, 647, 394, 269, 15, 272, 531, 532, 665, 6...</td>
-<td>6.782330</td>
-<td>0.086026</td>
+<td><code>party</code></td>
+<td>str</td>
+<td>Name of the party.</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="returns" class="level4">
+<h4 class="anchored" data-anchor-id="returns">Returns</h4>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>str</td>
+<td>Location of the party data.</td>
+</tr>
+<tr class="even">
+<td>str</td>
+<td>Location to put the party results.</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="pprl.matching.local.load_embedder" class="level3">
+<h3 class="anchored" data-anchor-id="pprl.matching.local.load_embedder">load_embedder</h3>
+<p><code>matching.local.load_embedder()</code></p>
+<p>Load an embedder from a pickle in the local data directory.</p>
+<section id="returns-1" class="level4">
+<h4 class="anchored" data-anchor-id="returns-1">Returns</h4>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>pprl.embedder.embedder.Embedder</td>
+<td>Reformed embedder instance.</td>
 </tr>
 </tbody>
 </table>
 
-</div>
-</div>
-</div>
-</div>
-<p>NB: there’s also a flag to compute these at the same time as the embedding, but it doesn’t by default because, depending on the workflow, you may wish to compute the norms and thresholds at different times (e.g.&nbsp;on the server).</p>
-<p>Now you can compute the similarities:</p>
-<div id="29654b57" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>similarities <span class="op">=</span> embedder.compare(edf1,edf2)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(similarities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[0.6666667  0.17395416 0.        ]
- [0.29223802 0.79658223 0.08258402]
- [0.08697708 0.10638298 0.58067873]]</code></pre>
-</div>
-</div>
-<p>Finally, you can compute the matching:</p>
-<div id="bab66629" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>matching <span class="op">=</span> similarities.match(abs_cutoff<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(matching)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>(array([0, 1, 2]), array([0, 1, 2]))</code></pre>
-</div>
-</div>
-</section>
-<section id="serialisation-and-file-io" class="level2">
-<h2 class="anchored" data-anchor-id="serialisation-and-file-io">Serialisation and file I/O</h2>
-<p>That’s how to do the workflow in one session. However, this demo follows a multi-stage workflow, so we need to be able to pass objects around. There are a couple of methods that enable file I/O and serialisation.</p>
-<p>First, the <code>Embedder</code> object itself needs to be written to file and loaded. The idea is to train it, share it to the data owning parties, and also to the matching server. For this purpose, it’s possible to pickle the entire <code>Embedder</code> object.</p>
-<div id="5ae75682" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>embedder.to_pickle(<span class="st">"embedder.pkl"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>embedder_copy <span class="op">=</span> Embedder.from_pickle(<span class="st">"embedder.pkl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The copy has the same functionality as the original:</p>
-<div id="ebeec4e4" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>similarities <span class="op">=</span> embedder_copy.compare(edf1,edf2)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(similarities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[0.6666667  0.17395416 0.        ]
- [0.29223802 0.79658223 0.08258402]
- [0.08697708 0.10638298 0.58067873]]</code></pre>
-</div>
-</div>
-<p>NB: This won’t work if two datasets were embedded with different <code>Embedder</code> instances, even if they’re identical. The <code>compare()</code> method checks for the same embedder object memory reference so it won’t work if one was embedded with the original and the other with the copy. The way to fix this is to re-initialise the <code>EmbeddedDataFrame</code> with the new <code>Embedder</code> object.</p>
-<div id="36049fa8" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>edf2_copy <span class="op">=</span> EmbeddedDataFrame(edf2, embedder_copy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In this case, be careful that the <code>Embedder</code> is compatible with the Bloom filter vectors in the EDF (i.e.&nbsp;uses the same parameters and feature factories), because while you can refresh the norms and thresholds, you can’t refresh the ‘bf_indices’ without reembedding the data frame.</p>
-</section>
-<section id="serialising-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="serialising-the-data">Serialising the data</h2>
-<p>The EDF objects are just a thin wrapper around <code>pandas.DataFrame</code> instances, so you can serialise to JSON using the normal methods.</p>
-<div id="f89a1905" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>edf1.to_json(<span class="st">"edf1.json"</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>edf1_copy <span class="op">=</span> pd.read_json(<span class="st">"edf1.json"</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">isinstance</span>(edf1_copy,EmbeddedDataFrame))</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">isinstance</span>(edf1_copy,pd.DataFrame))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>False
-True</code></pre>
-</div>
-</div>
-<p>The <code>bf_indices</code>, <code>bf_norms</code> and <code>thresholds</code> columns will be preserved. However, this demotes the data frames back to normal <code>pandas.DataFrame</code> instances and loses the link to an <code>Embedder</code> instance.</p>
-<p>To fix this, just re-initialise them:</p>
-<div id="1aba6a7a" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>edf1_copy <span class="op">=</span> EmbeddedDataFrame(edf1_copy, embedder_copy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 
-
+</section>
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->
