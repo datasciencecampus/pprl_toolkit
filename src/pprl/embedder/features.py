@@ -251,7 +251,7 @@ def gen_dateofbirth_features(
     dob: pd.Series,
     dayfirst: bool = True,
     yearfirst: bool = False,
-    default: list[str] = ["day<01>", "month<01>", "year<2050>"],
+    default: list[str] = [],
 ) -> pd.Series:
     """Generate labelled date features from a series of dates of birth.
 
