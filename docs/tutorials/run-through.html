@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -346,7 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>the <code>config</code> module, which includes our package configuration (such as the location of data directories)</li>
 <li>some classes from the main <code>embedder</code> module</li>
 </ul>
-<div id="20115c88" class="cell" data-execution_count="1">
+<div id="a0c35f11" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -357,7 +357,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="data-set-up" class="level2">
 <h2 class="anchored" data-anchor-id="data-set-up">Data set-up</h2>
 <p>For this demo we’ll create a really minimal pair of datasets. Notice that they don’t have to have the same structure or field names.</p>
-<div id="5f4b4eee" class="cell" data-execution_count="2">
+<div id="b4186123" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> pd.DataFrame(</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">dict</span>(</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">id</span><span class="op">=</span>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>],</span>
@@ -379,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Features are extracted as different kinds of string objects from each field, ready to be hash embedded into the Bloom filters. We need to specify the feature extraction functions we’ll need.</p>
 <p>In this case we’ll need one extractor for names, one for dates of birth, and one for sex/gender records. We create a dict with the functions we need. We create another dict to store any keyword arguments we want to pass in to each function (in this case we use all the default arguments so the keyword argument dictionaries are empty):</p>
-<div id="e8976aff" class="cell" data-execution_count="3">
+<div id="79b1e74a" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>feature_factory <span class="op">=</span> <span class="bu">dict</span>(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span>feat.gen_name_features,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    dob<span class="op">=</span>feat.gen_dateofbirth_features,</span>
@@ -392,7 +392,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="embedding" class="level2">
 <h2 class="anchored" data-anchor-id="embedding">Embedding</h2>
 <p>Now we can create an <code>Embedder</code> object. We want our Bloom filter vectors to have a length of 1024 elements, and we choose to hash each feature two times. These choices seem to work ok, but we haven’t explored them systematically.</p>
-<div id="7e0ffb26" class="cell" data-execution_count="4">
+<div id="6b9ae5dd" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>embedder <span class="op">=</span> Embedder(feature_factory,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                    ff_args,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                    bf_size <span class="op">=</span> <span class="dv">2</span><span class="op">**</span><span class="dv">10</span>,</span>
@@ -400,7 +400,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can hash embed the dataset into an EmbeddedDataFrame (EDF). For this we need to pass a column specification <code>colspec</code> that maps each column of the data into the <code>feature_factory</code> functions. Any columns not mapped will not contribute to the embedding.</p>
-<div id="0deb00d4" class="cell" data-execution_count="5">
+<div id="5dfd0eb2" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>edf1 <span class="op">=</span> embedder.embed(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    df1, colspec<span class="op">=</span><span class="bu">dict</span>(forename<span class="op">=</span><span class="st">"name"</span>, surname<span class="op">=</span><span class="st">"name"</span>, dob<span class="op">=</span><span class="st">"dob"</span>, gender<span class="op">=</span><span class="st">"sex"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -432,14 +432,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 2  [day&lt;04&gt;, month&lt;10&gt;, year&lt;1995&gt;]        [sex&lt;f&gt;]   
 
                                         all_features  \
-0  [ll, hen, enr, ull, ul, _tu, nr, _he, ry_, ry,...   
-1  [ro, ll, sa, ly_, ly, all, _b, br, bro, sal, r...   
-2  [a_, wr, awr, sex&lt;f&gt;, _in, na, _la, aw, re, na...   
+0  [ll_, _tu, day&lt;01&gt;, ul, l_, sex&lt;m&gt;, ull, y_, _...   
+1  [lly, day&lt;02&gt;, wn_, sex&lt;m&gt;, sal, wn, y_, ly_, ...   
+2  [_in, _i, ey_, wr, y_, rey, wre, sex&lt;f&gt;, _l, _...   
 
                                           bf_indices  bf_norms  
-0  [130, 644, 773, 135, 776, 903, 778, 265, 654, ...  6.708204  
+0  [130, 644, 773, 903, 135, 776, 778, 265, 654, ...  6.708204  
 1  [129, 258, 130, 776, 523, 525, 398, 271, 671, ...  7.141428  
-2  [647, 394, 269, 13, 15, 532, 667, 28, 413, 155...  6.855655  
+2  [647, 394, 269, 13, 15, 532, 155, 28, 667, 413...  6.855655  
    personid   full_name date_of_birth sex  \
 0         4  Harry Tull      2/1/2001   M   
 1         5  Sali Brown      2/1/2001   M   
@@ -456,9 +456,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 2  [day&lt;04&gt;, month&lt;11&gt;, year&lt;1995&gt;]     [sex&lt;f&gt;]   
 
                                         all_features  \
-0  [ll, ull, ul, rry, _tu, rr, har, arr, ha, _ha,...   
-1  [ro, sa, _b, li_, br, _br, bro, sal, row, _sa,...   
-2  [a_, sex&lt;f&gt;, ur, au, _in, na, _la, uri, lau, a...   
+0  [ll_, _tu, day&lt;02&gt;, ar, ul, l_, sex&lt;m&gt;, ull, y...   
+1  [day&lt;02&gt;, wn_, sex&lt;m&gt;, wn, sal, ow, al, n_, al...   
+2  [ri, _in, _i, aur, ie_, ur, sex&lt;f&gt;, _l, au, _l...   
 
                                           bf_indices  bf_norms  
 0  [640, 130, 644, 135, 776, 10, 778, 271, 402, 5...  6.708204  
@@ -475,7 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="computing-the-similarity-scores-and-the-matching">Computing the similarity scores and the matching</h2>
 <p>Now we have two embedded datasets, we can compare them and compute all the pairwise Cosine similarity scores.</p>
 <p>First, we have to compute the vector norms of each Bloom vector (for scaling the Cosine similarity) and the thresholds (thresholds are explained here [link]). Computing the thresholds can be time-consuming for a larger dataset, because it essentially computes all pairwise comparisons of the data to itself.</p>
-<div id="f5233edf" class="cell" data-execution_count="6">
+<div id="30a6ecf8" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display" data-execution_count="6">
 <div>
 <div>
@@ -508,7 +508,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>[_h, ha, ar, rr, ry, y_, _t, tu, ul, ll, l_, _...</td>
 <td>[day&lt;02&gt;, month&lt;01&gt;, year&lt;2001&gt;]</td>
 <td>[sex&lt;m&gt;]</td>
-<td>[ll, ull, ul, rry, _tu, rr, har, arr, ha, _ha,...</td>
+<td>[ll_, _tu, day&lt;02&gt;, ar, ul, l_, sex&lt;m&gt;, ull, y...</td>
 <td>[640, 130, 644, 135, 776, 10, 778, 271, 402, 5...</td>
 <td>6.708204</td>
 <td>0.195698</td>
@@ -522,7 +522,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>[_s, sa, al, li, i_, _b, br, ro, ow, wn, n_, _...</td>
 <td>[day&lt;02&gt;, month&lt;01&gt;, year&lt;2001&gt;]</td>
 <td>[sex&lt;m&gt;]</td>
-<td>[ro, sa, _b, li_, br, _br, bro, sal, row, _sa,...</td>
+<td>[day&lt;02&gt;, wn_, sex&lt;m&gt;, wn, sal, ow, al, n_, al...</td>
 <td>[130, 523, 525, 398, 271, 152, 671, 803, 806, ...</td>
 <td>6.855655</td>
 <td>0.195698</td>
@@ -536,7 +536,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>[_i, in, na, a_, _l, la, au, ur, ri, ie, e_, _...</td>
 <td>[day&lt;04&gt;, month&lt;11&gt;, year&lt;1995&gt;]</td>
 <td>[sex&lt;f&gt;]</td>
-<td>[a_, sex&lt;f&gt;, ur, au, _in, na, _la, uri, lau, a...</td>
+<td>[ri, _in, _i, aur, ie_, ur, sex&lt;f&gt;, _l, au, _l...</td>
 <td>[646, 647, 394, 269, 15, 272, 531, 532, 665, 6...</td>
 <td>6.782330</td>
 <td>0.086026</td>
@@ -550,7 +550,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>NB: there’s also a flag to compute these at the same time as the embedding, but it doesn’t by default because, depending on the workflow, you may wish to compute the norms and thresholds at different times (e.g.&nbsp;on the server).</p>
 <p>Now you can compute the similarities:</p>
-<div id="29654b57" class="cell" data-execution_count="7">
+<div id="db5b361e" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>similarities <span class="op">=</span> embedder.compare(edf1,edf2)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(similarities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -561,7 +561,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Finally, you can compute the matching:</p>
-<div id="bab66629" class="cell" data-execution_count="8">
+<div id="b41ba061" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>matching <span class="op">=</span> similarities.match(abs_cutoff<span class="op">=</span><span class="fl">0.5</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(matching)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -574,13 +574,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="serialisation-and-file-io">Serialisation and file I/O</h2>
 <p>That’s how to do the workflow in one session. However, this demo follows a multi-stage workflow, so we need to be able to pass objects around. There are a couple of methods that enable file I/O and serialisation.</p>
 <p>First, the <code>Embedder</code> object itself needs to be written to file and loaded. The idea is to train it, share it to the data owning parties, and also to the matching server. For this purpose, it’s possible to pickle the entire <code>Embedder</code> object.</p>
-<div id="5ae75682" class="cell" data-execution_count="9">
+<div id="2757b46b" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>embedder.to_pickle(<span class="st">"embedder.pkl"</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>embedder_copy <span class="op">=</span> Embedder.from_pickle(<span class="st">"embedder.pkl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The copy has the same functionality as the original:</p>
-<div id="ebeec4e4" class="cell" data-execution_count="10">
+<div id="8eb175e7" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>similarities <span class="op">=</span> embedder_copy.compare(edf1,edf2)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(similarities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -591,7 +591,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>NB: This won’t work if two datasets were embedded with different <code>Embedder</code> instances, even if they’re identical. The <code>compare()</code> method checks for the same embedder object memory reference so it won’t work if one was embedded with the original and the other with the copy. The way to fix this is to re-initialise the <code>EmbeddedDataFrame</code> with the new <code>Embedder</code> object.</p>
-<div id="36049fa8" class="cell" data-execution_count="11">
+<div id="6ff6d3fb" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>edf2_copy <span class="op">=</span> EmbeddedDataFrame(edf2, embedder_copy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In this case, be careful that the <code>Embedder</code> is compatible with the Bloom filter vectors in the EDF (i.e.&nbsp;uses the same parameters and feature factories), because while you can refresh the norms and thresholds, you can’t refresh the ‘bf_indices’ without reembedding the data frame.</p>
@@ -599,7 +599,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="serialising-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="serialising-the-data">Serialising the data</h2>
 <p>The EDF objects are just a thin wrapper around <code>pandas.DataFrame</code> instances, so you can serialise to JSON using the normal methods.</p>
-<div id="f89a1905" class="cell" data-execution_count="12">
+<div id="5fca2312" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>edf1.to_json(<span class="st">"edf1.json"</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>edf1_copy <span class="op">=</span> pd.read_json(<span class="st">"edf1.json"</span>)</span>
@@ -613,7 +613,7 @@ True</code></pre>
 </div>
 <p>The <code>bf_indices</code>, <code>bf_norms</code> and <code>thresholds</code> columns will be preserved. However, this demotes the data frames back to normal <code>pandas.DataFrame</code> instances and loses the link to an <code>Embedder</code> instance.</p>
 <p>To fix this, just re-initialise them:</p>
-<div id="1aba6a7a" class="cell" data-execution_count="13">
+<div id="ead0ee98" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>edf1_copy <span class="op">=</span> EmbeddedDataFrame(edf1_copy, embedder_copy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
