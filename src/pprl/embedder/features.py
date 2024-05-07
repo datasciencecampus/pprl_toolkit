@@ -314,6 +314,7 @@ def gen_misc_features(field: pd.Series, label: None | str | Hashable = None) -> 
 
     _field = (
         field.copy()
+        .replace("", "no_data", regex=False)
         .fillna("no_data")
         .astype("str")
         .str.casefold()  # make everything lowercase

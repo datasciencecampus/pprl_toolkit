@@ -434,7 +434,7 @@ def test_gen_misc_features(fields, label):
     assert features.dtype == list
 
     for feature, field in zip(features, fields):
-        if field is None or (isinstance(field, float) and pd.isna(field)):
+        if field is None or field == "" or (isinstance(field, float) and pd.isna(field)):
             assert feature == ""
         else:
             assert feature == [f"{label}<{str(field).casefold()}>"]

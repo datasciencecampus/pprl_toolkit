@@ -16,7 +16,7 @@ First, we'll import a few modules, including:
 
 ```{python}
 import os
-
+import numpy as np
 import pandas as pd
 
 from pprl import EmbeddedDataFrame, Embedder, config
@@ -32,10 +32,11 @@ don't have to have the same structure or field names.
 df1 = pd.DataFrame(
     dict(
         id=[1,2,3],
-        forename=["Henry", "Sally", "Ina"],
-        surname = ["Tull", "Brown", "Lawrey"],
-        dob=["1/1/2001", "2/1/2001", "4/10/1995"],
-        gender=["male", "Male", "Female"],
+        forename=["Henry", "Henry", "Ina"],
+        surname = ["Tull", "Tull", "Lawrey"],
+        dob=["", "", "4/10/1995"],
+        gender=["Male", "Male", "Female"],
+        county=["", np.NaN, "County Durham"]
     )
 )
 
@@ -45,6 +46,7 @@ df2 = pd.DataFrame(
         full_name=["Harry Tull", "Sali Brown", "Ina Laurie"],
         date_of_birth=["2/1/2001", "2/1/2001", "4/11/1995"],
         sex=["M", "M", "F"],
+        county=["Rutland", "Powys", "Durham"]
     )
 )
 ```
@@ -64,6 +66,7 @@ feature_factory = dict(
     name=feat.gen_name_features,
     dob=feat.gen_dateofbirth_features,
     sex=feat.gen_sex_features,
+    misc=feat.gen_misc_features
 )
 
 ff_args = dict(name={}, sex={}, dob={})
@@ -91,10 +94,10 @@ contribute to the embedding.
 
 ```{python}
 edf1 = embedder.embed(
-    df1, colspec=dict(forename="name", surname="name", dob="dob", gender="sex")
+    df1, colspec=dict(forename="name", surname="name", dob="dob", gender="sex", county="misc")
 )
 edf2 = embedder.embed(
-    df2, colspec=dict(full_name="name", date_of_birth="dob", sex="sex")
+    df2, colspec=dict(full_name="name", date_of_birth="dob", sex="sex", county="misc")
 )
 
 print(edf1)
