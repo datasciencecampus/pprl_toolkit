@@ -35,7 +35,7 @@ df1 = pd.DataFrame(
         forename=["Henry", "Sally", "Ina"],
         surname = ["Tull", "Brown", "Lawrey"],
         dob=["", "2/1/2001", "4/10/1995"],
-        gender=["Male", "Male", "Female"],
+        gender=["male", "Male", "Female"],
         county=["", np.NaN, "County Durham"]
     )
 )
