@@ -32,9 +32,9 @@ don't have to have the same structure or field names.
 df1 = pd.DataFrame(
     dict(
         id=[1,2,3],
-        forename=["Henry", "Henry", "Ina"],
-        surname = ["Tull", "Tull", "Lawrey"],
-        dob=["", "", "4/10/1995"],
+        forename=["Henry", "Sally", "Ina"],
+        surname = ["Tull", "Brown", "Lawrey"],
+        dob=["", "2/1/2001", "4/10/1995"],
         gender=["Male", "Male", "Female"],
         county=["", np.NaN, "County Durham"]
     )
