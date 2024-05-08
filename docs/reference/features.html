@@ -378,17 +378,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <section id="pprl.embedder.features.gen_dateofbirth_features" class="level3">
 <h3 class="anchored" data-anchor-id="pprl.embedder.features.gen_dateofbirth_features">gen_dateofbirth_features</h3>
-<p><code>embedder.features.gen_dateofbirth_features(dob, dayfirst=True, yearfirst=False, default=['day&lt;01&gt;', 'month&lt;01&gt;', 'year&lt;2050&gt;'])</code></p>
+<p><code>embedder.features.gen_dateofbirth_features(dob, dayfirst=True, yearfirst=False, default=[])</code></p>
 <p>Generate labelled date features from a series of dates of birth.</p>
 <p>Features take the form <code>["day&lt;dd&gt;", "month&lt;mm&gt;", "year&lt;YYYY&gt;"]</code>. Note that this feature generator can be used for any sort of date data, not just dates of birth.</p>
 <section id="parameters" class="level4">
 <h4 class="anchored" data-anchor-id="parameters">Parameters</h4>
 <table class="table">
 <colgroup>
+<col style="width: 8%">
+<col style="width: 14%">
+<col style="width: 69%">
 <col style="width: 7%">
-<col style="width: 11%">
-<col style="width: 58%">
-<col style="width: 22%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -421,7 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td><code>default</code></td>
 <td>list[str]</td>
 <td>Default date to fill in missing data in feature (list) form. Default is the feature form of <code>2050-01-01</code>.</td>
-<td><code>['day&lt;01&gt;', 'month&lt;01&gt;', 'year&lt;2050&gt;']</code></td>
+<td><code>[]</code></td>
 </tr>
 </tbody>
 </table>
