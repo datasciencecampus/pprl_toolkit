@@ -251,7 +251,7 @@ def gen_dateofbirth_features(
     dob: pd.Series,
     dayfirst: bool = True,
     yearfirst: bool = False,
-    default: list[str] = ["day<01>", "month<01>", "year<2050>"],
+    default: list[str] = [],
 ) -> pd.Series:
     """Generate labelled date features from a series of dates of birth.
 
@@ -314,6 +314,7 @@ def gen_misc_features(field: pd.Series, label: None | str | Hashable = None) -> 
 
     _field = (
         field.copy()
+        .replace("", "no_data", regex=False)
         .fillna("no_data")
         .astype("str")
         .str.casefold()  # make everything lowercase
