@@ -125,7 +125,7 @@ def convert_dataframe_to_bf(
         feature types to be processed as appropriate.
     other_columns: list[str]
         Columns to be returned as they appear in the data in addition to
-        `bf_indices` and `bf_norms`.
+        `bf_indices`, `bf_norms` and `thresholds`.
     salt: str
         Cryptographic salt to add to tokens before hashing.
 
@@ -134,10 +134,7 @@ def convert_dataframe_to_bf(
     output: pandas.DataFrame
         Data frame of bloom-filtered data.
     """
-    if other_columns is None:
-        other_columns = []
 
-    output_columns = other_columns + ["bf_indices", "bf_norms", "thresholds"]
     NGRAMS = [1, 2, 3, 4]
     FFARGS = {"name": {"ngram_length": NGRAMS, "use_gen_skip_grams": True}}
 
@@ -156,6 +153,6 @@ def convert_dataframe_to_bf(
     )
 
     df_bloom_filter = embedder.embed(df, colspec, update_norms=True, update_thresholds=True)
-    output = df_bloom_filter[output_columns]
+    output = df_bloom_filter.anonymise(other_columns)
 
     return output
