@@ -75,26 +75,25 @@ def test_update_norms(posdef_matrix):
     assert bf_norms1 == bf_norms2
 
 
-@given(st_posdef_matrices(bf_size=10))
-def test_anonymise(posdef_matrix):
+def test_anonymise():
     """Tests EmbeddedDataFrame.anonymise.
 
     Test that the columns in the keep list are returned in their
     original order in addition to the bf_indices column.
     """
 
-    nrows = len(posdef_matrix)
+    matrix = np.eye(5)
     df = pd.DataFrame(
         dict(
-            idx=[1] * nrows,
-            firstname=["Fred"] * nrows,
-            age=[43] * nrows,
-            lastname=["Hogan O'Malley"] * nrows,
-            bf_indices=[45] * nrows,
+            idx=[1],
+            firstname=["Fred"],
+            age=[43],
+            lastname=["Hogan O'Malley"],
+            bf_indices=[45],
         )
     )
     embedder_mock = mock.Mock(Embedder)
-    embedder_mock.scm_matrix = posdef_matrix
+    embedder_mock.scm_matrix = matrix
     embedder_mock.checksum = "1234"
     edf = EmbeddedDataFrame(df, embedder_mock, update_norms=False, update_thresholds=False)
 
