@@ -157,6 +157,29 @@ class EmbeddedDataFrame(pd.DataFrame):
 
         return self
 
+    def anonymise(self, keep: None | list = None) -> "EmbeddedDataFrame":
+        """Remove raw data from embedded dataframe.
+
+        Remove all columns from the embedded dataframe expect columns listed
+        in keep and `bf_indices`, `bf_norms` and `thresholds`.
+
+        Returns
+        -------
+        keep: list[str]
+            Columns to be returned as they appear in the data in addition to
+            `bf_indices`, `bf_norms` and `thresholds` if they are present in
+            the data.
+        """
+
+        if keep is None:
+            keep = []
+
+        output_columns = keep + ["bf_indices", "bf_norms", "thresholds"]
+        output_columns = [column for column in self.columns if column in output_columns]
+        # remove duplicate column names
+        output_columns = list(dict.fromkeys(output_columns))
+        return self[output_columns]
+
 
 class SimilarityArray(np.ndarray):
     """Augmented NumPy array of similarity scores with extra attributes.
