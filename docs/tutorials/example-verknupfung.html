@@ -341,7 +341,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="loading-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="loading-the-data">Loading the data</h3>
 <p>First, we load our data into <code>pandas.DataFrame</code> objects. Here, the first records align, but the other two records should be swapped to have an aligned matching. We will use the toolkit to identify these matches.</p>
-<div id="1453c6db" class="cell" data-execution_count="1">
+<div id="efb0f0e5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> pd.DataFrame(</span>
@@ -381,7 +381,7 @@ Note
 <h3 class="anchored" data-anchor-id="creating-and-assigning-a-feature-factory">Creating and assigning a feature factory</h3>
 <p>The next step is to decide how to process each of the columns in our datasets.</p>
 <p>To do this, we define a feature factory that maps column types to feature generation functions, and a column specification for each dataset mapping our columns to column types in the factory.</p>
-<div id="5d8b4537" class="cell" data-execution_count="2">
+<div id="a94af132" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pprl.embedder <span class="im">import</span> features</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> partial</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -419,7 +419,7 @@ Tip
 <h3 class="anchored" data-anchor-id="embedding-the-data">Embedding the data</h3>
 <p>With our specifications sorted out, we can get to creating our Bloom filter embedding. Before doing so, we need to decide on two parameters: the size of the filter and the number of hashes. By default, these are 1024 and 2, respectively.</p>
 <p>Once we’ve decided, we can create our <code>Embedder</code> instance and use it to embed our data with their column specifications.</p>
-<div id="06627453" class="cell" data-execution_count="3">
+<div id="299c467f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pprl.embedder.embedder <span class="im">import</span> Embedder</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>embedder <span class="op">=</span> Embedder(factory, bf_size<span class="op">=</span><span class="dv">1024</span>, num_hashes<span class="op">=</span><span class="dv">2</span>)</span>
@@ -428,7 +428,7 @@ Tip
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>edf2 <span class="op">=</span> embedder.embed(df2, colspec<span class="op">=</span>spec2, update_thresholds<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>If we take a look at one of these embedded datasets, we can see that it has a whole bunch of new columns. There is a <code>_features</code> column for each of the original columns containing their pre-embedding string features, and there’s an <code>all_features</code> column that combines the features. Then there are three additional columns: <code>bf_indices</code>, <code>bf_norms</code> and <code>thresholds</code>.</p>
-<div id="52ed5634" class="cell" data-execution_count="4">
+<div id="c7cddca6" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>edf1.columns</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>Index(['first_name', 'last_name', 'gender', 'date_of_birth', 'instrument',
@@ -439,15 +439,15 @@ Tip
 </div>
 </div>
 <p>The <code>bf_indices</code> column contains the Bloom filters, represented compactly as a list of non-zero indices for each record.</p>
-<div id="46d6cdc4" class="cell" data-execution_count="5">
+<div id="6ece37c7" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf1.bf_indices[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[2, 262, 646, 903, 9, 526, 15, 272, 654, 146, 531, 532, 17, 282, 667, 413, 670, 544, 288, 931, 292, 808, 937, 172, 942, 559, 816, 691, 820, 567, 823, 440, 56, 60, 61, 318, 319, 320, 444, 577, 836, 583, 332, 77, 972, 590, 465, 593, 211, 468, 82, 851, 338, 600, 84, 218, 861, 613, 871, 744, 238, 367, 881, 758, 890, 379, 1021, 763]</code></pre>
+<pre><code>[2, 262, 903, 646, 9, 526, 654, 272, 15, 146, 17, 532, 531, 282, 667, 413, 670, 544, 288, 931, 292, 808, 937, 172, 942, 559, 816, 691, 820, 567, 56, 823, 440, 60, 61, 318, 319, 320, 444, 577, 836, 583, 332, 77, 590, 972, 465, 82, 211, 468, 84, 338, 851, 600, 593, 218, 861, 613, 871, 744, 238, 367, 881, 758, 890, 379, 1021, 763]</code></pre>
 </div>
 </div>
 <p>The <code>bf_norms</code> column contains the norm of each Bloom filter with respect to the Soft Cosine Measure (SCM) matrix. In this case since we are using an untrained model, the SCM matrix is an identity matrix, and the norm is just the Euclidean norm of the Bloom filter represented as a binary vector, which is equal to <code>np.sqrt(len(bf_indices[i]))</code> for record <code>i</code>. The norm is used to scale the similarity measures so that they take values between -1 and 1.</p>
 <p>The <code>thresholds</code> column is calculated to provide, for each record, a threshold similarity score below which it will not be matched. It’s like a reserve price in an auction – it stops a record being matched to another record when the similarity isn’t high enough. This is an innovative feature of our method; other linkage methods typically only have one global threshold score for the entire dataset.</p>
-<div id="72ed847b" class="cell" data-execution_count="6">
+<div id="5947b2c7" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf1.loc[:,[<span class="st">"bf_norms"</span>,<span class="st">"thresholds"</span>]])</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf2.loc[:,[<span class="st">"bf_norms"</span>,<span class="st">"thresholds"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -467,7 +467,7 @@ Tip
 <h3 class="anchored" data-anchor-id="the-processed-features">The processed features</h3>
 <p>Let’s take a look at how the features are processed into small text strings (shingles) before being hashed into the Bloom filter. The first record in the first dataset is the same person as the first record in the second dataset, although the data is not identical, so we can compare the processed features for these records to see how pprl puts them into a format where they can be compared.</p>
 <p>First, we’ll look at date of birth:</p>
-<div id="9b83cf0e" class="cell" data-execution_count="7">
+<div id="2d9f0731" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf1.date_of_birth_features[<span class="dv">0</span>])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf2.birth_date_features[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -477,7 +477,7 @@ Tip
 </div>
 <p>Python can parse the different formats easily. Although the dates are slightly different in the dataset, the year and month will still match, even though the day will not.</p>
 <p>Then we’ll look at name:</p>
-<div id="2b7d5fa5" class="cell" data-execution_count="8">
+<div id="fc6b021d" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf1.first_name_features[<span class="dv">0</span>] <span class="op">+</span> edf1.last_name_features[<span class="dv">0</span>])</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf2.name_features[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -487,7 +487,7 @@ Tip
 </div>
 <p>The two datasets store the names differently, but this doesn’t matter for the Bloom filter method because it treats each record like a bag of features. By default, the name processor produces 2-grams and 3-grams.</p>
 <p>The sex processing function just converts different formats to lowercase and takes the first letter. This will often be enough:</p>
-<div id="716314b2" class="cell" data-execution_count="9">
+<div id="de108c17" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf1.gender_features[<span class="dv">0</span>])</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf2.sex_features[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -496,7 +496,7 @@ Tip
 </div>
 </div>
 <p>Finally, we’ll see how our instrument feature function (<code>partial(features.gen_misc_shingled_features, label="instrument")</code>) processed the data:</p>
-<div id="1780c09c" class="cell" data-execution_count="10">
+<div id="511e0d27" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf1.instrument_features[<span class="dv">0</span>])</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(edf2.main_instrument_features[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -509,7 +509,7 @@ Tip
 <section id="performing-the-linkage" class="level3">
 <h3 class="anchored" data-anchor-id="performing-the-linkage">Performing the linkage</h3>
 <p>We can now perform the linkage by comparing these Bloom filter embeddings. We use the Soft Cosine Measure (which in this untrained model, is equivalent to a normal cosine similarity metric) to calculate record-wise similarity and an adapted Hungarian algorithm to match the records based on those similarities.</p>
-<div id="16766f5e" class="cell" data-execution_count="11">
+<div id="e1017341" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>similarities <span class="op">=</span> embedder.compare(edf1, edf2)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>similarities</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
@@ -519,7 +519,7 @@ Tip
 </div>
 </div>
 <p>This <code>SimilarityArray</code> object is an augmented <code>numpy.ndarray</code> that can perform our matching. The matching itself can optionally be called with an absolute threshold score, but it doesn’t need one.</p>
-<div id="384c2606" class="cell" data-execution_count="12">
+<div id="766745ab" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>matching <span class="op">=</span> similarities.match()</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>matching</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
