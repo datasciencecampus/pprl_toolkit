@@ -175,7 +175,7 @@ class EmbeddedDataFrame(pd.DataFrame):
             keep = []
 
         output_columns = keep + ["bf_indices", "bf_norms", "thresholds"]
-        output_columns = [column for column in output_columns if column in self.columns]
+        output_columns = [column for column in self.columns if column in output_columns]
         # remove duplicate column names
         output_columns = list(dict.fromkeys(output_columns))
         return self[output_columns]
